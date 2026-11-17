@@ -1,0 +1,66 @@
+﻿COME METTERE ONLINE REGIA E RENDERLO AGGIORNABILE
+=================================================
+
+Idea: i file di Regia stanno su GitHub (gratis). Regia, all'avvio, legge un piccolo file
+"versione.json". Se la versione scritta lì è più nuova di quella installata, compare in basso a
+sinistra il pulsante "Aggiorna alla x.y". Premendolo, Regia ti mostra le novità, scarica lo zip,
+controlla l'impronta SHA-256, salva la versione vecchia in Versioni\ e sostituisce i file.
+Dati, backup, log e profili non vengono toccati. Senza conferma non scarica e non cambia niente.
+
+SCELTE FATTE: repository PUBBLICO su GitHub, licenza MIT, donazioni con Ko-fi.
+La cartella "Pubblicazione" contiene README.md, LICENSE, .gitignore e .github\FUNDING.yml già pronti.
+Prima di caricarli, apri con il Blocco note e sostituisci:
+  - LICENSE: [SCRIVI QUI IL TUO NOME O NICKNAME]  (compare pubblicamente: puoi usare un nickname)
+  - README.md e .github\FUNDING.yml: NOME_KOFI  con il nome della tua pagina Ko-fi (https://ko-fi.com, gratis)
+Per far comparire il pulsante "Sostieni Regia" nel programma, scrivi l'indirizzo della tua pagina Ko-fi
+nella riga  $Script:UrlDonazioni = ''  di Regia.ps1 (dentro il blocco "Sostieni Regia"), oppure in
+Dati\impostazioni.json come "UrlDonazioni". Il pulsante apre la pagina solo quando lo premi.
+
+File da caricare nel repository (trascinali nella pagina web "Add file > Upload files"):
+  Regia.ps1, Avvia.cmd, LEGGIMI.txt, INIZIA_QUI.html, Regia.ico, Pubblica.ps1, PUBBLICARE_ONLINE.txt,
+  versione.json  e  i quattro file della cartella Pubblicazione (comprese la cartella .github e il .gitignore).
+NON caricare: Dati, Versioni, Distribuzione, HANDOFF*.md (contengono dati e storico del tuo PC).
+PASSO 1 - Una volta sola
+------------------------
+1. Crea un account su https://github.com (gratis) se non ce l'hai.
+2. Crea un nuovo "repository" PUBBLICO, per esempio di nome "regia" (https://github.com/new).
+   Pubblico = chiunque può scaricare, e Regia può leggere il file senza password.
+3. Dimmi (o scrivi tu) nome utente e nome del repository. L'indirizzo da mettere in Regia è:
+   https://raw.githubusercontent.com/NOMEUTENTE/regia/main/versione.json
+   Va scritto nella riga  $Script:UrlAggiornamenti = ''  di Regia.ps1 (oppure, senza toccare il
+   programma, in Dati\impostazioni.json come "UrlAggiornamenti": "...").
+
+PASSO 2 - Ogni volta che esce una versione nuova
+------------------------------------------------
+1. Modifica Regia.ps1 e cambia il numero ($Script:Versione). Deve crescere: 3.7 -> 3.8.
+2. Da PowerShell, nella cartella del progetto:
+      .\Pubblica.ps1 -Utente NOMEUTENTE -Repo regia -Note "Cosa c'è di nuovo, in una riga"
+   Crea  Distribuzione\Regia_3.8.zip  e il file  versione.json  (con l'impronta SHA-256 giusta).
+3. Su GitHub, nel repository:
+   a) "Releases" > "Draft a new release": tag  v3.8 , allega Regia_3.8.zip, "Publish release".
+   b) "Add file" > "Upload files": carica versione.json (sostituisce quello vecchio) nella
+      cartella principale del repository, "Commit changes".
+4. Fatto. Alla prossima apertura i PC con una versione più vecchia mostrano il pulsante
+   "Aggiorna". Il pulsante con le due frecce in basso a sinistra cerca subito, senza aspettare.
+   (GitHub può impiegare qualche minuto a mostrare il versione.json nuovo.)
+
+PER CHI RICEVE REGIA
+--------------------
+Basta scaricare una volta lo zip dalla pagina Releases del repository; poi si aggiorna da solo
+col pulsante. Chi ha una versione precedente alla 3.7 deve riscaricare lo zip a mano una volta.
+
+SICUREZZA - COSA C'È E COSA NO
+------------------------------
+- Il programma accetta solo indirizzi https e solo pacchetti sullo stesso sito di versione.json
+  (o su GitHub, se versione.json è su GitHub).
+- Prima di sostituire i file controlla: impronta SHA-256, nome e formato di Regia.ps1 (BOM),
+  sintassi corretta e numero di versione uguale a quello annunciato.
+- Chi controlla il tuo account GitHub può pubblicare aggiornamenti: attiva la verifica in due
+  passaggi e non condividere la password. Regia non è firmata digitalmente: la firma richiede un
+  certificato a pagamento, non necessario per un uso tra amici.
+- Se qualcosa non va: la versione precedente è sempre in Versioni\Regia_x.y.ps1.
+
+COSA NON SERVE
+--------------
+Non serve un sito, un server o un database. Il file Pubblica.ps1 e questa guida restano nella tua
+cartella: non fanno parte dello zip che si distribuisce.

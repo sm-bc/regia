@@ -1,0 +1,120 @@
+﻿=====================================================================
+  REGIA 3.8.1
+  Analisi e ottimizzazione di Windows 10 e 11
+=====================================================================
+
+COS'E'
+  Regia legge lo stato del tuo PC, ti dice cosa si puo' migliorare e, solo se lo chiedi tu,
+  applica le modifiche. Prima mostra sempre un'anteprima, crea un backup dei valori originali
+  e tiene un registro di tutto quello che fa. Ogni modifica (tranne la pulizia dei file) si
+  puo' annullare con "Annulla tutto".
+
+  - Funziona su Windows 10 e 11, portatili e PC fissi.
+  - Schede video NVIDIA, AMD o Intel (le voci che non riguardano il tuo PC non compaiono).
+  - E' portatile: niente da installare, una sola cartella.
+  - Non invia dati a nessuno. Si collega a internet solo se premi un pulsante che lo richiede
+    (elenco/scarico dei driver video, driver da Windows Update, sensori avanzati).
+
+PRIMO AVVIO (3 passi)
+  1. Estrai TUTTA la cartella dallo .zip (tasto destro > Estrai tutto). Non aprire il
+     programma dall'interno dello .zip.
+  2. Doppio clic su "Avvia.cmd" e conferma la richiesta dei permessi di amministratore.
+     Se Windows mostra "Windows ha protetto il PC": Ulteriori informazioni > Esegui comunque.
+     (Succede perche' il programma non e' firmato da un editore commerciale: il codice e'
+     tutto leggibile nel file Regia.ps1.)
+  3. Aspetta la scansione iniziale (circa 10 secondi). All'avvio la "Modalita' prova" e'
+     ACCESA: il programma mostra cosa farebbe, ma non modifica niente.
+
+COSA FARE PER PROVARLO IN SICUREZZA
+  - Guarda la Panoramica: dati in tempo reale (processore, memoria, scheda video, dischi, rete,
+    batteria) e il report sullo stato del PC con simboli: spunta verde = a posto, triangolo
+    arancio = da guardare, croce rossa = problema.
+  - Scegli un profilo (per esempio "Sicuro") e premi "Anteprima e applica": con la Modalita'
+    prova accesa vedi l'elenco delle modifiche ma non succede niente.
+  - Per applicare davvero: spegni l'interruttore "Modalita' prova", ripeti, conferma.
+    Il programma chiede se creare un punto di ripristino di Windows (consigliato).
+  - Se qualcosa non ti convince: "Annulla tutto" rimette i valori originali.
+
+I TASTI PRINCIPALI
+  Anteprima e applica     mostra le modifiche e, dopo la tua conferma, le applica
+  Annulla tutto           rimette i valori originali salvati nei backup di questo PC
+  Riporta al predefinito  rimette le voci accese come in un Windows appena installato
+  Scansiona               rilegge lo stato del PC (sola lettura)
+  Modalita' prova         se accesa, nessuna modifica viene fatta
+  Crea file per il feedback   prepara sul desktop un .zip da mandare a chi ti ha dato Regia
+
+I PROFILI
+  Massimo               tutto cio' che serve a migliorare il PC, anche voci a rischio medio
+                        (prima mostra un avviso)
+  Gaming                migliori prestazioni nei giochi
+  Grafica ed editing    prestazioni alte senza toccare colori, HDR e app creative
+  Bilanciato            equilibrio per l'uso di tutti i giorni
+  Portatile a batteria  massima autonomia quando si usa la batteria
+  Sicuro                solo modifiche leggere e reversibili (privacy, Esplora file, temporanei)
+  I profili non toccano le impostazioni della scheda video: quelle hanno i loro preset.
+
+LE SEZIONI (barra a sinistra; clic sul titolo per aprire/chiudere il gruppo)
+  Panoramica        riepilogo, dati in tempo reale, report dello stato del PC
+  Windows           app preinstallate, programmi all'avvio, servizi, privacy, prestazioni,
+                    latenza e reattivita', grafica, Esplora file, app installate
+  Scheda video      impostazioni NVIDIA (preset Prestazioni / Bilanciato / Qualita') e
+                    opzioni avanzate NVIDIA (come NVIDIA Profile Inspector), impostazioni AMD,
+                    driver video con scelta della versione e installazione pulita
+  Sistema           altri driver da Windows Update
+  Manutenzione      pulizia disco (tasti "Pulizia sicura" e "Pulizia accurata") e strumenti
+                    di riparazione di Windows
+  Altro             voci avanzate (leggi bene la descrizione) e registro delle attivita'
+
+COSA NON TOCCA MAI
+  Microsoft Store, Windows Defender, Windows Update, driver di sistema, colori e profili
+  colore, HDR. Non cancella documenti, foto o file personali. Non fa "pulizie del registro"
+  a caso. Le protezioni di Windows non vengono aggirate: se una voce non si puo' cambiare
+  da programma, lo dice e spiega come farlo a mano.
+
+SENSORI AVANZATI (FACOLTATIVI)
+  Windows non fornisce la temperatura del processore. Dalla Panoramica, il pulsante
+  "Attiva la temperatura del processore" scarica (dopo la tua conferma) LibreHardwareMonitor
+  e il driver firmato PawnIO. Per toglierli: Impostazioni > App > PawnIO > Disinstalla, e
+  cancella la cartella Dati\Sensori.
+
+DOVE FINISCONO I DATI
+  Cartella "Dati" accanto al programma: Log (registro), Backup (valori originali e, in
+  Backup\App, le chiavi di registro tolte con le app), profili, impostazioni.
+  Se la cartella non e' scrivibile, i dati vanno in %LOCALAPPDATA%\Regia\Dati.
+  I backup valgono solo per il PC su cui sono stati creati: non copiare la cartella Dati
+  su un altro PC.
+
+PROBLEMI FREQUENTI
+  "Servono i permessi di amministratore"  avvia con "Avvia.cmd", non con doppio clic su Regia.ps1
+  Windows blocca il file                 tasto destro sul file .zip > Proprieta' > Sblocca,
+                                         poi estrai di nuovo
+  Una voce dice "Non presente"           non riguarda il tuo PC
+  Il programma si chiude con un errore   guarda Dati\Log e mandaci il file (vedi sotto)
+
+COME DARE UN FEEDBACK
+  1. Nel programma, in basso a sinistra: "Crea file per il feedback".
+  2. Si crea sul desktop un file .zip. Apri dentro 05_QUESTIONARIO.txt e rispondi a quello che ti va.
+  3. Manda lo .zip a chi ti ha dato Regia. Il nome utente e il nome del PC sono nascosti;
+     non ci sono password, documenti o foto.
+
+AVVERTENZE
+  Regia e' un programma sperimentale distribuito a titolo gratuito e "cosi' com'e'", senza
+  garanzie. Modificare le impostazioni di sistema comporta sempre un minimo di rischio:
+  usa la Modalita' prova, leggi le anteprime, crea il punto di ripristino e non applicare
+  voci che non capisci. Le voci "Avanzate" e "NVIDIA - opzioni avanzate" sono per chi sa
+  cosa fa. Gli autori non rispondono di danni o perdite di dati derivanti dall'uso.
+  Marchi e nomi citati (Windows, NVIDIA, AMD, Intel, Lenovo) appartengono ai rispettivi titolari;
+  Regia non e' affiliato a nessuno di essi.
+
+ALTRI COMPONENTI
+  Sensori facoltativi: LibreHardwareMonitor (licenza MPL 2.0) e PawnIO (firmato dall'autore).
+  Elenco impostazioni NVIDIA avanzate: NVIDIA Profile Inspector (licenza MIT) e SDK pubblico NVAPI.
+
+Per altre informazioni apri il file "INIZIA_QUI.html" (si apre nel browser).
+
+LINGUA / LANGUAGE
+-----------------
+Il programma e' disponibile in italiano e in inglese (English). Di serie usa la lingua di Windows.
+Per cambiarla premi il pulsante IT / EN in alto a destra: Regia propone di riavviarsi.
+The program is available in Italian and English. By default it uses the Windows language.
+To change it press the IT / EN button at the top right: Regia offers to restart.

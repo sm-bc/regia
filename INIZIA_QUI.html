@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regia - Inizia qui</title>
+<style>
+  :root {
+    --sfondo:#f4f6fb; --carta:#ffffff; --testo:#161b26; --testo2:#4a5468; --bordo:#dfe4ee;
+    --accento:#2f6bff; --verde:#18a058; --arancio:#d98a00; --rosso:#d9363e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --sfondo:#0f131b; --carta:#171c27; --testo:#e8ecf4; --testo2:#9aa5b9; --bordo:#262d3b; --accento:#5b8cff; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--sfondo); color:var(--testo); font:16px/1.6 "Segoe UI Variable Text","Segoe UI",system-ui,sans-serif; }
+  .pagina { max-width:880px; margin:0 auto; padding:32px 20px 64px; }
+  header { display:flex; gap:18px; align-items:center; margin-bottom:8px; }
+  .logo { width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg,#2f6bff,#1b3fb8); display:grid; place-items:center; flex:none; }
+  .logo svg { width:40px; height:40px; }
+  h1 { margin:0; font-size:2rem; letter-spacing:-.02em; }
+  .sotto { color:var(--testo2); margin:2px 0 0; }
+  .etichetta { display:inline-block; font-size:.75rem; font-weight:600; padding:2px 10px; border-radius:99px; background:var(--accento); color:#fff; vertical-align:middle; margin-left:8px; }
+  h2 { font-size:1.15rem; margin:36px 0 12px; letter-spacing:.01em; }
+  .carta { background:var(--carta); border:1px solid var(--bordo); border-radius:14px; padding:20px 22px; margin:12px 0; }
+  .passi { counter-reset:p; list-style:none; margin:0; padding:0; }
+  .passi li { counter-increment:p; position:relative; padding:4px 0 14px 52px; }
+  .passi li::before { content:counter(p); position:absolute; left:0; top:2px; width:34px; height:34px; border-radius:50%; background:var(--accento); color:#fff; font-weight:700; display:grid; place-items:center; }
+  .griglia { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; }
+  .garanzia { display:flex; gap:10px; align-items:flex-start; }
+  .garanzia b { display:block; }
+  .ok::before   { content:"✔"; color:var(--verde); font-weight:700; }
+  .no::before   { content:"✖"; color:var(--rosso); font-weight:700; }
+  .att::before  { content:"▲"; color:var(--arancio); font-weight:700; }
+  .semaforo span { display:inline-flex; gap:6px; align-items:center; margin-right:18px; }
+  kbd, code { background:var(--sfondo); border:1px solid var(--bordo); border-radius:6px; padding:1px 7px; font-size:.9em; }
+  ul.lista { padding-left:20px; margin:8px 0; }
+  .nota { color:var(--testo2); font-size:.92rem; }
+  details { background:var(--carta); border:1px solid var(--bordo); border-radius:12px; padding:12px 18px; margin:8px 0; }
+  summary { cursor:pointer; font-weight:600; }
+  footer { margin-top:48px; color:var(--testo2); font-size:.85rem; border-top:1px solid var(--bordo); padding-top:16px; }
+  a { color:var(--accento); }
+</style>
+</head>
+<body>
+<div class="pagina">
+
+<header>
+  <div class="logo" aria-hidden="true">
+    <svg viewBox="0 0 64 64" fill="none"><path d="M10 44a22 22 0 1 1 44 0" stroke="#fff" stroke-opacity=".35" stroke-width="6" stroke-linecap="round"/><path d="M10 44a22 22 0 0 1 30-20.5" stroke="#fff" stroke-width="6" stroke-linecap="round"/><path d="M32 44l14-16" stroke="#ffd54a" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="44" r="4.5" fill="#ffd54a"/></svg>
+  </div>
+  <div>
+    <h1>Regia <span class="etichetta">versione 3.8.1 · prova per i tester</span></h1>
+    <p class="sotto">Analizza e ottimizza Windows 10 e 11 senza rischi inutili.</p>
+  </div>
+</header>
+
+<div class="carta">
+  <p style="margin:0">Grazie per aver accettato di provare Regia! Il programma legge lo stato del tuo PC, ti dice cosa si può migliorare e
+  <b>applica le modifiche solo se lo decidi tu</b>. Questa pagina spiega in due minuti come usarlo e come mandarci il tuo parere.</p>
+</div>
+
+<h2>1 · Come si avvia</h2>
+<ol class="passi carta">
+  <li><b>Estrai tutta la cartella</b> dallo .zip (tasto destro → <em>Estrai tutto</em>). Non avviare il programma dall'interno dello .zip.</li>
+  <li>Doppio clic su <code>Avvia.cmd</code> e conferma la richiesta dei <b>permessi di amministratore</b>.<br>
+      <span class="nota">Se Windows mostra «Windows ha protetto il PC»: <em>Ulteriori informazioni → Esegui comunque</em>. Succede perché il programma non ha una firma commerciale; il codice è tutto leggibile in <code>Regia.ps1</code>.</span></li>
+  <li>Aspetta una decina di secondi: parte una <b>scansione in sola lettura</b>. La <b>Modalità prova</b> è accesa: non viene modificato niente.</li>
+</ol>
+
+<h2>2 · Le garanzie</h2>
+<div class="griglia">
+  <div class="carta garanzia"><span class="ok"></span><div><b>Anteprima sempre</b>Vedi ogni modifica prima che venga fatta, e confermi tu.</div></div>
+  <div class="carta garanzia"><span class="ok"></span><div><b>Annulla tutto</b>Backup dei valori originali e punto di ripristino facoltativo.</div></div>
+  <div class="carta garanzia"><span class="ok"></span><div><b>Registro completo</b>Tutto quello che fa viene scritto nella cartella <code>Dati\Log</code>.</div></div>
+  <div class="carta garanzia"><span class="ok"></span><div><b>Nessun dato inviato</b>Niente telemetria: va su internet solo se premi un pulsante che lo richiede.</div></div>
+  <div class="carta garanzia"><span class="no"></span><div><b>Non tocca</b>Documenti, foto, Microsoft Store, Defender, Windows Update, driver di sistema.</div></div>
+  <div class="carta garanzia"><span class="att"></span><div><b>Pulizia dei file</b>È l'unica azione che non si può annullare: i file temporanei vengono eliminati.</div></div>
+</div>
+
+<h2>3 · Cosa trovi nel programma</h2>
+<div class="carta">
+  <ul class="lista">
+    <li><b>Panoramica</b>: dati in tempo reale (processore, memoria, scheda video, dischi, rete, batteria) e un <b>report sullo stato del PC</b>.</li>
+    <li><b>Profili</b>: Massimo, Gaming, Grafica ed editing, Bilanciato, Portatile a batteria, Sicuro.</li>
+    <li><b>Scheda video</b>: preset (Prestazioni, Bilanciato, Qualità), opzioni avanzate NVIDIA, driver video con installazione pulita.</li>
+    <li><b>Pulizia disco</b>: tasti rapidi «Pulizia sicura» e «Pulizia accurata».</li>
+    <li><b>App installate</b>: disinstallazione completa con pulizia dei resti.</li>
+  </ul>
+  <p class="semaforo" style="margin-bottom:0">Nel report: <span><b style="color:var(--verde)">✔</b> a posto</span><span><b style="color:var(--arancio)">▲</b> da guardare</span><span><b style="color:var(--rosso)">✖</b> problema</span></p>
+</div>
+
+<h2>4 · Cosa ci piacerebbe che provassi</h2>
+<div class="carta">
+  <ol style="margin:0; padding-left:22px">
+    <li>Apri la <b>Panoramica</b> e controlla se i numeri in tempo reale e il report ti sembrano veri.</li>
+    <li>Scegli il profilo <b>Sicuro</b> e premi <b>Anteprima e applica</b> (con la Modalità prova accesa).</li>
+    <li>Gira tra le sezioni e leggi le spiegazioni in basso quando selezioni una voce: sono comprensibili?</li>
+    <li><i>Facoltativo:</i> spegni la Modalità prova e applica una modifica piccola; poi prova <b>Annulla tutto</b>.</li>
+    <li>Premi <b>Crea file per il feedback</b> (in basso a sinistra) e mandaci il file che compare sul desktop.</li>
+  </ol>
+</div>
+
+<h2>5 · Come mandarci il tuo parere</h2>
+<div class="carta">
+  <p style="margin-top:0">Nel programma: <b>Crea file per il feedback</b>. Si crea un .zip sul desktop con informazioni sul PC, report, scansione, registro e un breve questionario (<code>05_QUESTIONARIO.txt</code>).
+  Il nome utente e il nome del PC vengono nascosti; non ci sono password, documenti o foto. Rispondi alle domande che vuoi e manda lo .zip a chi ti ha dato Regia.</p>
+  <p class="nota" style="margin-bottom:0">Se qualcosa non funziona, mandaci anche una descrizione di cosa stavi facendo: aiuta moltissimo.</p>
+</div>
+
+<h2>Domande frequenti</h2>
+<details><summary>Il programma è sicuro?</summary><p>Con la Modalità prova accesa non modifica niente. Quando la spegni, ogni modifica ha anteprima, backup e registro. Il codice è un solo file di testo (<code>Regia.ps1</code>) che puoi aprire e leggere.</p></details>
+<details><summary>Posso togliere tutto dopo la prova?</summary><p>Usa «Annulla tutto» nel programma e poi cancella la cartella. Se hai attivato i sensori avanzati: Impostazioni → App → PawnIO → Disinstalla.</p></details>
+<details><summary>Windows mi blocca il file</summary><p>Tasto destro sullo .zip → Proprietà → Sblocca, poi estrai di nuovo. Oppure «Ulteriori informazioni → Esegui comunque».</p></details>
+<details><summary>Perché la temperatura del processore non c'è?</summary><p>Windows non la fornisce. Dalla Panoramica puoi attivare i «sensori avanzati» (facoltativi): scaricano, dopo la tua conferma, LibreHardwareMonitor e il driver PawnIO.</p></details>
+<details><summary>Serve internet?</summary><p>No, ma alcune funzioni lo usano su richiesta: elenco e scarico dei driver video, driver da Windows Update, sensori avanzati.</p></details>
+
+<footer>
+  Regia è un programma sperimentale distribuito gratuitamente «così com'è», senza garanzie. Marchi e nomi citati appartengono ai rispettivi titolari.
+  Componenti facoltativi: LibreHardwareMonitor (MPL 2.0), PawnIO, elenco impostazioni NVIDIA Profile Inspector (MIT). Maggiori dettagli in <code>LEGGIMI.txt</code>.
+</footer>
+
+</div>
+</body>
+</html>
