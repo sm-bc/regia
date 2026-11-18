@@ -1,6 +1,6 @@
 ﻿<#
 ================================================================================
-  REGIA  -  versione 3.8.1
+  REGIA  -  versione 3.8.2
   (fino alla 3.1 si chiamava "Ottimizza Windows")
   Analisi e ottimizzazione di Windows 10 e 11 con interfaccia grafica (WPF).
   Funziona su qualsiasi PC: portatili e fissi, con scheda video NVIDIA, AMD o Intel.
@@ -26,6 +26,7 @@
   opzioni avanzate NVIDIA (come NVIDIA Profile Inspector), file per il feedback degli amici.
   Novità della 3.6: opzione DLSS "Forced preset letter" (lettera del preset) tra le opzioni avanzate NVIDIA, impaginazione rivista.
   Novità della 3.6.1: piani energetici e programmi di avvio già disattivati non sono più "da modificare" (solo suggerimenti); i Widget non installati risultano a posto.
+  Novità della 3.8.2: versione di prova per verificare gli aggiornamenti online (nessun cambiamento di funzioni).
   Novità della 3.8: programma tradotto in inglese (di serie con Windows non italiano) con selettore English/Italiano in alto a destra.
   Novità della 3.7: avviso di Modalità prova all'apertura, nuovi strumenti in Manutenzione (salute dischi, controllo disco, report batteria ed energia, Store, icone, ora, RAM, rete),
   controllo automatico degli aggiornamenti all'avvio e pulsante "Aggiorna" (vedi PUBBLICARE_ONLINE.txt).
@@ -78,7 +79,7 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 # 2. PERCORSI, LOG E UTILITÀ GENERICHE
 # ==============================================================================
 
-$Script:Versione       = '3.8.1'
+$Script:Versione       = '3.8.2'
 $Script:FileProgramma  = $PSCommandPath
 $Script:CartellaBase   = Split-Path -Parent $PSCommandPath
 $Script:CartellaDati   = Join-Path $Script:CartellaBase 'Dati'
