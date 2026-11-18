@@ -1,6 +1,6 @@
 {
-    "versione":  "3.8.1",
-    "url":  "https://github.com/sm-bc/regia/releases/download/v3.8.1/Regia_3.8.1.zip",
-    "sha256":  "840396be8c2867c3279cf7f8576cf95c0422b71c8fdfaac12be27477a0977017",
-    "note":  "Primo rilascio pubblico: interfaccia in inglese e italiano, aggiornamenti online."
+    "versione":  "3.8.2",
+    "url":  "https://github.com/sm-bc/regia/releases/download/v3.8.2/Regia_3.8.2.zip",
+    "sha256":  "71d28554ad54e045ca01048c7a344777322e8032513428160b73f9a429c5871c",
+    "note":  "Test degli aggiornamenti online: nessun cambiamento di funzioni."
 }
