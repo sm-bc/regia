@@ -1,6 +1,6 @@
 ﻿<#
 ================================================================================
-  REGIA  -  versione 3.8.2
+  REGIA  -  versione 3.9
   (fino alla 3.1 si chiamava "Ottimizza Windows")
   Analisi e ottimizzazione di Windows 10 e 11 con interfaccia grafica (WPF).
   Funziona su qualsiasi PC: portatili e fissi, con scheda video NVIDIA, AMD o Intel.
@@ -26,6 +26,8 @@
   opzioni avanzate NVIDIA (come NVIDIA Profile Inspector), file per il feedback degli amici.
   Novità della 3.6: opzione DLSS "Forced preset letter" (lettera del preset) tra le opzioni avanzate NVIDIA, impaginazione rivista.
   Novità della 3.6.1: piani energetici e programmi di avvio già disattivati non sono più "da modificare" (solo suggerimenti); i Widget non installati risultano a posto.
+  Novità della 3.9: pulsante God Mode; sezione "Pulizia registro" (solo voci di programmi cancellati, con backup .reg e Annulla);
+  nuove voci di Prestazioni (ritardo dei menu, ultimo accesso NTFS, precedenza ai programmi, Power Throttling in Avanzate).
   Novità della 3.8.2: versione di prova per verificare gli aggiornamenti online (nessun cambiamento di funzioni).
   Novità della 3.8: programma tradotto in inglese (di serie con Windows non italiano) con selettore English/Italiano in alto a destra.
   Novità della 3.7: avviso di Modalità prova all'apertura, nuovi strumenti in Manutenzione (salute dischi, controllo disco, report batteria ed energia, Store, icone, ora, RAM, rete),
@@ -79,7 +81,7 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 # 2. PERCORSI, LOG E UTILITÀ GENERICHE
 # ==============================================================================
 
-$Script:Versione       = '3.8.2'
+$Script:Versione       = '3.9'
 $Script:FileProgramma  = $PSCommandPath
 $Script:CartellaBase   = Split-Path -Parent $PSCommandPath
 $Script:CartellaDati   = Join-Path $Script:CartellaBase 'Dati'
@@ -1660,6 +1662,48 @@ utente	user
 App dello Store	Store app
 Chiave	Key
 Cartella	Folder
+God Mode (tutte le impostazioni)	God Mode (all settings)
+Apre la cartella 'God Mode' di Windows: tutte le impostazioni del Pannello di controllo (circa 200) in un unico elenco con ricerca. Da sola non cambia niente	Opens the Windows 'God Mode' folder: all Control Panel settings (about 200) in one searchable list. It changes nothing by itself
+Aperto God Mode (tutte le impostazioni del Pannello di controllo).	Opened God Mode (all Control Panel settings).
+Pulizia registro	Registry cleanup
+Registro	Registry
+Voci del registro rimaste da programmi che non esistono più: programmi all'avvio, comandi di Esegui e nomi ricordati. Si tocca solo quello che punta a un file sicuramente cancellato su un disco interno; chiavi di sistema, estensioni dei file e driver non vengono mai toccati. Prima di togliere qualcosa viene salvato tutto in Dati\Backup e 'Annulla tutto' lo rimette. Nota onesta: pulire il registro non rende il PC più veloce, serve a togliere errori e righe inutili. Le righe rotte di 'App installate' sono in Avanzate.	Registry entries left behind by programs that no longer exist: startup programs, Run commands and remembered names. Only entries pointing to a file that is definitely deleted on an internal drive are touched; system keys, file extensions and drivers are never touched. Before removing anything everything is saved in Dati\Backup and 'Undo all' puts it back. Honest note: cleaning the registry does not make the PC faster, it removes errors and useless entries. Broken 'Installed apps' entries are in Advanced.
+Programmi all'avvio che non esistono più	Startup programs that no longer exist
+Righe delle chiavi 'Run' che fanno partire all'accesso un file ormai cancellato (programmi disinstallati male): Windows prova ad aprirle ogni volta e fallisce. Si controllano solo percorsi completi su dischi interni presenti; chiavette e dischi scollegati non vengono mai giudicati. I valori tolti restano nel backup e 'Annulla tutto' li rimette.	Entries in the 'Run' keys that start a file that has been deleted (badly uninstalled programs) at sign-in: Windows tries to open them every time and fails. Only full paths on connected internal drives are checked; USB sticks and disconnected drives are never judged. Removed values stay in the backup and 'Undo all' puts them back.
+Comandi "Esegui" di programmi cancellati (App Paths)	"Run" commands of deleted programs (App Paths)
+Chiavi che permettono di avviare un programma scrivendone il nome in Esegui (Win+R) ma che puntano a un file che non c'è più. Prima di toglierla ogni chiave viene salvata in un file .reg in Dati\Backup; 'Annulla tutto' la rimette.	Keys that let you start a program by typing its name in Run (Win+R) but that point to a file that no longer exists. Each key is saved to a .reg file in Dati\Backup before it is removed; 'Undo all' puts it back.
+Nomi ricordati di programmi cancellati (MuiCache)	Remembered names of deleted programs (MuiCache)
+Windows ricorda il nome di ogni programma aperto (per esempio per il menu 'Apri con'). Si tolgono solo i nomi dei programmi che non esistono più. È soltanto una cache: serve all'ordine, non alla velocità.	Windows remembers the name of every program you open (for example for the 'Open with' menu). Only names of programs that no longer exist are removed. It is just a cache: this is about tidiness, not speed.
+Programmi in "App installate" che non si possono più disinstallare	Programs in "Installed apps" that can no longer be uninstalled
+Righe dell'elenco delle app installate il cui programma di disinstallazione e la cui cartella non esistono più: restano nell'elenco ma danno errore se provi a toglierle. Esclusi i pacchetti Windows Installer (MSI), i componenti di sistema e le righe senza nome. Controlla i nomi nella colonna 'Attuale' prima di applicare. Ogni chiave viene salvata in un file .reg in Dati\Backup; 'Annulla tutto' la rimette.	Entries in the installed apps list whose uninstaller and folder no longer exist: they stay in the list but give an error if you try to remove them. Windows Installer (MSI) packages, system components and entries without a name are excluded. Check the names in the 'Current' column before applying. Each key is saved to a .reg file in Dati\Backup; 'Undo all' puts it back.
+Tolte (con backup)	Removed (with backup)
+Nessuna voce rimasta	No leftover entries
+1 voce rimasta: {}	1 leftover entry: {}
+{} voci rimaste: {}	{} leftover entries: {}
+Backup non preparato: non viene tolto niente.	Backup not prepared: nothing is removed.
+Ritardo di apertura dei menu	Menu opening delay
+100 ms	100 ms
+400 ms (Windows)	400 ms (Windows)
+Windows aspetta 0,4 secondi prima di aprire i sottomenu (clic destro, menu dei programmi, 'Invia a'). Con 100 ms si aprono quasi subito, ma non per sbaglio mentre passi sopra col mouse. Se il valore è già più basso (0-100 ms) resta com'è. È il valore MenuShowDelay del Pannello di controllo.	Windows waits 0.4 seconds before opening submenus (right-click, program menus, 'Send to'). With 100 ms they open almost instantly, but not by accident while you move the mouse over them. If the value is already lower (0-100 ms) it is left as it is. It is the MenuShowDelay value of the Control Panel.
+{} ms	{} ms
+Data di ultimo accesso ai file (NTFS)	File last-access date (NTFS)
+Non aggiornata	Not updated
+Decide Windows	Windows decides
+Non aggiornata (decide Windows)	Not updated (Windows decides)
+Non aggiornata (scelta a mano)	Not updated (set manually)
+Aggiornata (decide Windows)	Updated (Windows decides)
+Aggiornata (scelta a mano)	Updated (set manually)
+Ogni volta che un file viene solo letto, Windows può scrivere sul disco anche la data di 'ultimo accesso'. Spegnendola si risparmiano piccole scritture continue (utile con giochi che leggono migliaia di file). Unico effetto collaterale: 'Sensore memoria' non sa più da quanto non apri un file nei Download, e i programmi di backup che usano questa data la vedono ferma. Stesso comando di 'fsutil behavior set disablelastaccess'.	Every time a file is merely read, Windows can also write its 'last access' date to the disk. Turning this off saves small continuous writes (useful with games that read thousands of files). Only side effect: 'Storage Sense' no longer knows how long ago you opened a file in Downloads, and backup programs that use this date see it frozen. Same as the 'fsutil behavior set disablelastaccess' command.
+Precedenza ai programmi in primo piano	Priority for foreground programs
+Programmi (come Windows)	Programs (as in Windows)
+Programmi (valore {})	Programs (value {})
+Servizi in background (valore 24)	Background services (value 24)
+Valore cambiato da un altro programma ({})	Value changed by another program ({})
+È l'opzione 'Ottimizza le prestazioni di: Programmi' (Win32PrioritySeparation): la finestra in primo piano, per esempio il gioco, riceve turni di CPU più lunghi dei programmi in background. Su Windows 10 e 11 è già così di serie (valore 2 o 38, che si equivalgono). Alcuni 'ottimizzatori' la cambiano con valori che favoriscono i servizi in background o che tolgono la precedenza: la voce controlla e, se serve, rimette il valore giusto.	It is the 'Adjust for best performance of: Programs' option (Win32PrioritySeparation): the foreground window, for example the game, gets longer CPU time slices than background programs. On Windows 10 and 11 this is already the default (value 2 or 38, which are equivalent). Some 'optimizers' change it to values that favour background services or remove the priority: this item checks it and, if needed, puts the right value back.
+Rallentamento dei programmi in background (Power Throttling)	Background program slowdown (Power Throttling)
+Spento	Off
+Acceso (Windows)	On (Windows)
+Windows mette i programmi in background in modalità a basso consumo (e sui processori Intel di nuova generazione li sposta sui core di efficienza). Spento, anche i programmi dietro al gioco (registrazione, streaming, chat vocale) girano a piena velocità. Vale anche a batteria: più consumo e calore. È l'impostazione ufficiale 'Disattiva la limitazione dell'alimentazione' dei Criteri di gruppo.	Windows puts background programs into a low-power mode (and on newer Intel processors moves them to the efficiency cores). With it off, programs behind the game (recording, streaming, voice chat) also run at full speed. It also applies on battery: more power use and heat. It is the official 'Turn off Power Throttling' Group Policy setting.
 '@
 
 # I backup valgono solo per il PC su cui sono stati creati: se la cartella viene copiata su un altro PC,
@@ -2643,6 +2687,255 @@ function Leggi-BcdTimer {
 # Imposta campi in una voce già creata (per riusare Nuova-VoceEnergia in un'altra sezione).
 function Con-Campi([hashtable]$Voce, [hashtable]$Campi) { foreach ($k in $Campi.Keys) { $Voce[$k] = $Campi[$k] }; return $Voce }
 
+# ---------- Pulizia del registro (dalla 3.9) ----------
+# Si tolgono SOLO voci rimaste di programmi che non esistono più, e solo se il file mancante è su un disco
+# interno presente (chiavette e dischi scollegati non vengono mai giudicati). Niente chiavi COM, estensioni
+# dei file, driver o servizi: lì un errore può rompere Windows e il guadagno sarebbe comunque nullo.
+# Prima di togliere qualcosa si salva tutto: le chiavi in file .reg (Dati\Backup\registro_...), i valori
+# nel backup JSON. "Annulla tutto" li rimette.
+
+# Dal testo di un comando ricava i possibili file da avviare ("C:\x\a.exe" -b, C:\Program Files\a.exe /q, %ProgramFiles%\a.exe).
+# Senza virgolette restituisce tutti i tagli possibili dopo un'estensione eseguibile (C:\a.exe dir\b.exe -> due candidati).
+function Candidati-FileComando([string]$Comando) {
+    if ([string]::IsNullOrWhiteSpace($Comando)) { return @() }
+    $c = [Environment]::ExpandEnvironmentVariables($Comando.Trim())
+    if ($c.StartsWith('"')) {
+        $j = $c.IndexOf('"', 1)
+        if ($j -lt 2) { return @() }
+        $lista = @($c.Substring(1, $j - 1))
+    } else {
+        $lista = @(foreach ($m in [regex]::Matches($c, '(?i)\.(exe|com|bat|cmd|vbs|vbe|js|wsf|ps1|lnk|dll|scr|msc|cpl)(?=\s|,|$)')) { $c.Substring(0, $m.Index + $m.Length) })
+    }
+    return @($lista | ForEach-Object { $_.Trim() } | Where-Object { $_ -match '^[A-Za-z]:\\' })
+}
+
+# $true solo se TUTTI i file candidati mancano davvero su un disco interno presente. Nel dubbio $false (non si tocca).
+function File-Mancante([string]$Comando) {
+    $cand = @(Candidati-FileComando $Comando)
+    if ($cand.Count -eq 0) { return $false }
+    foreach ($f in $cand) {
+        try {
+            $radice = [IO.Path]::GetPathRoot($f)
+            if (-not $radice) { return $false }
+            $disco = New-Object IO.DriveInfo($radice)
+            if (-not $disco.IsReady -or [string]$disco.DriveType -ne 'Fixed') { return $false }
+            if (Test-Path -LiteralPath $f) { return $false }
+            # programmi a 32 bit: "System32" per loro è SysWOW64
+            $alt = $f -replace '(?i)\\System32\\', '\SysWOW64\'
+            if ($alt -ne $f -and (Test-Path -LiteralPath $alt)) { return $false }
+        } catch { return $false }
+    }
+    return $true
+}
+
+function Esiste-Percorso([string]$P) {
+    try { $p2 = [Environment]::ExpandEnvironmentVariables($P).Trim().Trim('"'); return ($p2 -and (Test-Path -LiteralPath $p2)) } catch { return $true }
+}
+
+# Apre una chiave dal nome completo (HKEY_LOCAL_MACHINE\...), sempre nella vista a 64 bit.
+function Apri-ChiaveReg([string]$Nome, [bool]$Scrittura = $false) {
+    $i = $Nome.IndexOf('\')
+    $radice = $(if ($i -gt 0) { $Nome.Substring(0, $i) } else { $Nome })
+    $resto = $(if ($i -gt 0) { $Nome.Substring($i + 1) } else { '' })
+    $hive = switch ($radice) { 'HKEY_LOCAL_MACHINE' { 'LocalMachine' } 'HKEY_CURRENT_USER' { 'CurrentUser' } default { throw "Radice del registro non gestita: $radice" } }
+    $base = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]$hive, [Microsoft.Win32.RegistryView]::Registry64)
+    if (-not $resto) { return $base }
+    return $base.OpenSubKey($resto, $Scrittura)
+}
+
+function Nuovo-ElementoValore([string]$Chiave, [string]$Nome, [string]$Etichetta, [string]$IdElemento) {
+    $k = Apri-ChiaveReg $Chiave
+    if (-not $k) { return $null }
+    try {
+        $tipo = [string]$k.GetValueKind($Nome)
+        $val = $k.GetValue($Nome, $null, 'DoNotExpandEnvironmentNames')
+        if ($val -is [byte[]]) { $val = @($val | ForEach-Object { [int]$_ }) }
+    } finally { $k.Close() }
+    return @{ Tipo = 'Valore'; Chiave = $Chiave; Nome = $Nome; Etichetta = $Etichetta; Id = $IdElemento; Valore = $val; TipoValore = $tipo }
+}
+
+function Scrivi-ValoreGrezzo([string]$Chiave, [string]$Nome, $Valore, [string]$TipoValore) {
+    $k = Apri-ChiaveReg $Chiave $true
+    if (-not $k) {
+        $i = $Chiave.IndexOf('\')
+        $b = Apri-ChiaveReg $Chiave.Substring(0, $i)
+        $k = $b.CreateSubKey($Chiave.Substring($i + 1))
+    }
+    try {
+        $tipo = [Microsoft.Win32.RegistryValueKind]$TipoValore
+        # niente "switch" con assegnazione: PowerShell srotolerebbe gli array (byte[] -> object[])
+        if ($tipo -eq 'Binary') { [byte[]]$v = @($Valore | ForEach-Object { [byte]$_ }) }
+        elseif ($tipo -eq 'MultiString') { [string[]]$v = @($Valore | ForEach-Object { [string]$_ }) }
+        elseif ($tipo -eq 'DWord') { $v = [int]$Valore }
+        elseif ($tipo -eq 'QWord') { $v = [long]$Valore }
+        else { $v = [string]$Valore }
+        $k.SetValue($Nome, $v, $tipo)
+    } finally { $k.Close() }
+}
+
+# Programmi all'avvio (chiavi Run) che puntano a un file cancellato. Insieme si toglie la riga
+# "attivo/disattivato" che Gestione attività tiene per lo stesso nome (StartupApproved).
+$Script:ChiaviAvvioReg = @(
+    @{ Run = 'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run'; Ok = 'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run' },
+    @{ Run = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'; Ok = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run' },
+    @{ Run = 'HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run'; Ok = 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run32' } )
+
+function Trova-AvvioOrfani {
+    $r = @()
+    foreach ($c in $Script:ChiaviAvvioReg) {
+        $k = Apri-ChiaveReg $c.Run
+        if (-not $k) { continue }
+        try { $nomi = @($k.GetValueNames() | Where-Object { $_ }) ; $cmd = @{}; foreach ($n in $nomi) { $cmd[$n] = [string]$k.GetValue($n, $null, 'DoNotExpandEnvironmentNames') } } finally { $k.Close() }
+        $ok = Apri-ChiaveReg $c.Ok
+        $nomiOk = @(); if ($ok) { try { $nomiOk = @($ok.GetValueNames()) } finally { $ok.Close() } }
+        foreach ($n in $nomi) {
+            if (-not (File-Mancante $cmd[$n])) { continue }
+            $id = "$($c.Run)|$n"
+            $e = Nuovo-ElementoValore $c.Run $n $n $id; if ($e) { $r += $e }
+            if ($nomiOk -contains $n) { $e = Nuovo-ElementoValore $c.Ok $n $n $id; if ($e) { $r += $e } }
+        }
+    }
+    return $r
+}
+
+# App Paths: nomi che si possono scrivere in Esegui (Win+R) e che aprono un file cancellato.
+function Trova-AppPathsOrfani {
+    $r = @()
+    foreach ($base in @('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths',
+                        'HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\App Paths',
+                        'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\App Paths')) {
+        foreach ($s in @(Get-ChildItem -LiteralPath "Registry::$base" -ErrorAction SilentlyContinue)) {
+            $cmd = [string]$s.GetValue('', $null, 'DoNotExpandEnvironmentNames')
+            if (-not $cmd.Trim()) { continue }
+            # il valore è sempre un solo file (anche con spazi): lo si mette tra virgolette se non lo è
+            if ($cmd.Trim() -notmatch '^"') { $cmd = '"' + $cmd.Trim() + '"' }
+            if (File-Mancante $cmd) { $r += @{ Tipo = 'Chiave'; Chiave = $s.Name; Etichetta = $s.PSChildName; Id = $s.Name } }
+        }
+    }
+    return $r
+}
+
+# MuiCache: nomi di programmi ricordati da Windows (es. per "Apri con"). Solo una cache.
+function Trova-MuiCacheOrfani {
+    $chiave = 'HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache'
+    $k = Apri-ChiaveReg $chiave
+    if (-not $k) { return @() }
+    try { $nomi = @($k.GetValueNames()) } finally { $k.Close() }
+    $r = @()
+    foreach ($n in $nomi) {
+        if ($n -notmatch '^([A-Za-z]:\\.+)\.(FriendlyAppName|ApplicationCompany)$') { continue }
+        $file = $Matches[1]
+        if (File-Mancante ('"' + $file + '"')) { $e = Nuovo-ElementoValore $chiave $n ([IO.Path]::GetFileName($file)) $file; if ($e) { $r += $e } }
+    }
+    return $r
+}
+
+# "App installate": righe il cui programma di disinstallazione E la cui cartella non esistono più.
+# Esclusi: pacchetti Windows Installer (MSI, li gestisce Windows), componenti di sistema, righe senza nome,
+# programmi di disinstallazione dentro la cartella di Windows.
+function Trova-DisinstallazioniRotte {
+    $r = @()
+    foreach ($base in @('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall',
+                        'HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall',
+                        'HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall')) {
+        foreach ($s in @(Get-ChildItem -LiteralPath "Registry::$base" -ErrorAction SilentlyContinue)) {
+            try {
+                $nome = [string]$s.GetValue('DisplayName')
+                if (-not $nome.Trim()) { continue }
+                if ([string]$s.GetValue('SystemComponent') -eq '1' -or [string]$s.GetValue('WindowsInstaller') -eq '1') { continue }
+                if ($s.PSChildName -match '^\{[0-9A-Fa-f-]{36}\}$') { continue }
+                $cmd = [string]$s.GetValue('UninstallString', $null, 'DoNotExpandEnvironmentNames')
+                if (-not $cmd.Trim() -or $cmd -match '(?i)msiexec') { continue }
+                if ([Environment]::ExpandEnvironmentVariables($cmd).Trim().Trim('"') -like "$env:WINDIR\*") { continue }
+                if (-not (File-Mancante $cmd)) { continue }
+                $q = [string]$s.GetValue('QuietUninstallString', $null, 'DoNotExpandEnvironmentNames')
+                if ($q.Trim() -and -not (File-Mancante $q)) { continue }
+                $loc = [string]$s.GetValue('InstallLocation', $null, 'DoNotExpandEnvironmentNames')
+                if ($loc.Trim() -and (Esiste-Percorso $loc)) { continue }
+                $r += @{ Tipo = 'Chiave'; Chiave = $s.Name; Etichetta = $nome.Trim(); Id = $s.Name }
+            } catch { continue }
+        }
+    }
+    return $r
+}
+
+function Leggi-PuliziaRegistro($V) {
+    $el = @(& $V.Trova)
+    $n = @($el | ForEach-Object { $_.Id } | Select-Object -Unique).Count
+    if ($n -eq 0) { return Nuova-Lettura 'Nessuna voce rimasta' 'A posto' $true $true }
+    $nomi = @($el | ForEach-Object { $_.Etichetta } | Where-Object { $_ } | Select-Object -Unique)
+    $elenco = (@($nomi | Select-Object -First 3)) -join ', '
+    if ($nomi.Count -gt 3) { $elenco += ', …' }
+    $t = $(if ($n -eq 1) { "1 voce rimasta: $elenco" } else { "$n voci rimaste: $elenco" })
+    return Nuova-Lettura $t 'Da modificare' $true $true
+}
+
+# Chiamata subito prima di Applica: salva tutto (chiavi in .reg, valori nel JSON) e prepara l'elenco
+# esatto da togliere. Applica toglie solo quello che è stato salvato qui.
+function Originale-PuliziaRegistro($V) {
+    $el = @(& $V.Trova)
+    $salvati = New-Object System.Collections.ArrayList
+    $cartella = $null; $i = 0
+    foreach ($e in $el) {
+        $i++
+        if ($e.Tipo -eq 'Chiave') {
+            if (-not $cartella) {
+                $cartella = Join-Path $Script:CartellaBackup ('registro_{0:yyyyMMdd_HHmmss}_{1}' -f (Get-Date), ($V.Id -replace '[^\w]', '_'))
+                New-Item -ItemType Directory -Path $cartella -Force | Out-Null
+            }
+            $file = Join-Path $cartella ('chiave_{0:D3}.reg' -f $i)
+            $codice = Esegui-Processo "$env:windir\System32\reg.exe" "export `"$($e.Chiave)`" `"$file`" /y"
+            if ($codice -ne 0 -or -not (Test-Path -LiteralPath $file)) { $V.DaTogliere = $null; throw "Backup della chiave non riuscito (reg export codice $codice): non viene tolto niente. Chiave: $($e.Chiave)" }
+            [void]$salvati.Add(@{ Tipo = 'Chiave'; Chiave = $e.Chiave; Etichetta = $e.Etichetta; File = $file })
+        } else {
+            [void]$salvati.Add(@{ Tipo = 'Valore'; Chiave = $e.Chiave; Nome = $e.Nome; Etichetta = $e.Etichetta; Valore = $e.Valore; TipoValore = $e.TipoValore })
+        }
+    }
+    $V.DaTogliere = @($salvati)
+    return @{ Elementi = @($salvati) }
+}
+
+function Applica-PuliziaRegistro($V) {
+    if ($null -eq $V.DaTogliere) { throw 'Backup non preparato: non viene tolto niente.' }
+    $el = @($V.DaTogliere)
+    $V.DaTogliere = $null
+    foreach ($e in $el) {
+        if ($e.Tipo -eq 'Chiave') {
+            Remove-Item -LiteralPath "Registry::$($e.Chiave)" -Recurse -Force -ErrorAction Stop
+            Scrivi-Log "  chiave tolta: $($e.Etichetta)  ($($e.Chiave), backup in $($e.File))" 'OK'
+        } else {
+            $k = Apri-ChiaveReg $e.Chiave $true
+            if ($k) { try { $k.DeleteValue($e.Nome, $false) } finally { $k.Close() } }
+            Scrivi-Log "  valore tolto: $($e.Chiave) -> $($e.Nome)" 'OK'
+        }
+    }
+}
+
+function Ripristina-PuliziaRegistro($O) {
+    foreach ($e in @($O.Elementi)) {
+        if ($e.Tipo -eq 'Chiave') {
+            if (-not (Test-Path -LiteralPath $e.File)) { throw "File di backup mancante: $($e.File)" }
+            $codice = Esegui-Processo "$env:windir\System32\reg.exe" "import `"$($e.File)`""
+            if ($codice -ne 0) { throw "reg import non riuscito (codice $codice): $($e.File)" }
+        } else {
+            Scrivi-ValoreGrezzo $e.Chiave $e.Nome $e.Valore $e.TipoValore
+        }
+    }
+}
+
+function Nuova-VocePuliziaRegistro([string]$Id, [string]$Nome, [scriptblock]$Trova, [string]$Rischio, [bool]$Avanzata, [string]$Descrizione) {
+    return @{
+        Id = $Id; Nome = $Nome; Categoria = 'Registro'; Tipo = 'Personalizzato'; Rischio = $Rischio; Profili = @(); Avanzata = $Avanzata
+        TestoConsigliato = 'Tolte (con backup)'; TestoPredefinito = 'Tolte (con backup)'
+        Trova = $Trova; DaTogliere = $null
+        Descrizione = $Descrizione
+        Leggi      = { param($V) Leggi-PuliziaRegistro $V }
+        Applica    = { param($Obiettivo, $V) Applica-PuliziaRegistro $V }
+        Originale  = { param($V) Originale-PuliziaRegistro $V }
+        Ripristina = { param($O, $V) Ripristina-PuliziaRegistro $O }
+    }
+}
+
 # Voci spostate nella sezione Latenza dalla 3.1 (stesso Id: backup e profili personali restano validi).
 $Script:VociInLatenza = @('perf.usb', 'perf.pcie', 'perf.rete', 'perf.mmcss', 'perf.mouse')
 
@@ -3094,6 +3387,73 @@ $Script:Catalogo = @(
        Valori = @( (Nuovo-ValoreReg 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile' 'NetworkThrottlingIndex' -1 10) )
        Riavvio = 'riavvio'
        Descrizione = "Mentre c'è audio o video in riproduzione Windows limita il traffico di rete non multimediale (valore NetworkThrottlingIndex, documentato da Microsoft). Toglierla può aiutare con reti molto veloci; su CPU deboli può causare scatti audio." }
+
+    # ---------------------------------------------------------------- PRESTAZIONI (aggiunte nella 3.9)
+    @{ Id = 'perf.menu'; Nome = 'Ritardo di apertura dei menu'; Categoria = 'Prestazioni'; Tipo = 'Personalizzato'; Rischio = 'basso'; Profili = @('Gaming', 'Produttivita')
+       TestoConsigliato = '100 ms'; TestoPredefinito = '400 ms (Windows)'
+       Riavvio = 'disconnessione'
+       Descrizione = "Windows aspetta 0,4 secondi prima di aprire i sottomenu (clic destro, menu dei programmi, 'Invia a'). Con 100 ms si aprono quasi subito, ma non per sbaglio mentre passi sopra col mouse. Se il valore è già più basso (0-100 ms) resta com'è. È il valore MenuShowDelay del Pannello di controllo."
+       Leggi = {
+           $l = Leggi-Registro 'HKCU:\Control Panel\Desktop' 'MenuShowDelay'
+           $ms = 400; if ($l.Esiste) { [void][int]::TryParse([string]$l.Valore, [ref]$ms) }
+           Nuova-Lettura "$ms ms" $(if ($ms -le 100) { 'A posto' } else { 'Da modificare' }) $true ($ms -eq 400)
+       }
+       Applica = { param($Obiettivo) Scrivi-Registro 'HKCU:\Control Panel\Desktop' 'MenuShowDelay' $(if ($Obiettivo -eq 'Predefinito') { '400' } else { '100' }) 'String' }
+       Originale = { $l = Leggi-Registro 'HKCU:\Control Panel\Desktop' 'MenuShowDelay'; @{ Esiste = $l.Esiste; Valore = [string]$l.Valore } }
+       Ripristina = {
+           param($O)
+           if ($O.Esiste) { Scrivi-Registro 'HKCU:\Control Panel\Desktop' 'MenuShowDelay' ([string]$O.Valore) 'String' }
+           else { Rimuovi-Registro 'HKCU:\Control Panel\Desktop' 'MenuShowDelay' }
+       } }
+
+    @{ Id = 'perf.ultimoaccesso'; Nome = 'Data di ultimo accesso ai file (NTFS)'; Categoria = 'Prestazioni'; Tipo = 'Personalizzato'; Rischio = 'basso'; Profili = @('Gaming')
+       TestoConsigliato = 'Non aggiornata'; TestoPredefinito = 'Decide Windows'; Riavvio = 'riavvio'
+       Descrizione = "Ogni volta che un file viene solo letto, Windows può scrivere sul disco anche la data di 'ultimo accesso'. Spegnendola si risparmiano piccole scritture continue (utile con giochi che leggono migliaia di file). Unico effetto collaterale: 'Sensore memoria' non sa più da quanto non apri un file nei Download, e i programmi di backup che usano questa data la vedono ferma. Stesso comando di 'fsutil behavior set disablelastaccess'."
+       Leggi = {
+           $l = Leggi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' 'NtfsDisableLastAccessUpdate'
+           if (-not $l.Esiste) { return Nuova-Lettura 'Decide Windows' 'Da modificare' $true $true }
+           # DWord letto come numero con segno: 0x80000001 = -2147483647, 0x80000002 = -2147483646
+           $v = [int64]$l.Valore; if ($v -lt 0) { $v += [int64]4294967296 }
+           $spenta = (($v -band 1) -eq 1)
+           $gestita = $(if (($v -band 2) -eq 2) { 'decide Windows' } else { 'scelta a mano' })
+           Nuova-Lettura $(if ($spenta) { "Non aggiornata ($gestita)" } else { "Aggiornata ($gestita)" }) $(if ($spenta) { 'A posto' } else { 'Da modificare' }) $true ($v -eq [int64]2147483650)
+       }
+       Applica = {
+           param($Obiettivo)
+           $val = $(if ($Obiettivo -eq 'Predefinito') { [int]-2147483646 } else { [int]-2147483647 })
+           Scrivi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' 'NtfsDisableLastAccessUpdate' $val 'DWord'
+       }
+       Originale = { $l = Leggi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' 'NtfsDisableLastAccessUpdate'; @{ Esiste = $l.Esiste; Valore = $(if ($l.Esiste) { [int]$l.Valore } else { $null }) } }
+       Ripristina = {
+           param($O)
+           if ($O.Esiste) { Scrivi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' 'NtfsDisableLastAccessUpdate' ([int]$O.Valore) 'DWord' }
+           else { Rimuovi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' 'NtfsDisableLastAccessUpdate' }
+       } }
+
+    @{ Id = 'perf.priorita'; Nome = 'Precedenza ai programmi in primo piano'; Categoria = 'Prestazioni'; Tipo = 'Personalizzato'; Rischio = 'basso'; Profili = $Tutti
+       TestoConsigliato = 'Programmi (come Windows)'; TestoPredefinito = 'Programmi (come Windows)'
+       Descrizione = "È l'opzione 'Ottimizza le prestazioni di: Programmi' (Win32PrioritySeparation): la finestra in primo piano, per esempio il gioco, riceve turni di CPU più lunghi dei programmi in background. Su Windows 10 e 11 è già così di serie (valore 2 o 38, che si equivalgono). Alcuni 'ottimizzatori' la cambiano con valori che favoriscono i servizi in background o che tolgono la precedenza: la voce controlla e, se serve, rimette il valore giusto."
+       Leggi = {
+           $l = Leggi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl' 'Win32PrioritySeparation'
+           if (-not $l.Esiste) { return Nuova-Lettura 'Programmi (come Windows)' 'A posto' $true $true }
+           $v = [int]$l.Valore
+           if ($v -eq 2 -or $v -eq 38) { return Nuova-Lettura "Programmi (valore $v)" 'A posto' $true $true }
+           if ($v -eq 24) { return Nuova-Lettura 'Servizi in background (valore 24)' 'Da modificare' }
+           Nuova-Lettura "Valore cambiato da un altro programma ($v)" 'Da modificare'
+       }
+       Applica = { Scrivi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl' 'Win32PrioritySeparation' 2 'DWord' }
+       Originale = { $l = Leggi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl' 'Win32PrioritySeparation'; @{ Esiste = $l.Esiste; Valore = $(if ($l.Esiste) { [int]$l.Valore } else { $null }) } }
+       Ripristina = {
+           param($O)
+           if ($O.Esiste) { Scrivi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl' 'Win32PrioritySeparation' ([int]$O.Valore) 'DWord' }
+           else { Rimuovi-Registro 'HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl' 'Win32PrioritySeparation' }
+       } }
+
+    @{ Id = 'perf.throttling'; Nome = 'Rallentamento dei programmi in background (Power Throttling)'; Categoria = 'Prestazioni'; Tipo = 'Registro'; Avanzata = $true; Rischio = 'medio'
+       TestoConsigliato = 'Spento'; TestoPredefinito = 'Acceso (Windows)'
+       Valori = @( (Nuovo-ValoreReg 'HKLM:\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling' 'PowerThrottlingOff' 1 $null) )
+       Riavvio = 'riavvio'
+       Descrizione = "Windows mette i programmi in background in modalità a basso consumo (e sui processori Intel di nuova generazione li sposta sui core di efficienza). Spento, anche i programmi dietro al gioco (registrazione, streaming, chat vocale) girano a piena velocità. Vale anche a batteria: più consumo e calore. È l'impostazione ufficiale 'Disattiva la limitazione dell'alimentazione' dei Criteri di gruppo." }
 
     @{ Id = 'sic.hvci'; Nome = 'Integrità della memoria (Isolamento core)'; Categoria = 'Prestazioni'; Tipo = 'Registro'; Avanzata = $true; Rischio = 'alto'
        TestoConsigliato = 'Spenta'; TestoPredefinito = 'Accesa'
@@ -3756,6 +4116,19 @@ $Script:Catalogo = @(
            Scrivi-Log '  Winsock reimpostato: riavvia il PC per completare.' 'AVVISO'
        }
        Descrizione = "Riporta a zero le impostazioni del catalogo di rete di Windows. Serve quando la rete è collegata ma i programmi non navigano (dopo virus, VPN o programmi di rete rimossi male). Richiede il riavvio; VPN e firewall di terze parti potrebbero doversi reinstallare o riconfigurare." }
+
+    # ---------------------------------------------------------------- PULIZIA DEL REGISTRO (dalla 3.9)
+    (Nuova-VocePuliziaRegistro 'reg.avvio' 'Programmi all''avvio che non esistono più' { Trova-AvvioOrfani } 'basso' $false `
+        "Righe delle chiavi 'Run' che fanno partire all'accesso un file ormai cancellato (programmi disinstallati male): Windows prova ad aprirle ogni volta e fallisce. Si controllano solo percorsi completi su dischi interni presenti; chiavette e dischi scollegati non vengono mai giudicati. I valori tolti restano nel backup e 'Annulla tutto' li rimette.")
+
+    (Nuova-VocePuliziaRegistro 'reg.apppaths' 'Comandi "Esegui" di programmi cancellati (App Paths)' { Trova-AppPathsOrfani } 'basso' $false `
+        "Chiavi che permettono di avviare un programma scrivendone il nome in Esegui (Win+R) ma che puntano a un file che non c'è più. Prima di toglierla ogni chiave viene salvata in un file .reg in Dati\Backup; 'Annulla tutto' la rimette.")
+
+    (Nuova-VocePuliziaRegistro 'reg.muicache' 'Nomi ricordati di programmi cancellati (MuiCache)' { Trova-MuiCacheOrfani } 'basso' $false `
+        "Windows ricorda il nome di ogni programma aperto (per esempio per il menu 'Apri con'). Si tolgono solo i nomi dei programmi che non esistono più. È soltanto una cache: serve all'ordine, non alla velocità.")
+
+    (Nuova-VocePuliziaRegistro 'reg.disinstalla' 'Programmi in "App installate" che non si possono più disinstallare' { Trova-DisinstallazioniRotte } 'medio' $true `
+        "Righe dell'elenco delle app installate il cui programma di disinstallazione e la cui cartella non esistono più: restano nell'elenco ma danno errore se provi a toglierle. Esclusi i pacchetti Windows Installer (MSI), i componenti di sistema e le righe senza nome. Controlla i nomi nella colonna 'Attuale' prima di applicare. Ogni chiave viene salvata in un file .reg in Dati\Backup; 'Annulla tutto' la rimette.")
 )
 
 # Chiave usata da "Ottimizzazioni per giochi in finestra" (contiene più impostazioni in un'unica stringa).
@@ -4597,8 +4970,9 @@ function Descrivi-Modifica($Voce, $Lettura, [string]$Obiettivo, [string]$TestoSc
 # 6. SCANSIONE, ANTEPRIMA, APPLICAZIONE, ANNULLA TUTTO
 # ==============================================================================
 
-$Script:Categorie = @('Debloat app', 'Avvio', 'Servizi', 'Privacy', 'Prestazioni', 'Latenza', 'Grafica', 'Esplora file', 'NVIDIA', 'NVIDIAAvanz', 'AMD', 'Pulizia', 'Manutenzione', 'Avanzate')
+$Script:Categorie = @('Debloat app', 'Avvio', 'Servizi', 'Privacy', 'Prestazioni', 'Latenza', 'Grafica', 'Esplora file', 'NVIDIA', 'NVIDIAAvanz', 'AMD', 'Pulizia', 'Registro', 'Manutenzione', 'Avanzate')
 $Script:TestiIntro = @{
+    'Registro'    = "Voci del registro rimaste da programmi che non esistono più: programmi all'avvio, comandi di Esegui e nomi ricordati. Si tocca solo quello che punta a un file sicuramente cancellato su un disco interno; chiavi di sistema, estensioni dei file e driver non vengono mai toccati. Prima di togliere qualcosa viene salvato tutto in Dati\Backup e 'Annulla tutto' lo rimette. Nota onesta: pulire il registro non rende il PC più veloce, serve a togliere errori e righe inutili. Le righe rotte di 'App installate' sono in Avanzate."
     'Debloat app' = "App preinstallate che puoi rimuovere. Sono elencate solo quelle presenti su questo PC. Store, Sicurezza di Windows, driver e componenti di sistema non compaiono mai."
     'Avvio'       = "Programmi che partono quando accedi a Windows. Disattivarli è sempre reversibile (è lo stesso interruttore di Gestione attività)."
     'Servizi'     = "Servizi di Windows non essenziali e attività pianificate di telemetria. Si cambia solo il modo in cui partono. Windows Update e Defender sono protetti."
@@ -7172,6 +7546,12 @@ $Script:XamlFinestra = @'
                 <TextBlock x:Name="TestoAggiorna" Text="Aggiornamento disponibile" Foreground="{DynamicResource Verde}" FontWeight="SemiBold" VerticalAlignment="Center"/>
               </StackPanel>
             </Button>
+            <Button x:Name="BtnGodMode" Style="{DynamicResource Menu}" ToolTip="Apre la cartella 'God Mode' di Windows: tutte le impostazioni del Pannello di controllo (circa 200) in un unico elenco con ricerca. Da sola non cambia niente">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE713;" Style="{DynamicResource Icona}" Width="26"/>
+                <TextBlock Text="God Mode (tutte le impostazioni)" VerticalAlignment="Center"/>
+              </StackPanel>
+            </Button>
             <Button x:Name="BtnRiavvia" Style="{DynamicResource Menu}" ToolTip="Riavvia il PC (prima ti ricorda di salvare il lavoro aperto)">
               <StackPanel Orientation="Horizontal">
                 <TextBlock Text="&#xE7E8;" Style="{DynamicResource Icona}" Width="26"/>
@@ -9305,10 +9685,10 @@ function Crea-Panoramica {
 
 # ---------- Creazione delle sezioni ----------
 $Script:IconeCategorie = @{ 'Debloat app' = 0xE71D; 'Avvio' = 0xE7E8; 'Servizi' = 0xE713; 'Privacy' = 0xE72E; 'Prestazioni' = 0xE945; 'Grafica' = 0xE790
-                            'Esplora file' = 0xE8B7; 'NVIDIA' = 0xE950; 'NVIDIAAvanz' = 0xE713; 'AMD' = 0xE9D9; 'Latenza' = 0xE916; 'Pulizia' = 0xE74D; 'Manutenzione' = 0xE90F; 'Avanzate' = 0xE7BA }
+                            'Esplora file' = 0xE8B7; 'NVIDIA' = 0xE950; 'NVIDIAAvanz' = 0xE713; 'AMD' = 0xE9D9; 'Latenza' = 0xE916; 'Pulizia' = 0xE74D; 'Registro' = 0xE8F1; 'Manutenzione' = 0xE90F; 'Avanzate' = 0xE7BA }
 $Script:TitoliCategorie = @{ 'Debloat app' = 'App preinstallate'; 'Avvio' = 'Programmi all''avvio'; 'Servizi' = 'Servizi e attività'; 'Privacy' = 'Privacy e pubblicità'
                              'Prestazioni' = 'Prestazioni ed energia'; 'Grafica' = 'Grafica ed effetti'; 'Esplora file' = 'Esplora file'; 'NVIDIA' = 'Impostazioni NVIDIA'; 'NVIDIAAvanz' = 'NVIDIA - opzioni avanzate'
-                             'AMD' = 'Impostazioni AMD'; 'Latenza' = 'Latenza e reattività'; 'Pulizia' = 'Pulizia disco'; 'Manutenzione' = 'Manutenzione'; 'Avanzate' = 'Avanzate' }
+                             'AMD' = 'Impostazioni AMD'; 'Latenza' = 'Latenza e reattività'; 'Pulizia' = 'Pulizia disco'; 'Registro' = 'Pulizia registro'; 'Manutenzione' = 'Manutenzione'; 'Avanzate' = 'Avanzate' }
 
 # Tasti rapidi della pulizia: 'Sicura' = voci a rischio basso; 'Accurata' = anche rischio medio. Poi anteprima e conferma.
 function Pulizia-Rapida([string]$Livello) {
@@ -9451,7 +9831,7 @@ function Misura-Latenza {
 }
 
 function Aggiungi-Categoria([string]$Cat) {
-    $conProfili = ($Cat -ne 'NVIDIA' -and $Cat -ne 'NVIDIAAvanz' -and $Cat -ne 'AMD' -and $Cat -ne 'Manutenzione' -and $Cat -ne 'Avanzate')
+    $conProfili = ($Cat -ne 'NVIDIA' -and $Cat -ne 'NVIDIAAvanz' -and $Cat -ne 'AMD' -and $Cat -ne 'Registro' -and $Cat -ne 'Manutenzione' -and $Cat -ne 'Avanzate')
     Aggiungi-Pagina $Cat $Script:TitoliCategorie[$Cat] $Script:IconeCategorie[$Cat] (Crea-ContenutoCategoria $Cat) $Script:TestiIntro[$Cat] $true $conProfili
 }
 
@@ -9637,6 +10017,7 @@ Aggiungi-TitoloNav 'Sistema'
 Aggiungi-Pagina 'Driver' 'Altri driver' 0xE772 $pannelloDriver "Chipset, audio, rete, Bluetooth e driver del produttore del PC. 'Controlla aggiornamenti' cerca nel catalogo driver di Windows Update (driver certificati dai produttori): non installa niente. Accendi i driver che vuoi e premi 'Installa selezionati', oppure 'Installa tutto'." $false $false
 Aggiungi-TitoloNav 'Manutenzione'
 Aggiungi-Categoria 'Pulizia'
+Aggiungi-Categoria 'Registro'
 Aggiungi-Categoria 'Manutenzione'
 Aggiungi-TitoloNav 'Altro'
 Aggiungi-Categoria 'Avanzate'
@@ -9919,6 +10300,14 @@ $Script:Finestra.FindName('BtnPredefinito').add_Click({ try { Applica-Modifiche 
 $Script:Finestra.FindName('BtnAnnullaTutto').add_Click({ try { Annulla-Tutto } catch { Mostra-Errore $_ } })
 $Script:Finestra.FindName('BtnCartella').add_Click({ Start-Process explorer.exe -ArgumentList "`"$Script:CartellaDati`"" })
 $Script:Finestra.FindName('BtnRiavvia').add_Click({ try { [void](Proponi-Riavvio) } catch { Mostra-Errore $_ } })
+# God Mode: la cartella speciale di Windows con tutte le impostazioni del Pannello di controllo.
+# Si apre direttamente con il suo codice (shell:::{...}): non si crea nessuna cartella sul desktop.
+$Script:Finestra.FindName('BtnGodMode').add_Click({
+    try {
+        Start-Process -FilePath "$env:WINDIR\explorer.exe" -ArgumentList 'shell:::{ED7BA470-8E54-465E-825C-99712043E01C}'
+        Scrivi-Log 'Aperto God Mode (tutte le impostazioni del Pannello di controllo).'
+    } catch { Mostra-Errore $_ }
+})
 $Script:Finestra.FindName('BtnCollegamento').add_Click({ try { [void](Crea-Collegamento) } catch { Mostra-Errore $_ } })
 $Script:Finestra.FindName('BtnTema').add_Click({
     try { Imposta-Tema $(if ($Script:TemaAttuale -eq 'Scuro') { 'Chiaro' } else { 'Scuro' }) } catch { Mostra-Errore $_ }
