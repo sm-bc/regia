@@ -1,6 +1,6 @@
 {
-    "versione":  "3.13",
-    "url":  "https://github.com/sm-bc/regia/releases/download/v3.13/Regia_3.13.zip",
-    "sha256":  "9dc56b3dc46224529e41c7fd9066eb98dcf618fece62e1976f3f48c36879a48b",
-    "note":  "Nuovo tentativo automatico se nvidia.com non risponde (503). Impostazioni NVIDIA: più voci del Pannello, tutte le impostazioni del driver nelle Avanzate divise come in Profile Inspector, preset Prestazioni con latenza minima, Salva/Carica profilo per riapplicare le impostazioni dopo un aggiornamento del driver. Nuova sezione BIOS e firmware (solo lettura)."
+    "versione":  "3.14",
+    "url":  "https://github.com/sm-bc/regia/releases/download/v3.14/Regia_3.14.zip",
+    "sha256":  "db5bd13d94dfe194fe5f42bf9fd5348fd59d5a6eb906169d8d4aac2fc6ee2e43",
+    "note":  "Nuove voci: efficacia del roaming Wi-Fi e interruzioni MSI (Avanzate), telemetria NVIDIA. La Panoramica segnala firewall spento e UAC disattivato. Impaginazione migliorata sugli schermi piccoli: spiegazioni su tutta la larghezza, tabelle che scorrono senza schiacciarsi. Traduzioni inglesi completate."
 }
