@@ -1,6 +1,6 @@
 {
-    "versione":  "3.10",
-    "url":  "https://github.com/sm-bc/regia/releases/download/v3.10/Regia_3.10.zip",
-    "sha256":  "50fc6348dc6d2ae5bd16235fdbabe48c1692efa178a15fb04c98c176f66b1f22",
-    "note":  "Annulla tutto: ora si sceglie quali voci annullare (un interruttore per voce); le altre restano e si possono annullare più tardi."
+    "versione":  "3.12",
+    "url":  "https://github.com/sm-bc/regia/releases/download/v3.12/Regia_3.12.zip",
+    "sha256":  "a5c59a3fec4fac5b4742e73d0de02b5713ee1494640f8d96c7ce2ae3c9a43fab",
+    "note":  "Interfaccia rinnovata: Panoramica con punteggio e \u0027Ottimizza ora\u0027, ricerca delle impostazioni, finestra di avanzamento con \u0027Ferma dopo questa voce\u0027. In più (dalla 3.11): driver NVIDIA Studio, Pannello di controllo NVIDIA, niente più \u0027Non risponde\u0027, servizi di altri programmi, sezione Feedback."
 }
