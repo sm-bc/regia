@@ -26,6 +26,8 @@
   opzioni avanzate NVIDIA (come NVIDIA Profile Inspector), file per il feedback degli amici.
   Novità della 3.6: opzione DLSS "Forced preset letter" (lettera del preset) tra le opzioni avanzate NVIDIA, impaginazione rivista.
   Novità della 3.6.1: piani energetici e programmi di avvio già disattivati non sono più "da modificare" (solo suggerimenti); i Widget non installati risultano a posto.
+  Novità della 3.10: "Annulla tutto" apre l'elenco delle voci modificate con un interruttore per ognuna:
+  si annullano solo quelle accese, le altre restano e si possono annullare più tardi.
   Novità della 3.9: pulsante God Mode; sezione "Pulizia registro" (solo voci di programmi cancellati, con backup .reg e Annulla);
   nuove voci di Prestazioni (ritardo dei menu, ultimo accesso NTFS, precedenza ai programmi, Power Throttling in Avanzate).
   Novità della 3.8.2: versione di prova per verificare gli aggiornamenti online (nessun cambiamento di funzioni).
@@ -49,7 +51,8 @@
     - "Modalità prova" (attiva all'avvio): mostra e scrive nel log, ma non tocca niente;
     - prima di applicare: anteprima, punto di ripristino, backup JSON dei valori
       originali (cartella Dati\Backup), log di tutto in Dati\Log;
-    - "Annulla tutto" rimette i valori salvati nei backup, dal più recente al più vecchio;
+    - "Annulla tutto" rimette i valori salvati nei backup, dal più recente al più vecchio
+      (si può scegliere quali voci annullare);
     - Store, Windows Update, Defender, driver e componenti di sistema sono protetti.
 ================================================================================
 #>
@@ -81,7 +84,7 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 # 2. PERCORSI, LOG E UTILITÀ GENERICHE
 # ==============================================================================
 
-$Script:Versione       = '3.9'
+$Script:Versione       = '3.10'
 $Script:FileProgramma  = $PSCommandPath
 $Script:CartellaBase   = Split-Path -Parent $PSCommandPath
 $Script:CartellaDati   = Join-Path $Script:CartellaBase 'Dati'
@@ -1704,6 +1707,36 @@ Rallentamento dei programmi in background (Power Throttling)	Background program 
 Spento	Off
 Acceso (Windows)	On (Windows)
 Windows mette i programmi in background in modalità a basso consumo (e sui processori Intel di nuova generazione li sposta sui core di efficienza). Spento, anche i programmi dietro al gioco (registrazione, streaming, chat vocale) girano a piena velocità. Vale anche a batteria: più consumo e calore. È l'impostazione ufficiale 'Disattiva la limitazione dell'alimentazione' dei Criteri di gruppo.	Windows puts background programs into a low-power mode (and on newer Intel processors moves them to the efficiency cores). With it off, programs behind the game (recording, streaming, voice chat) also run at full speed. It also applies on battery: more power use and heat. It is the official 'Turn off Power Throttling' Group Policy setting.
+Rimette i valori originali salvati nei backup di questo PC: puoi scegliere quali voci	Restores the original values saved in this PC's backups: you can choose which items
+Accendi tutte	Turn all on
+Spegni tutte	Turn all off
+MODIFICATA IL	CHANGED ON
+TORNA A	GOES BACK TO
+Annulla 1 voce	Undo 1 item
+Annulla {} voci	Undo {} items
+Simula: annulla 1 voce	Simulate: undo 1 item
+Simula: annulla {} voci	Simulate: undo {} items
+cambiata {} volte	changed {} times
+reinstallabile dallo Store	reinstallable from the Store
+richiede {}	requires {}
+riavvio	restart
+disconnessione	sign-out
+NON annullabile	CANNOT be undone
+AVANZATA	ADVANCED
+DA FARE A MANO (protetta da Windows)	TO DO MANUALLY (protected by Windows)
+Queste voci sono state modificate da Regia e hanno un backup su questo PC. Quelle accese tornano com'erano prima: spegni quelle che vuoi tenere (potrai annullarle anche più tardi).	These items were changed by Regia and have a backup on this PC. The ones switched on go back to how they were: switch off the ones you want to keep (you can undo them later too).
+Se una voce è stata cambiata più volte, torna al valore che aveva prima della prima modifica. Le pulizie non si possono annullare. Le app rimosse vengono reinstallate se possibile, altrimenti si apre la loro pagina nel Microsoft Store.	If an item was changed several times, it goes back to the value it had before the first change. Cleanups cannot be undone. Removed apps are reinstalled if possible, otherwise their Microsoft Store page opens.
+Annulla tutto: finestra chiusa senza annullare niente.	Undo all: window closed without undoing anything.
+Elenco delle voci già annullate non leggibile: {}	List of items already undone cannot be read: {}
+Backup {} non rinominato: {}	Backup {} not renamed: {}
+Backup non leggibile, saltato: {} ({})	Unreadable backup, skipped: {} ({})
+Ripristinerei: [{}] {}	Would restore: [{}] {}
+Ripristino: {}...	Restoring: {}...
+Ripristinato: [{}] {}	Restored: [{}] {}
+Voci ripristinate: {}.  Errori: {}.	Items restored: {}.  Errors: {}.
+Alcune modifiche hanno effetto dopo il riavvio o la disconnessione.	Some changes take effect after a restart or sign-out.
+Le voci con errori restano nell'elenco di 'Annulla tutto': puoi riprovare.	Items with errors stay in the 'Undo all' list: you can try again.
+Voci ripristinate: {}.  Errori: {}.\nAlcune modifiche hanno effetto dopo il riavvio o la disconnessione.\nLe voci con errori restano nell'elenco di 'Annulla tutto': puoi riprovare.	Items restored: {}.  Errors: {}.\nSome changes take effect after a restart or sign-out.\nItems with errors stay in the 'Undo all' list: you can try again.
 '@
 
 # I backup valgono solo per il PC su cui sono stati creati: se la cartella viene copiata su un altro PC,
@@ -5401,7 +5434,75 @@ function Applica-Modifiche([string]$Obiettivo) {
     if ($chiediRiavvio) { [void](Proponi-Riavvio $riepilogo 'Modifiche applicate' (-not ($riavvio -contains 'riavvio'))) }
 }
 
-# ANNULLA TUTTO: rimette i valori originali da tutti i backup, dal più recente al più vecchio.
+# ANNULLA TUTTO: rimette i valori originali salvati nei backup. Una finestra elenca ogni voce modificata
+# con un interruttore: si annullano solo le voci accese (di serie tutte), dalla modifica più recente alla più vecchia.
+# Le voci già annullate di un file di backup vengono segnate in 'annullate.json', così non si ripristinano due volte;
+# quando un file è annullato del tutto diventa '.ripristinato.json' e resta solo come archivio.
+function Leggi-Annullate {
+    $h = @{}
+    $f = Join-Path $Script:CartellaBackup 'annullate.json'
+    if (-not (Test-Path -LiteralPath $f)) { return $h }
+    try {
+        $d = Get-Content -LiteralPath $f -Raw -Encoding UTF8 | ConvertFrom-Json
+        foreach ($p in $d.PSObject.Properties) { $h[$p.Name] = @($p.Value | ForEach-Object { [string]$_ }) }
+    } catch { Scrivi-Log "Elenco delle voci già annullate non leggibile: $($_.Exception.Message)" 'AVVISO' }
+    return $h
+}
+
+function Salva-Annullate($Tabella) {
+    $f = Join-Path $Script:CartellaBackup 'annullate.json'
+    $o = [ordered]@{}
+    foreach ($k in @($Tabella.Keys | Sort-Object)) { $ids = @($Tabella[$k] | Where-Object { $_ }); if ($ids.Count -gt 0) { $o[$k] = $ids } }
+    if ($o.Count -eq 0) { Remove-Item -LiteralPath $f -Force -ErrorAction SilentlyContinue; return }
+    Salva-Json $o $f
+}
+
+# Un file di backup diventa archivio quando tutte le sue voci sono state annullate.
+function Chiudi-BackupAnnullato($File, $Annullate, $IdFile) {
+    $fatti = @($Annullate[$File.Name])
+    if (@($IdFile | Where-Object { $fatti -notcontains $_ }).Count -gt 0) { return }
+    try {
+        Rename-Item -LiteralPath $File.FullName -NewName ($File.BaseName + '.ripristinato.json') -ErrorAction Stop
+        [void]$Annullate.Remove($File.Name)
+    } catch { Scrivi-Log "Backup $($File.Name) non rinominato: $($_.Exception.Message)" 'AVVISO' }
+}
+
+function Formatta-DataBackup($Data) {
+    if ($Data -is [datetime]) { return $Data.ToString('dd/MM/yyyy HH:mm') }
+    $s = [string]$Data
+    $d = [datetime]::MinValue
+    if ([datetime]::TryParse($s, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$d)) { return $d.ToString('dd/MM/yyyy HH:mm') }
+    return ($s -replace 'T', ' ')
+}
+
+# Testo del pulsante di conferma: dice quante voci verranno annullate.
+function Aggiorna-PulsanteAnnulla {
+    $s = $Script:StatoAnnulla
+    if (-not $s) { return }
+    $n = @($s.Righe | Where-Object { $_.Includi }).Count
+    $t = $(if ($n -eq 1) { 'Annulla 1 voce' } else { "Annulla $n voci" })
+    if ($s.Prova) { $t = "Simula: $($t.Substring(0, 1).ToLower())$($t.Substring(1))" }
+    $s.Bottone.Content = Tr $t
+    $s.Bottone.IsEnabled = ($n -gt 0)
+}
+
+function Mostra-SceltaAnnulla([string]$Intro, $Righe, [bool]$Prova) {
+    $w = [Windows.Markup.XamlReader]::Parse($Script:XamlAnnulla)
+    Applica-TemaFinestra $w
+    $w.Owner = $Script:Finestra
+    $w.FindName('Titolo').Text = Tr 'Annulla tutto'
+    $w.FindName('Intro').Text = Tr $Intro
+    $w.FindName('Lista').ItemsSource = $Righe
+    $Script:StatoAnnulla = @{ Righe = $Righe; Bottone = $w.FindName('BtnConferma'); Prova = $Prova }
+    foreach ($r in $Righe) { $r.add_PropertyChanged({ Aggiorna-PulsanteAnnulla }) }
+    $w.FindName('BtnTutte').add_Click({ foreach ($r in $Script:StatoAnnulla.Righe) { $r.Includi = $true } })
+    $w.FindName('BtnNessuna').add_Click({ foreach ($r in $Script:StatoAnnulla.Righe) { $r.Includi = $false } })
+    $Script:StatoAnnulla.Bottone.add_Click({ [System.Windows.Window]::GetWindow($this).DialogResult = $true })
+    Aggiorna-PulsanteAnnulla
+    try { return ($w.ShowDialog() -eq $true) }
+    finally { $Script:StatoAnnulla = $null }
+}
+
 function Annulla-Tutto {
     $prova = [bool]$Script:ChkProva.IsChecked
     $file = @(Get-ChildItem -LiteralPath $Script:CartellaBackup -Filter 'originali_*.json' -File -ErrorAction SilentlyContinue |
@@ -5411,33 +5512,71 @@ function Annulla-Tutto {
         [void](Mostra-Messaggio 'Non ci sono modifiche da annullare.' 'Annulla tutto' 'OK' 'Information')
         return
     }
-    $lavori = @(); $righe = @()
+    $annullate = Leggi-Annullate
+    $record = New-Object System.Collections.ArrayList   # dal più recente al più vecchio
+    $idFile = @{}
     $altroPc = 0
     foreach ($f in $file) {
-        $dati = Get-Content -LiteralPath $f.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
+        try { $dati = Get-Content -LiteralPath $f.FullName -Raw -Encoding UTF8 | ConvertFrom-Json }
+        catch { Scrivi-Log "Backup non leggibile, saltato: $($f.Name) ($($_.Exception.Message))" 'AVVISO'; continue }
         # Sicurezza: si ripristinano solo i backup creati su QUESTO PC.
         $pc = [string]$dati.Computer
         if (($pc -and $pc -ne $env:COMPUTERNAME) -or (-not $pc -and -not $Script:BackupVecchiValidi)) { $altroPc++; continue }
         $mods = @($dati.Modifiche)
-        [array]::Reverse($mods)
-        $lavori += , @{ File = $f; Modifiche = $mods }
-        foreach ($m in $mods) {
-            $righe += [pscustomobject]@{ Categoria = $m.Categoria; Voce = $m.Nome; Da = "modificata il $($m.Data -replace 'T', ' ')"; A = "com'era prima ($($m.Prima))"; Rischio = ''; Note = $f.Name }
+        $idFile[$f.Name] = @($mods | ForEach-Object { [string]$_.Id } | Select-Object -Unique)
+        $gia = @($annullate[$f.Name])
+        for ($i = $mods.Count - 1; $i -ge 0; $i--) {
+            if ($gia -contains [string]$mods[$i].Id) { continue }
+            [void]$record.Add([pscustomobject]@{ File = $f; Mod = $mods[$i] })
         }
+        # Un file già annullato del tutto (per esempio se il programma si è chiuso a metà) diventa archivio.
+        if ($idFile[$f.Name].Count -gt 0 -and $gia.Count -gt 0 -and -not $prova) { Chiudi-BackupAnnullato $f $annullate $idFile[$f.Name] }
     }
     if ($altroPc -gt 0) { Scrivi-Log "Annulla tutto: ignorati $altroPc file di backup creati su un altro PC." 'AVVISO' }
-    if ($righe.Count -eq 0) {
+    if ($record.Count -eq 0) {
+        if (-not $prova) { Salva-Annullate $annullate }
         [void](Mostra-Messaggio "Non ci sono modifiche da annullare su questo PC.$(if ($altroPc -gt 0) { "`n($altroPc file di backup appartengono a un altro PC e vengono ignorati.)" } else { '' })" 'Annulla tutto' 'OK' 'Information')
         return
     }
-    $intro = "Verranno rimessi i valori originali di $($righe.Count) voci, salvati in $($lavori.Count) file di backup. Le pulizie non si possono annullare.`nLe app rimosse vengono reinstallate se possibile, altrimenti si apre la loro pagina nel Microsoft Store."
+
+    # Una riga per voce. Se una voce è stata cambiata più volte si torna al valore di prima della prima modifica.
+    $gruppi = [ordered]@{}
+    foreach ($r in $record) {
+        $id = [string]$r.Mod.Id
+        if (-not $gruppi.Contains($id)) { $gruppi[$id] = New-Object System.Collections.ArrayList }
+        [void]$gruppi[$id].Add($r)
+    }
+    $righe = New-Object System.Collections.ArrayList
+    foreach ($id in $gruppi.Keys) {
+        $g = $gruppi[$id]; $recente = $g[0].Mod; $vecchio = $g[$g.Count - 1].Mod
+        $vc = $Script:Voci[$id]
+        $note = @()
+        if ($g.Count -gt 1) { $note += "cambiata $($g.Count) volte" }
+        if ([string]$recente.Tipo -eq 'App') { $note += 'reinstallabile dallo Store' }
+        if ($vc -and $vc.Riavvio) { $note += "richiede $($vc.Riavvio)" }
+        $x = New-Object OttWin.RigaAnnulla
+        $x.Includi = $true
+        $x.Id = $id
+        $x.Categoria = Tr $(if ([string]$recente.Categoria -eq 'NVIDIAAvanz') { 'NVIDIA - opzioni avanzate' } else { [string]$recente.Categoria })
+        $x.Voce = Tr ([string]$recente.Nome)
+        $x.Modificata = Formatta-DataBackup $recente.Data
+        $x.TornaA = Tr ([string]$vecchio.Prima)
+        $x.Note = (@($note | ForEach-Object { Tr $_ })) -join ', '
+        [void]$righe.Add($x)
+    }
+
+    $intro = "Queste voci sono state modificate da Regia e hanno un backup su questo PC. Quelle accese tornano com'erano prima: spegni quelle che vuoi tenere (potrai annullarle anche più tardi).`nSe una voce è stata cambiata più volte, torna al valore che aveva prima della prima modifica. Le pulizie non si possono annullare. Le app rimosse vengono reinstallate se possibile, altrimenti si apre la loro pagina nel Microsoft Store."
     if ($prova) { $intro = "MODALITÀ PROVA: non verrà modificato niente.`n`n" + $intro }
-    $conferma = $(if ($prova) { 'Simula (modalità prova)' } else { 'Annulla le modifiche' })
-    if (-not (Mostra-Anteprima 'Annulla tutto' $intro $righe $conferma)) { return }
+    if (-not (Mostra-SceltaAnnulla $intro $righe $prova)) { Scrivi-Log 'Annulla tutto: finestra chiusa senza annullare niente.'; return }
+
+    $scelte = @{}
+    foreach ($r in $righe) { if ($r.Includi) { $scelte[$r.Id] = $true } }
+    if ($scelte.Count -eq 0) { return }
+    $daFare = @($record | Where-Object { $scelte.ContainsKey([string]$_.Mod.Id) })
 
     if ($prova) {
-        Scrivi-Log "--- MODALITÀ PROVA: annullamento simulato di $($righe.Count) voci ---" 'PROVA'
-        foreach ($r in $righe) { Scrivi-Log "Ripristinerei: [$($r.Categoria)] $($r.Voce)" 'PROVA' }
+        Scrivi-Log "--- MODALITÀ PROVA: annullamento simulato di $($scelte.Count) voci ---" 'PROVA'
+        foreach ($id in $gruppi.Keys) { if ($scelte.ContainsKey($id)) { $m = $gruppi[$id][0].Mod; Scrivi-Log "Ripristinerei: [$($m.Categoria)] $($m.Nome)" 'PROVA' } }
         Imposta-Stato 'Modalità prova: annullamento simulato, niente è stato cambiato.'
         return
     }
@@ -5445,28 +5584,35 @@ function Annulla-Tutto {
     Blocca-Pulsanti $true
     $chiediRiavvio = $false
     try {
-        Scrivi-Log "--- Annulla tutto: $($righe.Count) voci ---"
-        $ok = 0; $errori = 0; $riavvio = @()
-        foreach ($lavoro in $lavori) {
-            $erroriFile = 0
-            foreach ($m in $lavoro.Modifiche) {
-                Imposta-Stato "Ripristino: $($m.Nome)..."
-                Imposta-Avanzamento (100 * ($ok + $errori) / [math]::Max(1, $righe.Count))
-                try {
-                    Ripristina-Record $m; $ok++; Scrivi-Log "Ripristinato: [$($m.Categoria)] $($m.Nome)" 'OK'
-                    $vc = $Script:Voci[[string]$m.Id]; if ($vc -and $vc.Riavvio) { $riavvio += $vc.Riavvio }
-                }
-                catch { $errori++; $erroriFile++; Scrivi-Log "Ripristino di $($m.Nome) non riuscito: $($_.Exception.Message)" 'ERRORE' }
+        Scrivi-Log "--- Annulla tutto: $($scelte.Count) voci ---"
+        $fallite = @{}; $riuscite = @{}; $riavvio = @(); $toccati = @{}; $n = 0
+        foreach ($r in $daFare) {
+            $n++
+            $m = $r.Mod; $id = [string]$m.Id
+            # Se il ripristino più recente di una voce non riesce, quelli più vecchi non si fanno:
+            # la voce resta com'è e si può riprovare.
+            if ($fallite.ContainsKey($id)) { continue }
+            Imposta-Stato "Ripristino: $($m.Nome)..."
+            Imposta-Avanzamento (100 * ($n - 1) / [math]::Max(1, $daFare.Count))
+            $toccati[$r.File.Name] = $r.File
+            try {
+                Ripristina-Record $m
+                $riuscite[$id] = $true
+                Scrivi-Log "Ripristinato: [$($m.Categoria)] $($m.Nome)" 'OK'
+                $annullate[$r.File.Name] = @(@($annullate[$r.File.Name]) + $id | Where-Object { $_ } | Select-Object -Unique)
+                Salva-Annullate $annullate
+                $vc = $Script:Voci[$id]; if ($vc -and $vc.Riavvio) { $riavvio += $vc.Riavvio }
             }
-            if ($erroriFile -eq 0) {
-                # Il file resta come archivio ma non verrà più ripristinato una seconda volta.
-                Rename-Item -LiteralPath $lavoro.File.FullName -NewName ($lavoro.File.BaseName + '.ripristinato.json')
-            }
+            catch { $fallite[$id] = $true; Scrivi-Log "Ripristino di $($m.Nome) non riuscito: $($_.Exception.Message)" 'ERRORE' }
         }
+        foreach ($nome in @($toccati.Keys)) { Chiudi-BackupAnnullato $toccati[$nome] $annullate $idFile[$nome] }
+        Salva-Annullate $annullate
+        $ok = @($riuscite.Keys | Where-Object { -not $fallite.ContainsKey($_) }).Count
+        $errori = $fallite.Count
         Esegui-Scansione
         $msg = "Voci ripristinate: $ok.  Errori: $errori.`nAlcune modifiche hanno effetto dopo il riavvio o la disconnessione."
-        if ($errori -gt 0) { $msg += "`nI file di backup con errori sono rimasti attivi: puoi riprovare." }
-        Scrivi-Log ($msg -replace "`n", ' ') 'OK'
+        if ($errori -gt 0) { $msg += "`nLe voci con errori restano nell'elenco di 'Annulla tutto': puoi riprovare." }
+        foreach ($riga in ($msg -split "`n")) { Scrivi-Log $riga $(if ($errori -gt 0) { 'AVVISO' } else { 'OK' }) }
         $riavvio = @($riavvio | Select-Object -Unique)
         $chiediRiavvio = ($riavvio.Count -gt 0)
         if ($chiediRiavvio) { Segna-Riavvio "Annulla tutto il $(Get-Date -Format 'dd/MM HH:mm')." }
@@ -6607,6 +6753,24 @@ namespace OttWin
         public string Dimensione { get; set; }
     }
 
+    // Una voce della finestra "Annulla tutto": si sceglie quali modifiche riportare com'erano.
+    public class RigaAnnulla : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private bool _inc;
+        public bool Includi
+        {
+            get { return _inc; }
+            set { if (_inc != value) { _inc = value; PropertyChangedEventHandler h = PropertyChanged; if (h != null) h(this, new PropertyChangedEventArgs("Includi")); } }
+        }
+        public string Id { get; set; }
+        public string Categoria { get; set; }
+        public string Voce { get; set; }
+        public string Modificata { get; set; }
+        public string TornaA { get; set; }
+        public string Note { get; set; }
+    }
+
     // Una scelta di un menu a tendina.
     public class OpzioneVoce
     {
@@ -7678,7 +7842,7 @@ $Script:XamlFinestra = @'
       <!-- Azioni -->
       <DockPanel x:Name="BarraAzioni" Grid.Row="4" Margin="0,14,0,0">
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-          <Button x:Name="BtnAnnullaTutto" ToolTip="Rimette i valori originali salvati nei backup di questo PC">
+          <Button x:Name="BtnAnnullaTutto" ToolTip="Rimette i valori originali salvati nei backup di questo PC: puoi scegliere quali voci">
             <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE7A7;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="Annulla tutto"/></StackPanel>
           </Button>
           <Button x:Name="BtnPredefinito" Content="Riporta al predefinito"
@@ -8283,6 +8447,52 @@ $Script:XamlResidui = @'
             <DataGridTextColumn Header="TIPO" Binding="{Binding TipoVis}" Width="130" IsReadOnly="True"/>
             <DataGridTextColumn Header="PERCORSO" Binding="{Binding Percorso}" Width="4*" IsReadOnly="True"/>
             <DataGridTextColumn Header="DIMENSIONE" Binding="{Binding Dimensione}" Width="100" IsReadOnly="True"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </Border>
+    </DockPanel>
+  </DockPanel>
+</Window>
+'@
+
+# ---------- Finestra "Annulla tutto": un interruttore per ogni voce modificata ----------
+$Script:XamlAnnulla = @'
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Annulla tutto" Width="1080" Height="600" MinWidth="760" MinHeight="400" WindowStartupLocation="CenterOwner"
+        FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13"
+        Background="{DynamicResource Sfondo}" Foreground="{DynamicResource Testo}" UseLayoutRounding="True">
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Height="2" Background="{DynamicResource Accento}"/>
+    <DockPanel Margin="26,20,26,18">
+      <TextBlock x:Name="Titolo" DockPanel.Dock="Top" FontSize="18" FontWeight="SemiBold"/>
+      <TextBlock x:Name="Intro" DockPanel.Dock="Top" TextWrapping="Wrap" Foreground="{DynamicResource Testo2}" Margin="0,8,0,16" LineHeight="19"/>
+      <DockPanel DockPanel.Dock="Bottom" Margin="0,16,0,0">
+        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+          <Button x:Name="BtnTutte" Content="Accendi tutte"/>
+          <Button x:Name="BtnNessuna" Content="Spegni tutte" Margin="4,0,0,0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+          <Button x:Name="BtnIndietro" Content="Torna indietro" IsCancel="True"/>
+          <Button x:Name="BtnConferma" Content="Conferma" Style="{DynamicResource Primario}" Margin="4,0,0,0"/>
+        </StackPanel>
+      </DockPanel>
+      <Border CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie}" Padding="1">
+        <DataGrid x:Name="Lista" AutoGenerateColumns="False" CanUserAddRows="False">
+          <DataGrid.Columns>
+            <DataGridTemplateColumn Header="" Width="54" CanUserResize="False">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <CheckBox IsChecked="{Binding Includi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource InterruttorePiccolo}"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Header="CATEGORIA" Binding="{Binding Categoria}" Width="0.8*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="VOCE" Binding="{Binding Voce}" Width="2*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="MODIFICATA IL" Binding="{Binding Modificata}" Width="0.9*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="TORNA A" Binding="{Binding TornaA}" Width="1.3*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="NOTE" Binding="{Binding Note}" Width="1.1*" IsReadOnly="True"/>
           </DataGrid.Columns>
         </DataGrid>
       </Border>
