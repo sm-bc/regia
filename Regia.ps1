@@ -26,6 +26,11 @@
   opzioni avanzate NVIDIA (come NVIDIA Profile Inspector), file per il feedback degli amici.
   Novità della 3.6: opzione DLSS "Forced preset letter" (lettera del preset) tra le opzioni avanzate NVIDIA, impaginazione rivista.
   Novità della 3.6.1: piani energetici e programmi di avvio già disattivati non sono più "da modificare" (solo suggerimenti); i Widget non installati risultano a posto.
+  Novità della 3.13: nuovo tentativo automatico quando nvidia.com risponde 503 (server non disponibile); Impostazioni NVIDIA
+  con più voci del Pannello (G-SYNC, bassa latenza Ultra, nitidezza, occlusione ambientale...); Opzioni avanzate con TUTTE le
+  impostazioni che il driver conosce (come NVIDIA Profile Inspector); il preset Prestazioni ora dà anche la latenza minima
+  (Ultra, V-Sync spenta, 1 fotogramma); pulsanti Salva profilo / Carica profilo per riapplicare le impostazioni NVIDIA dopo
+  un aggiornamento del driver (copia automatica prima dell'installazione).
   Novità della 3.12: interfaccia rinnovata. Panoramica con indicatore del punteggio, scelta del profilo e
   pulsante "Ottimizza ora", elenco "Da sistemare" e grafici dell'andamento in tempo reale; ricerca delle
   impostazioni nella barra laterale; gruppi con icona e contatore; Modalità prova ben visibile; etichette
@@ -93,7 +98,7 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 # 2. PERCORSI, LOG E UTILITÀ GENERICHE
 # ==============================================================================
 
-$Script:Versione       = '3.12'
+$Script:Versione       = '3.13'
 $Script:FileProgramma  = $PSCommandPath
 $Script:CartellaBase   = Split-Path -Parent $PSCommandPath
 $Script:CartellaDati   = Join-Path $Script:CartellaBase 'Dati'
@@ -857,8 +862,8 @@ Telemetria, pubblicità, suggerimenti e notifiche promozionali. Solo impostazion
 Piano energetico e comportamento del sistema. Per i piani energetici se ne può scegliere uno solo.	Power plan and system behavior. Only one power plan can be chosen.
 Reattività del PC: accessori (mouse, tastiere, controller), USB e Bluetooth, rete, processore, memoria e timer di sistema. Correggono anche i 'tweak' sbagliati lasciati da altri programmi. Le voci a rischio medio non sono in nessun profilo: accendile tu dopo aver letto la descrizione. 'Misura la latenza' controlla il ping verso il router e il DNS (solo lettura).	PC responsiveness: accessories (mouse, keyboards, controllers), USB and Bluetooth, network, processor, memory and system timers. They also fix wrong 'tweaks' left by other programs. Medium-risk items are in no profile: turn them on yourself after reading the description. 'Measure latency' checks the ping to the router and DNS (read-only).
 Impostazioni grafiche ed effetti visivi. Colori, HDR, profili colore e impostazioni GPU delle singole app non vengono mai toccati.	Graphics settings and visual effects. Colors, HDR, color profiles and GPU settings of individual apps are never touched.
-Impostazioni globali del Pannello di controllo NVIDIA, lette e scritte con NVAPI (la libreria ufficiale del driver). Scegli uno dei preset (Prestazioni, Bilanciato, Qualità: cambiano solo queste impostazioni, i profili non le toccano) oppure cambia i singoli menu a tendina: le righe 'Da applicare' vengono scritte solo con 'Anteprima e applica'. Valgono per i programmi avviati dopo la modifica; un'installazione pulita del driver le riporta ai valori di serie.	Global NVIDIA Control Panel settings, read and written with NVAPI (the official driver library). Choose one of the presets (Performance, Balanced, Quality: they only change these settings, profiles do not touch them) or change the individual drop-down menus: the 'To apply' rows are written only with 'Preview and apply'. They apply to programs started after the change; a clean driver installation resets them to default values.
-⚠  OPZIONI AVANZATE: le impostazioni che di solito si cambiano con NVIDIA Profile Inspector (DLSS, Smooth Motion, Resizable BAR, nitidezza, ray tracing, memoria CUDA...), scritte nel profilo globale con NVAPI. Non fanno parte dei preset: scegli tu, una per una, dal menu a tendina. Cambiarle male può causare errori nei giochi: 'Predefinite del driver' rimette tutto a posto e 'Annulla tutto' ripristina i valori originali. Compaiono solo quelle che il tuo driver conosce.	⚠  ADVANCED OPTIONS: the settings usually changed with NVIDIA Profile Inspector (DLSS, Smooth Motion, Resizable BAR, sharpening, ray tracing, CUDA memory...), written to the global profile with NVAPI. They are not part of the presets: you choose, one by one, from the drop-down menu. Changing them wrongly can cause errors in games: 'Driver defaults' puts everything back and 'Undo all' restores the original values. Only those your driver knows appear.
+Impostazioni globali del Pannello di controllo NVIDIA, lette e scritte con NVAPI (la libreria ufficiale del driver). Scegli uno dei preset (Prestazioni, Bilanciato, Qualità: cambiano solo queste impostazioni, i profili non le toccano) oppure cambia i singoli menu a tendina: le righe 'Da applicare' vengono scritte solo con 'Anteprima e applica'. Il preset Prestazioni dà anche la latenza minima possibile (Ultra, V-Sync spenta, 1 fotogramma). Valgono per i programmi avviati dopo la modifica; un'installazione pulita del driver le riporta ai valori di serie: con 'Salva profilo' e 'Carica profilo' le salvi e le rimetti.	Global settings of the NVIDIA Control Panel, read and written with NVAPI (the driver's official library). Pick a preset (Performance, Balanced, Quality: they only change these settings, profiles do not touch them) or change the individual drop-down menus: 'To apply' rows are written only with 'Preview and apply'. The Performance preset also gives the lowest possible latency (Ultra, V-Sync off, 1 frame). They apply to programs started after the change; a clean driver install resets them to factory values: with 'Save profile' and 'Load profile' you save and restore them.
+⚠  OPZIONI AVANZATE: le impostazioni che di solito si cambiano con NVIDIA Profile Inspector (DLSS, Smooth Motion, Resizable BAR, nitidezza, ray tracing, memoria CUDA...), scritte nel profilo globale con NVAPI. Non fanno parte dei preset: scegli tu, una per una, dal menu a tendina. Cambiarle male può causare errori nei giochi: 'Predefinite del driver' rimette tutto a posto e 'Annulla tutto' ripristina i valori originali. Qui c'è tutto ciò che il tuo driver conosce (anche le voci senza descrizione, con il nome del driver): le stesse di NVIDIA Profile Inspector. 'Salva profilo' e 'Carica profilo' salvano e rimettono anche queste.	⚠  ADVANCED OPTIONS: the settings usually changed with NVIDIA Profile Inspector (DLSS, Smooth Motion, Resizable BAR, sharpening, ray tracing, CUDA memory...), written to the global profile with NVAPI. They are not part of the presets: you choose one by one from the drop-down menu. Setting them wrongly can cause errors in games: 'Driver defaults' puts everything back and 'Undo all' restores the original values. Here is everything your driver knows (including entries without a description, shown with the driver's name): the same ones as NVIDIA Profile Inspector. 'Save profile' and 'Load profile' save and restore these too.
 Impostazioni grafiche globali di AMD Software: Adrenalin Edition, lette e scritte con ADLX (la libreria ufficiale del driver AMD). Scegli uno dei preset (Prestazioni, Bilanciato, Qualità: cambiano solo queste impostazioni, i profili non le toccano) oppure cambia i singoli menu a tendina: le righe 'Da applicare' vengono scritte solo con 'Anteprima e applica'. Compaiono solo le funzioni che la tua scheda supporta.	Global graphics settings of AMD Software: Adrenalin Edition, read and written with ADLX (the official AMD driver library). Choose one of the presets (Performance, Balanced, Quality: they only change these settings, profiles do not touch them) or change the individual drop-down menus: the 'To apply' rows are written only with 'Preview and apply'. Only the features your card supports appear.
 File temporanei e cache. Attenzione: la pulizia NON si può annullare (i file vengono eliminati).	Temporary files and caches. Warning: cleanup CANNOT be undone (files are deleted).
 ⚠  VOCI AVANZATE: possono togliere funzioni o avere effetti collaterali. Non sono mai incluse nei profili: spuntale solo se hai letto la descrizione e sai cosa fanno.	⚠  ADVANCED ITEMS: they can remove features or have side effects. They are never included in profiles: tick them only if you have read the description and know what they do.
@@ -1915,6 +1920,144 @@ Applicazione fermata dall'utente: {} voci non eseguite.	Application stopped by t
 Fermato da te: {} voci non eseguite (restano accese).	Stopped by you: {} items not done (they stay on).
 Modifiche applicate: {}.  Errori: {}.	Changes applied: {}.  Errors: {}.
 Finestra di avanzamento non disponibile: {}	Progress window not available: {}
+Tecnologia del monitor: G-SYNC (attivazione)	Monitor technology: G-SYNC (enable)
+Tecnologia del monitor: G-SYNC (comportamento)	Monitor technology: G-SYNC (behavior)
+Realtà virtuale: fotogrammi pre-renderizzati	Virtual reality: pre-rendered frames
+Compatibilità OpenGL con GDI	OpenGL compatibility with GDI
+Solo a schermo intero	Fullscreen only
+Schermo intero e finestra	Fullscreen and windowed
+Consenti (come decide il gioco)	Allow (as the game decides)
+Forza spento	Force off
+Non consentire	Disallow
+ULMB (meno sfocatura in movimento)	ULMB (less motion blur)
+Frequenza fissa	Fixed refresh
+Preferisci le prestazioni	Prefer performance
+Preferisci la compatibilità	Prefer compatibility
+Altre impostazioni del driver	Other driver settings
+Impostazione senza nome	Unnamed setting
+Valore {}	Value {}
+Impostazione del driver NVIDIA «{}» (codice 0x{}), come appare in NVIDIA Profile Inspector. Non è documentata da NVIDIA: cambiala solo se sai che cosa fa. 'Predefinite del driver' la rimette a posto.	NVIDIA driver setting "{}" (code 0x{}), as shown in NVIDIA Profile Inspector. NVIDIA does not document it: change it only if you know what it does. 'Driver defaults' puts it back.
+Come 'Imposta G-SYNC' nel Pannello NVIDIA: la frequenza dello schermo segue gli FPS (niente strappi, meno scatti). Serve uno schermo compatibile. Su un portatile con MUX in modalità ibrida può non avere effetto.	Like 'Set up G-SYNC' in the NVIDIA Control Panel: the screen refresh rate follows the FPS (no tearing, less stutter). Needs a compatible screen. On a laptop with a MUX in hybrid mode it may have no effect.
+Come 'Tecnologia monitor' del Pannello NVIDIA: lascia usare G-SYNC ai giochi oppure lo forza spento. 'Frequenza fissa' e 'ULMB' valgono solo per schermi che li supportano.	Like 'Monitor technology' in the NVIDIA Control Panel: lets games use G-SYNC or forces it off. 'Fixed refresh' and 'ULMB' only work on screens that support them.
+Come 'Realtà virtuale - fotogrammi pre-renderizzati' del Pannello NVIDIA. Il valore 1 dà la latenza più bassa per i visori.	Like 'Virtual reality - pre-rendered frames' in the NVIDIA Control Panel. A value of 1 gives the lowest latency for headsets.
+Come i programmi OpenGL convivono con le finestre normali di Windows. Cambiala solo se un vecchio programma OpenGL mostra schermo nero o sfarfalli.	How OpenGL programs coexist with normal Windows windows. Change it only if an old OpenGL program shows a black screen or flicker.
+Il preset Prestazioni la disattiva: è la scelta con la latenza minima, ma può 'strappare' l'immagine senza G-SYNC. Lasciarla decidere al gioco è la scelta più flessibile. Con G-SYNC attivo molti preferiscono 'Attivata' qui e un limite di FPS poco sotto la frequenza dello schermo.	The Performance preset turns it off: it gives the lowest latency but can 'tear' the image without G-SYNC. Letting the game decide is the most flexible choice. With G-SYNC on, many prefer 'On' here and an FPS limit just below the screen refresh rate.
+PROFILO	PROFILE
+Salva profilo	Save profile
+Carica profilo	Load profile
+Salva in un file tutte le impostazioni NVIDIA scritte nel driver (Pannello di controllo e Profile Inspector insieme), per rimetterle dopo un aggiornamento o un'installazione pulita. Non modifica niente.	Saves to a file all the NVIDIA settings written in the driver (Control Panel and Profile Inspector together), to restore them after an update or clean install. Changes nothing.
+Rimette le impostazioni NVIDIA salvate in un file. Prima mostra cosa cambia, e salva quelle attuali in Dati\Backup.	Restores the NVIDIA settings saved in a file. It first shows what changes, and saves the current ones in Dati\Backup.
+Profilo NVIDIA	NVIDIA profile
+Carica profilo NVIDIA	Load NVIDIA profile
+Salva il profilo delle impostazioni NVIDIA	Save the NVIDIA settings profile
+Scegli il profilo delle impostazioni NVIDIA da riapplicare	Choose the NVIDIA settings profile to reapply
+NVIDIA non è disponibile su questo PC (nessuna scheda o driver NVIDIA).	NVIDIA is not available on this PC (no NVIDIA card or driver).
+Il file scelto non è un profilo NVIDIA salvato da Regia.	The chosen file is not an NVIDIA profile saved by Regia.
+Il profilo scelto non contiene impostazioni.	The chosen profile contains no settings.
+Il profilo scelto ({} impostazioni) è già applicato: non c'è niente da cambiare.	The chosen profile ({} settings) is already applied: nothing to change.
+Profilo salvato: {} impostazioni (Pannello di controllo NVIDIA e Profile Inspector insieme).	Profile saved: {} settings (NVIDIA Control Panel and Profile Inspector together).
+File: {}	File: {}
+Dopo l'aggiornamento o l'installazione pulita del driver usa 'Carica profilo' per rimetterle.	After the driver update or clean install use 'Load profile' to put them back.
+Profilo: {}	Profile: {}
+Salvato il {} (scheda {}, driver {}).	Saved on {} (card {}, driver {}).
+Impostazioni da cambiare: {} su {}.	Settings to change: {} of {}.
+... e altre {}.	... and {} more.
+Le altre impostazioni NVIDIA già presenti non vengono toccate. Prima di scrivere, Regia salva le impostazioni attuali in Dati\Backup.	Other NVIDIA settings already present are not touched. Before writing, Regia saves the current settings in Dati\Backup.
+MODALITÀ PROVA: non è stato cambiato niente.	TEST MODE: nothing was changed.
+Profilo caricato: {} impostazioni scritte{}.	Profile loaded: {} settings written{}.
+Vale per i programmi avviati da ora. Se qualcosa non va, 'Carica profilo' sulla copia salvata in Dati\Backup rimette com'era.	Applies to programs started from now on. If something is wrong, 'Load profile' on the copy saved in Dati\Backup puts it back.
+, {} non accettate dal driver (vedi il log)	, {} not accepted by the driver (see the log)
+1 - Compatibilità	1 - Compatibility
+2 - Sincronizzazione e frequenza	2 - Sync and Refresh
+3 - Antialiasing	3 - Antialiasing
+4 - Filtro texture	4 - Texture Filtering
+5 - Comuni	5 - Common
+6 - SLI	6 - SLI
+7 - Stereo (3D)	7 - Stereo (3D)
+8 - Altre	8 - Other
+BIOS e firmware	BIOS and firmware
+Stato del BIOS e del firmware letto da Windows (solo lettura): modalità di avvio, Secure Boot, TPM, virtualizzazione, Resizable BAR, velocità della RAM. Regia non modifica mai il BIOS: ti dice cosa controllare e dove trovare le opzioni, e può aprire il BIOS al riavvio.	BIOS and firmware status read by Windows (read-only): boot mode, Secure Boot, TPM, virtualization, Resizable BAR, RAM speed. Regia never changes the BIOS: it tells you what to check and where to find the options, and can open the BIOS at restart.
+Rileggi lo stato	Read status again
+Rilegge lo stato del BIOS e del firmware. Non modifica niente.	Reads the BIOS and firmware status again. Changes nothing.
+Apri il BIOS al riavvio	Open the BIOS at restart
+Riavvia il PC e apre direttamente il BIOS (comando standard dei PC UEFI). Chiede conferma e ha 45 secondi di tempo per annullare.	Restarts the PC and opens the BIOS directly (standard command of UEFI PCs). It asks for confirmation and you have 45 seconds to cancel.
+GUIDA PER MARCA	GUIDE BY BRAND
+Regia non scrive mai nel BIOS: ogni produttore ha un sistema diverso e un errore può impedire l'accensione. Le modifiche si fanno a mano, nel BIOS, una alla volta, annotando il valore di prima. I nomi delle voci cambiano da una versione all'altra.	Regia never writes to the BIOS: every manufacturer has a different system and a mistake can stop the PC from starting. Changes are made by hand, in the BIOS, one at a time, noting the previous value. Option names change from one version to another.
+A posto	OK
+Da guardare	To check
+Info	Info
+Il tuo PC: {}	Your PC: {}
+Come si entra nel BIOS: 	How to enter the BIOS: 
+Dove sono le opzioni: 	Where the options are: 
+Altre marche:	Other brands:
+La marca di questo PC non è nell'elenco: di solito il BIOS si apre con Canc, F2 o F10 subito dopo l'accensione. Il pulsante "Apri il BIOS al riavvio" funziona su tutti i PC UEFI.	This PC's brand is not in the list: the BIOS usually opens with Del, F2 or F10 right after power-on. The "Open the BIOS at restart" button works on all UEFI PCs.
+Produttore e modello	Manufacturer and model
+Versione del BIOS	BIOS version
+{} del {}	{} dated {}
+Modalità di avvio	Boot mode
+Secure Boot	Secure Boot
+TPM (modulo di sicurezza)	TPM (security module)
+Virtualizzazione (VT-x / AMD-V)	Virtualization (VT-x / AMD-V)
+Resizable BAR (scheda NVIDIA)	Resizable BAR (NVIDIA card)
+Velocità della memoria RAM	RAM speed
+Avvio rapido di Windows	Windows fast startup
+Il BIOS ha più di {} anni: controlla sul sito del produttore se esiste un aggiornamento. Aggiornalo solo se risolve un problema che hai o se ti serve la novità, e mai con la batteria quasi scarica.	The BIOS is more than {} years old: check the manufacturer's site for an update. Update it only if it fixes a problem you have or you need the new feature, and never with a nearly empty battery.
+Aggiornamenti del BIOS: solo dal sito del produttore del PC. Regia non li installa.	BIOS updates: only from the PC manufacturer's site. Regia does not install them.
+È la modalità moderna, richiesta da Windows 11.	This is the modern mode, required by Windows 11.
+BIOS tradizionale (Legacy/CSM)	Traditional BIOS (Legacy/CSM)
+Windows 11 e molte funzioni moderne vogliono UEFI. Il passaggio si può fare senza reinstallare con lo strumento MBR2GPT di Windows, ma fai prima un backup.	Windows 11 and many modern features need UEFI. The switch can be done without reinstalling using Windows' MBR2GPT tool, but make a backup first.
+Non rilevata	Not detected
+Attivo	On
+Disattivato	Off
+Protegge l'avvio da software malevolo. Alcuni giochi con anti-cheat (es. Valorant, Battlefield) lo richiedono.	Protects startup from malicious software. Some games with anti-cheat (e.g. Valorant, Battlefield) require it.
+Va attivato dal BIOS (sezione Boot o Security). Alcuni giochi con anti-cheat e Windows 11 lo richiedono.	It must be turned on in the BIOS (Boot or Security section). Some games with anti-cheat and Windows 11 require it.
+Non disponibile (PC non UEFI)	Not available (non-UEFI PC)
+Presente e pronto	Present and ready
+Presente e pronto, versione {}	Present and ready, version {}
+Richiesto da Windows 11.	Required by Windows 11.
+Presente ma non pronto	Present but not ready
+Apri tpm.msc per vedere lo stato; di solito basta attivarlo nel BIOS (Intel PTT o AMD fTPM).	Open tpm.msc to see the status; usually it is enough to turn it on in the BIOS (Intel PTT or AMD fTPM).
+Non trovato	Not found
+Nel BIOS cerca Intel PTT (Intel) o AMD fTPM (AMD) e attivalo: serve a Windows 11.	In the BIOS look for Intel PTT (Intel) or AMD fTPM (AMD) and turn it on: Windows 11 needs it.
+Non leggibile	Not readable
+Attiva (Windows la sta usando)	On (Windows is using it)
+Serve a WSL, macchine virtuali, emulatori Android e a una parte delle protezioni di Windows.	Needed by WSL, virtual machines, Android emulators and part of Windows' protections.
+Attiva nel BIOS	On in the BIOS
+Disattivata nel BIOS	Off in the BIOS
+Se usi macchine virtuali, WSL o emulatori Android, attivala nel BIOS (Intel Virtualization Technology o SVM Mode). Se non li usi puoi lasciarla così.	If you use virtual machines, WSL or Android emulators, turn it on in the BIOS (Intel Virtualization Technology or SVM Mode). If you don't, you can leave it as it is.
+La CPU può usare tutta la memoria video. Il driver ha un elenco di giochi dove conviene.	The CPU can use all the video memory. The driver has a list of games where it helps.
+Attivo (finestra {} MB)	On (window {} MB)
+Non attivo (finestra {} MB)	Off (window {} MB)
+Nel BIOS attiva Above 4G Decoding e Re-Size BAR Support (vedi la guida per marca qui sotto). Dà qualche punto percentuale in più in alcuni giochi.	In the BIOS turn on Above 4G Decoding and Re-Size BAR Support (see the guide by brand below). It gives a few percent more in some games.
+{} MT/s in uso, {} MT/s dichiarati	{} MT/s in use, {} MT/s rated
+{} MT/s (come dichiarato)	{} MT/s (as rated)
+La RAM va più piano di quanto può: nel BIOS attiva il profilo XMP (Intel) o EXPO/DOCP (AMD). Sui portatili con RAM saldata spesso non esiste.	The RAM runs slower than it can: in the BIOS turn on the XMP (Intel) or EXPO/DOCP (AMD) profile. On laptops with soldered RAM it often does not exist.
+L'avvio rapido salva lo stato del sistema allo spegnimento: accende più in fretta, ma "Arresta" non riavvia davvero il PC. Se hai problemi dopo aggiornamenti o driver, usa "Riavvia" o disattivalo.	Fast startup saves the system state at shutdown: it starts faster, but "Shut down" does not truly restart the PC. If you have problems after updates or drivers, use "Restart" or turn it off.
+Questo PC non usa UEFI: il riavvio diretto nel BIOS non è disponibile. Riavvia e premi subito Canc, F2 o F10 (vedi la guida per marca).	This PC does not use UEFI: restarting straight into the BIOS is not available. Restart and press Del, F2 or F10 right away (see the guide by brand).
+Apri il BIOS	Open the BIOS
+Apri il BIOS al riavvio	Open the BIOS at restart
+Il PC si riavvia tra 45 secondi e si apre direttamente il BIOS.	The PC restarts in 45 seconds and opens the BIOS directly.
+Salva i documenti e chiudi i programmi: quelli aperti vengono chiusi. Dopo il riavvio, per tornare a Windows esci dal BIOS senza salvare modifiche (di solito Esc o 'Exit').	Save your documents and close programs: open ones will be closed. After the restart, to go back to Windows leave the BIOS without saving changes (usually Esc or 'Exit').
+Procedo?	Proceed?
+Windows non ha accettato il comando (codice {}). Riavvia a mano e premi subito il tasto del BIOS.	Windows did not accept the command (code {}). Restart by hand and press the BIOS key right away.
+Riavvio verso il BIOS programmato tra 45 secondi.	Restart to the BIOS scheduled in 45 seconds.
+Vuoi annullarlo?	Do you want to cancel it?
+F2 (o Fn+F2) all'accensione; sui Legion anche il pulsante Novo.	F2 (or Fn+F2) at power-on; on Legion laptops also the Novo button.
+Resizable BAR e Above 4G Decoding: Configuration o Advanced. Virtualizzazione: Configuration > Intel Virtualization / AMD SVM. Modalità GPU (ibrida o solo NVIDIA): Configuration > Graphics Device, oppure Lenovo Vantage / Legion Space. Molti Legion nascondono le opzioni avanzate.	Resizable BAR and Above 4G Decoding: Configuration or Advanced. Virtualization: Configuration > Intel Virtualization / AMD SVM. GPU mode (hybrid or NVIDIA only): Configuration > Graphics Device, or Lenovo Vantage / Legion Space. Many Legion laptops hide the advanced options.
+Canc o F2 all'accensione (portatili: F2).	Del or F2 at power-on (laptops: F2).
+Modalità avanzata (F7). Resizable BAR: Advanced > PCI Subsystem Settings > Above 4G Decoding e Re-Size BAR Support. XMP/DOCP/EXPO: Ai Tweaker > Ai Overclock Tuner. Virtualizzazione: Advanced > CPU Configuration.	Advanced mode (F7). Resizable BAR: Advanced > PCI Subsystem Settings > Above 4G Decoding and Re-Size BAR Support. XMP/DOCP/EXPO: Ai Tweaker > Ai Overclock Tuner. Virtualization: Advanced > CPU Configuration.
+Canc all'accensione (portatili: Canc o F2).	Del at power-on (laptops: Del or F2).
+Settings > Advanced > PCI Subsystem Settings > Above 4G Memory e Re-Size BAR Support. XMP/EXPO: OC > A-XMP / EXPO. Virtualizzazione: Settings > Advanced > CPU Features.	Settings > Advanced > PCI Subsystem Settings > Above 4G Memory and Re-Size BAR Support. XMP/EXPO: OC > A-XMP / EXPO. Virtualization: Settings > Advanced > CPU Features.
+Canc all'accensione (portatili Aorus: F2).	Del at power-on (Aorus laptops: F2).
+Settings > IO Ports > Above 4G Decoding e Resizable BAR Support. XMP/EXPO: Tweaker > Extreme Memory Profile. Virtualizzazione: Tweaker > Advanced CPU Settings.	Settings > IO Ports > Above 4G Decoding and Resizable BAR Support. XMP/EXPO: Tweaker > Extreme Memory Profile. Virtualization: Tweaker > Advanced CPU Settings.
+F2 o Canc all'accensione.	F2 or Del at power-on.
+Advanced > PCI Configuration > Above 4G Decoding e Re-Size BAR Support. XMP/EXPO: OC Tweaker > DRAM Configuration. Virtualizzazione: Advanced > CPU Configuration.	Advanced > PCI Configuration > Above 4G Decoding and Re-Size BAR Support. XMP/EXPO: OC Tweaker > DRAM Configuration. Virtualization: Advanced > CPU Configuration.
+F2 all'accensione (F12 apre il menu di avvio).	F2 at power-on (F12 opens the boot menu).
+Virtualization Support: Settings > Virtualization Support. Secure Boot: Boot Configuration. I portatili Alienware hanno qualche opzione in più (memoria, grafica).	Virtualization Support: Settings > Virtualization Support. Secure Boot: Boot Configuration. Alienware laptops have a few more options (memory, graphics).
+Esc poi F10 all'accensione (F9 per il menu di avvio).	Esc then F10 at power-on (F9 for the boot menu).
+Advanced > System Options > Virtualization Technology. Secure Boot: Security. Gli Omen hanno qualche opzione in più nella sezione Advanced.	Advanced > System Options > Virtualization Technology. Secure Boot: Security. Omen laptops have a few more options in the Advanced section.
+F2 all'accensione (F12 per il menu di avvio).	F2 at power-on (F12 for the boot menu).
+Main > F12 Boot Menu. Virtualizzazione: Advanced o Main. Sui Predator/Nitro l'utilità PredatorSense/NitroSense gestisce alcune opzioni.	Main > F12 Boot Menu. Virtualization: Advanced or Main. On Predator/Nitro laptops the PredatorSense/NitroSense utility handles some options.
 '@
 
 # I backup valgono solo per il PC su cui sono stati creati: se la cartella viene copiata su un altro PC,
@@ -2529,6 +2672,149 @@ namespace OttWin
         {
             int c = ConSessione((s, p) => Funzione<DRipristina>(ID_RIPRISTINA)(s, p, id), true);
             if (c != 0 && c != NON_TROVATA) Controlla(c, "ripristino impostazione 0x" + id.ToString("X8"));
+        }
+
+        // ---------- Funzioni "di massa": una sola sessione per molte impostazioni ----------
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate int DElencoId(IntPtr elenco, ref uint quanti);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate int DNomeDaId(uint id, IntPtr nome);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate int DValoriDisponibili(uint id, ref uint quanti, IntPtr valori);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate int DElencaImpostazioni(IntPtr sessione, IntPtr profilo, uint da, ref uint quanti, IntPtr impostazioni);
+
+        private const uint ID_ELENCO_ID = 0xF020614A, ID_NOME_DA_ID = 0xD61CBE6E, ID_VALORI_DISP = 0x2EC39F90, ID_ELENCA_IMP = 0xAE3039DA;
+        // NVDRS_SETTING_VALUES_V1: versione, quanti, tipo, valore di serie (4100) e fino a 100 valori da 4100 byte
+        private const int DIM_VALORI = 12 + 4100 + 100 * 4100;
+        private const uint VERSIONE_VALORI = (uint)DIM_VALORI | (1u << 16);
+
+        // Tutte le impostazioni che il driver conosce (come l'elenco di NVIDIA Profile Inspector).
+        // Ogni riga: "id|nome|tipo|valoreDiSerie|v1,v2,v3..." (tipo 0 = numero; i valori sono quelli ammessi dal driver).
+        public static string[] ElencoDriver()
+        {
+            if (!Disponibile()) throw new InvalidOperationException("NVAPI non disponibile (nessuna scheda o driver NVIDIA).");
+            var righe = new System.Collections.Generic.List<string>();
+            uint quanti = 8192;
+            IntPtr ids = Marshal.AllocHGlobal(4 * 8192);
+            IntPtr nome = Marshal.AllocHGlobal(4096 + 16);
+            IntPtr val = Marshal.AllocHGlobal(DIM_VALORI + 16);
+            try
+            {
+                Controlla(Funzione<DElencoId>(ID_ELENCO_ID)(ids, ref quanti), "elenco delle impostazioni");
+                var fNome = Funzione<DNomeDaId>(ID_NOME_DA_ID);
+                var fVal = Funzione<DValoriDisponibili>(ID_VALORI_DISP);
+                for (uint i = 0; i < quanti; i++)
+                {
+                    uint id = unchecked((uint)Marshal.ReadInt32(ids, (int)i * 4));
+                    for (int k = 0; k < 4096 + 16; k += 4) Marshal.WriteInt32(nome, k, 0);
+                    string n = "";
+                    if (fNome(id, nome) == 0) n = Marshal.PtrToStringUni(nome) ?? "";
+                    for (int k = 0; k < DIM_VALORI; k += 4) Marshal.WriteInt32(val, k, 0);
+                    Marshal.WriteInt32(val, 0, unchecked((int)VERSIONE_VALORI));
+                    uint max = 100;
+                    int c = fVal(id, ref max, val);
+                    if (c != 0 && c != -7) continue;   // -7 = fine elenco (nessun valore elencato)
+                    int tipo = Marshal.ReadInt32(val, 8);
+                    uint serie = unchecked((uint)Marshal.ReadInt32(val, 12));
+                    uint numero = unchecked((uint)Marshal.ReadInt32(val, 4));
+                    if (numero > 100) numero = 100;
+                    var sb = new System.Text.StringBuilder();
+                    for (uint j = 0; j < numero; j++)
+                    {
+                        if (j > 0) sb.Append(',');
+                        sb.Append(unchecked((uint)Marshal.ReadInt32(val, 4112 + (int)j * 4100)).ToString());
+                    }
+                    righe.Add(id.ToString() + "|" + n.Replace("|", "/") + "|" + tipo + "|" + serie + "|" + sb.ToString());
+                }
+            }
+            finally { Marshal.FreeHGlobal(ids); Marshal.FreeHGlobal(nome); Marshal.FreeHGlobal(val); }
+            return righe.ToArray();
+        }
+
+        // Legge molte impostazioni DWORD in una sola sessione. Ogni riga: "id|codice|valore|posizione|predefinito|serieValida|serie".
+        public static string[] LeggiMolte(uint[] ids)
+        {
+            var risultato = new string[ids.Length];
+            ConSessione((s, p) =>
+            {
+                IntPtr buf = Marshal.AllocHGlobal(DIMENSIONE);
+                try
+                {
+                    var f = Funzione<DLeggi>(ID_LEGGI);
+                    for (int n = 0; n < ids.Length; n++)
+                    {
+                        for (int i = 0; i < DIMENSIONE; i += 4) Marshal.WriteInt32(buf, i, 0);
+                        Marshal.WriteInt32(buf, 0, unchecked((int)VERSIONE));
+                        int c = f(s, p, ids[n], buf);
+                        if (c == 0)
+                            risultato[n] = ids[n] + "|0|" + unchecked((uint)Marshal.ReadInt32(buf, OFS_VALORE)) + "|" + Marshal.ReadInt32(buf, OFS_POSIZIONE) + "|" +
+                                           (Marshal.ReadInt32(buf, OFS_E_PREDEF) != 0 ? 1 : 0) + "|" + (Marshal.ReadInt32(buf, OFS_SERIE_VALIDA) != 0 ? 1 : 0) + "|" +
+                                           unchecked((uint)Marshal.ReadInt32(buf, OFS_SERIE));
+                        else risultato[n] = ids[n] + "|" + c + "|0|-1|0|0|0";
+                    }
+                    return 0;
+                }
+                finally { Marshal.FreeHGlobal(buf); }
+            }, false);
+            return risultato;
+        }
+
+        // Tutte le impostazioni scritte nel profilo globale (anche quelle che il programma non conosce).
+        // Ogni riga: "id|tipo|valore|nome" (solo quelle numeriche si possono riapplicare).
+        public static string[] ProfiloGlobale()
+        {
+            var righe = new System.Collections.Generic.List<string>();
+            ConSessione((s, p) =>
+            {
+                const int MAX = 1024;
+                IntPtr buf = Marshal.AllocHGlobal(DIMENSIONE * MAX);
+                try
+                {
+                    for (int i = 0; i < DIMENSIONE * MAX; i += 4) Marshal.WriteInt32(buf, i, 0);
+                    for (int n = 0; n < MAX; n++) Marshal.WriteInt32(buf, n * DIMENSIONE, unchecked((int)VERSIONE));
+                    uint quanti = MAX;
+                    int c = Funzione<DElencaImpostazioni>(ID_ELENCA_IMP)(s, p, 0, ref quanti, buf);
+                    if (c != 0 && c != -7) return c;
+                    for (uint n = 0; n < quanti && n < MAX; n++)
+                    {
+                        int b = (int)n * DIMENSIONE;
+                        int tipo = Marshal.ReadInt32(buf, b + OFS_TIPO);
+                        int pos = Marshal.ReadInt32(buf, b + OFS_POSIZIONE);
+                        bool pred = Marshal.ReadInt32(buf, b + OFS_E_PREDEF) != 0;
+                        if (pred || pos > 1) continue;   // solo ciò che è stato scritto davvero nel profilo
+                        uint id = unchecked((uint)Marshal.ReadInt32(buf, b + OFS_ID));
+                        string nome = Marshal.PtrToStringUni(new IntPtr(buf.ToInt64() + b + 4)) ?? "";
+                        uint valore = tipo == 0 ? unchecked((uint)Marshal.ReadInt32(buf, b + OFS_VALORE)) : 0;
+                        righe.Add(id + "|" + tipo + "|" + valore + "|" + nome.Replace("|", "/"));
+                    }
+                    return 0;
+                }
+                finally { Marshal.FreeHGlobal(buf); }
+            }, false);
+            return righe.ToArray();
+        }
+
+        // Scrive molte impostazioni DWORD e salva una volta sola. Ritorna il numero di errori.
+        public static int ScriviMolte(uint[] ids, uint[] valori)
+        {
+            int errori = 0;
+            ConSessione((s, p) =>
+            {
+                IntPtr buf = Marshal.AllocHGlobal(DIMENSIONE);
+                try
+                {
+                    var f = Funzione<DScrivi>(ID_SCRIVI);
+                    for (int n = 0; n < ids.Length; n++)
+                    {
+                        for (int i = 0; i < DIMENSIONE; i += 4) Marshal.WriteInt32(buf, i, 0);
+                        Marshal.WriteInt32(buf, 0, unchecked((int)VERSIONE));
+                        Marshal.WriteInt32(buf, OFS_ID, unchecked((int)ids[n]));
+                        Marshal.WriteInt32(buf, OFS_TIPO, 0);
+                        Marshal.WriteInt32(buf, OFS_VALORE, unchecked((int)valori[n]));
+                        if (f(s, p, buf) != 0) errori++;
+                    }
+                    return 0;
+                }
+                finally { Marshal.FreeHGlobal(buf); }
+            }, true);
+            return errori;
         }
     }
 }
@@ -3930,8 +4216,8 @@ $Script:Catalogo = @(
        IdNv = (Nv-Hex '00A879CF'); ValoreDriver = (Nv-Hex '60925292')
        Opzioni = @( @((Nv-Hex '60925292'), "Decide l'applicazione"), @((Nv-Hex '08416747'), 'Disattivata'), @((Nv-Hex '47814940'), 'Attivata'), @((Nv-Hex '18888888'), 'Veloce (Fast Sync)'),
                     @((Nv-Hex '32610244'), 'Metà della frequenza'), @((Nv-Hex '71271021'), 'Un terzo della frequenza'), @((Nv-Hex '13245256'), 'Un quarto della frequenza') )
-       Preset = @{ Gaming = (Nv-Hex '60925292'); Grafica = (Nv-Hex '60925292'); Produttivita = (Nv-Hex '60925292') }
-       Descrizione = "Lasciarla decidere al gioco è la scelta più flessibile. Con G-SYNC attivo molti preferiscono 'Attivata' qui e un limite di FPS poco sotto la frequenza dello schermo. 'Disattivata' dà la latenza minima ma può 'strappare' l'immagine." }
+       Preset = @{ Gaming = (Nv-Hex '08416747'); Grafica = (Nv-Hex '60925292'); Produttivita = (Nv-Hex '60925292') }
+       Descrizione = "Il preset Prestazioni la disattiva: è la scelta con la latenza minima, ma può 'strappare' l'immagine senza G-SYNC. Lasciarla decidere al gioco è la scelta più flessibile. Con G-SYNC attivo molti preferiscono 'Attivata' qui e un limite di FPS poco sotto la frequenza dello schermo." }
 
     @{ Id = 'nv.vsyncadattiva'; Nome = 'V-Sync adattiva (controllo strappi)'; Categoria = 'NVIDIA'; Tipo = 'NVIDIA'; Area = 'Sincronizzazione'; Rischio = 'basso'
        IdNv = (Nv-Hex '005A375C'); ValoreDriver = (Nv-Hex '96861077')
@@ -4022,6 +4308,30 @@ $Script:Catalogo = @(
        Opzioni = @( @(2, 'Automatico'), @(0, 'Nativo'), @(1, 'Preferisci a livelli su DXGI') )
        Preset = @{ Gaming = $null; Grafica = $null; Produttivita = $null }
        Descrizione = "Come i giochi Vulkan e OpenGL mostrano l'immagine. 'A livelli su DXGI' li fa comportare come i giochi DirectX (finestra senza bordi più fluida, Auto HDR, G-SYNC in finestra). 'Automatico' lascia decidere al driver." }
+
+    @{ Id = 'nv.gsync'; Nome = 'Tecnologia del monitor: G-SYNC (attivazione)'; Categoria = 'NVIDIA'; Tipo = 'NVIDIA'; Area = 'Sincronizzazione'; Rischio = 'basso'
+       IdNv = (Nv-Hex '1194F158'); ValoreDriver = 1
+       Opzioni = @( @(0, 'Disattivato'), @(1, 'Solo a schermo intero'), @(2, 'Schermo intero e finestra') )
+       Preset = @{ Gaming = $null; Grafica = $null; Produttivita = $null }
+       Descrizione = "Come 'Imposta G-SYNC' nel Pannello NVIDIA: la frequenza dello schermo segue gli FPS (niente strappi, meno scatti). Serve uno schermo compatibile. Su un portatile con MUX in modalità ibrida può non avere effetto." }
+
+    @{ Id = 'nv.gsyncapp'; Nome = 'Tecnologia del monitor: G-SYNC (comportamento)'; Categoria = 'NVIDIA'; Tipo = 'NVIDIA'; Area = 'Sincronizzazione'; Rischio = 'basso'
+       IdNv = (Nv-Hex '10A879CF'); ValoreDriver = 0
+       Opzioni = @( @(0, 'Consenti (come decide il gioco)'), @(1, 'Forza spento'), @(2, 'Non consentire'), @(3, 'ULMB (meno sfocatura in movimento)'), @(4, 'Frequenza fissa') )
+       Preset = @{ Gaming = $null; Grafica = $null; Produttivita = $null }
+       Descrizione = "Come 'Tecnologia monitor' del Pannello NVIDIA: lascia usare G-SYNC ai giochi oppure lo forza spento. 'Frequenza fissa' e 'ULMB' valgono solo per schermi che li supportano." }
+
+    @{ Id = 'nv.vrprerender'; Nome = 'Realtà virtuale: fotogrammi pre-renderizzati'; Categoria = 'NVIDIA'; Tipo = 'NVIDIA'; Area = 'Prestazioni'; Rischio = 'basso'
+       IdNv = (Nv-Hex '10111133'); ValoreDriver = 1
+       Opzioni = @( @(1, '1'), @(2, '2'), @(3, '3'), @(4, '4') )
+       Preset = @{ Gaming = 1; Grafica = $null; Produttivita = $null }
+       Descrizione = "Come 'Realtà virtuale - fotogrammi pre-renderizzati' del Pannello NVIDIA. Il valore 1 dà la latenza più bassa per i visori." }
+
+    @{ Id = 'nv.oglgdi'; Nome = 'Compatibilità OpenGL con GDI'; Categoria = 'NVIDIA'; Tipo = 'NVIDIA'; Area = 'OpenGL e Vulkan'; Rischio = 'basso'
+       IdNv = (Nv-Hex '2072C5A3'); ValoreDriver = 2
+       Opzioni = @( @(2, 'Automatica'), @(0, 'Preferisci le prestazioni'), @(1, 'Preferisci la compatibilità') )
+       Preset = @{ Gaming = $null; Grafica = $null; Produttivita = $null }
+       Descrizione = "Come i programmi OpenGL convivono con le finestre normali di Windows. Cambiala solo se un vecchio programma OpenGL mostra schermo nero o sfarfalli." }
 
     # ---------------------------------------------------------------- AMD
     # Impostazioni grafiche globali di AMD Software: Adrenalin Edition, lette e scritte con ADLX.
@@ -4548,10 +4858,66 @@ $defNva = @(
     "Le RTX serie 50 non accelerano più il PhysX a 32 bit dei vecchi giochi (es. Borderlands 2, Mirror's Edge): con questa voce attiva si prova a riabilitarlo. Funziona solo se il driver lo supporta."),
   @('extlimit', 'OpenGL: limita le estensioni', 'Sistema, memoria e calcolo', '20FF7493', 'basso', 0, $onOff, "Per vecchi programmi OpenGL che si bloccano con troppe estensioni.")
 )
+# Queste stanno nel Pannello di controllo NVIDIA (Gestisci impostazioni 3D): vanno nella sezione "Impostazioni NVIDIA".
+# 'Ultra' della bassa latenza fa parte del preset Prestazioni (latenza minima).
+$nelPannelloNv = @('ull', 'sharp', 'sharpval', 'ao', 'aasuper')
 foreach ($d in $defNva) {
-    $Script:Catalogo += , @{ Id = "nva.$($d[0])"; Nome = $d[1]; Categoria = 'NVIDIAAvanz'; Tipo = 'NVIDIA'; Area = $d[2]; Rischio = $d[4]
-        IdNv = (Nv-Hex $d[3]); ValoreDriver = $d[5]; Opzioni = $d[6]; Preset = @{}; Descrizione = $d[7] }
+    $inPannello = ($nelPannelloNv -contains $d[0])
+    $presetVoce = $(if ($d[0] -eq 'ull') { @{ Gaming = 2; Grafica = 0; Produttivita = 0 } } else { @{} })
+    $Script:Catalogo += , @{ Id = "nva.$($d[0])"; Nome = $d[1]; Categoria = $(if ($inPannello) { 'NVIDIA' } else { 'NVIDIAAvanz' }); Tipo = 'NVIDIA'; Area = $d[2]; Rischio = $d[4]
+        IdNv = (Nv-Hex $d[3]); ValoreDriver = $d[5]; Opzioni = $d[6]; Preset = $presetVoce; Descrizione = $d[7] }
 }
+
+# TUTTE le altre impostazioni che il driver conosce (l'elenco che mostra NVIDIA Profile Inspector), lette dal driver stesso.
+# Hanno il nome del driver e i valori ammessi, senza descrizione: rischio medio, si cambiano una per una.
+try {
+    if (('OttWin.NvDrs' -as [type]) -and [OttWin.NvDrs]::Disponibile()) {
+        $giaNoti = @{}
+        foreach ($c in $Script:Catalogo) { if ($c.Tipo -eq 'NVIDIA') { $giaNoti[[uint32]$c.IdNv] = $true } }
+        foreach ($riga in [OttWin.NvDrs]::ElencoDriver()) {
+            $p = $riga.Split('|')
+            if ($p[2] -ne '0') { continue }                       # solo impostazioni numeriche
+            $idNv = [uint32]$p[0]
+            if ($giaNoti.ContainsKey($idNv) -or $p[4] -eq '') { continue }
+            $serie = [uint32]$p[3]
+            $valori = @($p[4].Split(',') | ForEach-Object { [uint32]$_ } | Select-Object -Unique)
+            if ($valori -notcontains $serie) { $valori = @($serie) + $valori }
+            $opz = @($valori | ForEach-Object { , @($_, $(if ($_ -ge 65536) { ('Valore 0x{0:X8}' -f $_) } else { "Valore $_" })) })
+            $nomeDriver = $(if ($p[1]) { $p[1] } else { 'Impostazione senza nome' })
+            if ($nomeDriver.Length -gt 90) { $nomeDriver = $nomeDriver.Substring(0, 87) + '...' }
+            $Script:Catalogo += , @{ Id = ('nvx.{0:X8}' -f $idNv); Nome = ("{0} (0x{1:X8})" -f $nomeDriver, $idNv); Categoria = 'NVIDIAAvanz'; Tipo = 'NVIDIA'
+                Area = 'Altre impostazioni del driver'; Rischio = 'medio'; IdNv = $idNv; ValoreDriver = $serie; Opzioni = $opz; Preset = @{}
+                Descrizione = ("Impostazione del driver NVIDIA «{0}» (codice 0x{1:X8}), come appare in NVIDIA Profile Inspector. Non è documentata da NVIDIA: cambiala solo se sai che cosa fa. 'Predefinite del driver' la rimette a posto." -f $nomeDriver, $idNv) }
+        }
+    }
+} catch { }
+
+# Le opzioni avanzate sono divise nei gruppi di NVIDIA Profile Inspector (Compatibility, Sync and Refresh, Antialiasing,
+# Texture Filtering, Common, SLI, Stereo, Other). Le voci curate hanno il gruppo fisso, le altre lo scelgono dal nome del driver.
+function Gruppo-Inspector([string]$Id, [string]$Nome) {
+    switch -Regex ($Id) {
+        '^nva\.(extlimit)$'                { return '1 - Compatibilità' }
+        '^nva\.(ull)$'                     { return '2 - Sincronizzazione e frequenza' }
+        '^nva\.(aasuper)$'                 { return '3 - Antialiasing' }
+        '^nva\.(sosttex|noaniso|lodauto)$' { return '4 - Filtro texture' }
+        '^nva\.'                           { return '5 - Comuni' }
+    }
+    if ($Nome -match 'stereo|3D Vision|shuttering') { return '7 - Stereo (3D)' }
+    if ($Nome -match '\bSLI\b|AFR|GPU re-order|multi-?GPU') { return '6 - SLI' }
+    if ($Nome -match 'Antialiasing|\bAA\b|FXAA|MFAA|Line gamma') { return '3 - Antialiasing' }
+    if ($Nome -match 'Texture|Anisotropic|\bLOD\b') { return '4 - Filtro texture' }
+    if ($Nome -match 'sync|refresh|frame rate|swap interval|pre-rendered|Maximum frames|latency|flipping|triple|flip') { return '2 - Sincronizzazione e frequenza' }
+    if ($Nome -match 'compatib|Optimus|GDI|Behavior Flags|Offline Shader|Extension|Event Log|Maximum resolution|Enable application|Shim|Predefined') { return '1 - Compatibilità' }
+    if ($Nome -match 'Shader|power|Threaded|Ambient|DLSS|CUDA|Deep color|Vulkan|present|overlay|Prefer') { return '5 - Comuni' }
+    return '8 - Altre'
+}
+$ordCat = 0
+foreach ($c in $Script:Catalogo) {
+    $ordCat++; $c.Ord = $ordCat
+    if ($c.Categoria -eq 'NVIDIAAvanz') { $c.Area = Gruppo-Inspector ([string]$c.Id) ([string]$c.Nome) }
+}
+$Script:Catalogo = @(@($Script:Catalogo | Where-Object { $_.Categoria -ne 'NVIDIAAvanz' }) +
+                     @($Script:Catalogo | Where-Object { $_.Categoria -eq 'NVIDIAAvanz' } | Sort-Object { $_.Area }, { $_.Ord }))
 
 foreach ($v in $Script:Catalogo) {
     if ($Script:Voci.Contains($v.Id)) { throw "Id duplicato nel catalogo: $($v.Id)" }
@@ -4873,9 +5239,28 @@ function Nvidia-Disponibile {
 #   2 = profilo base, 3 = valori di serie (cioè ereditato dal driver).
 #   NelProfilo  = il valore è scritto nel profilo globale e non è quello di serie.
 #   Predefinito = valore di serie comunicato dal driver (se non lo comunica: quello del catalogo).
+# Le impostazioni NVIDIA sono tante (anche quelle del driver non curate): si leggono tutte insieme, in una sola sessione,
+# e si tengono in memoria fino alla prossima scansione o scrittura ($Script:CacheNv = $null la svuota).
+$Script:CacheNv = $null
+function Riempi-CacheNvidia {
+    $Script:CacheNv = @{}
+    $ids = @($Script:Voci.Values | Where-Object { $_.Tipo -eq 'NVIDIA' } | ForEach-Object { [uint32]$_.IdNv } | Select-Object -Unique)
+    if ($ids.Count -eq 0) { return }
+    foreach ($riga in [OttWin.NvDrs]::LeggiMolte([uint32[]]$ids)) {
+        $p = $riga.Split('|')
+        $Script:CacheNv[[uint32]$p[0]] = @{ Codice = [int]$p[1]; Valore = [uint32]$p[2]; Posizione = [int]$p[3]; Predef = ($p[4] -eq '1'); SerieValida = ($p[5] -eq '1'); Serie = [uint32]$p[6] }
+    }
+}
+
 function Leggi-StatoNvidia($Voce) {
     $valore = [uint32]0; $posizione = 0; $predef = $false; $serie = [uint32]0; $serieValida = $false
-    $codice = [OttWin.NvDrs]::Leggi([uint32]$Voce.IdNv, [ref]$valore, [ref]$posizione, [ref]$predef, [ref]$serie, [ref]$serieValida)
+    if ($null -eq $Script:CacheNv) { try { Riempi-CacheNvidia } catch { $Script:CacheNv = @{} } }
+    $c = $Script:CacheNv[[uint32]$Voce.IdNv]
+    if ($c) {
+        $codice = $c.Codice; $valore = $c.Valore; $posizione = $c.Posizione; $predef = $c.Predef; $serie = $c.Serie; $serieValida = $c.SerieValida
+    } else {
+        $codice = [OttWin.NvDrs]::Leggi([uint32]$Voce.IdNv, [ref]$valore, [ref]$posizione, [ref]$predef, [ref]$serie, [ref]$serieValida)
+    }
     $predefinito = $(if ($codice -eq 0 -and $serieValida) { [uint32]$serie } else { [uint32]$Voce.ValoreDriver })
     if ($codice -eq 0) {
         $nel = ($posizione -le 1) -and (-not $predef)
@@ -4977,6 +5362,7 @@ function Originale-Nvidia($Voce) {
 # tolta dal profilo: così resta "di serie" anche se un driver futuro cambia il proprio valore.
 function Applica-Nvidia($Voce, [string]$Obiettivo) {
     $s = Leggi-StatoNvidia $Voce
+    $Script:CacheNv = $null
     if ($Obiettivo -eq 'Predefinito' -or $null -eq $Voce.Scelto -or [uint32]$Voce.Scelto -eq [uint32]$s.Predefinito) {
         [OttWin.NvDrs]::Ripristina([uint32]$Voce.IdNv)
     } else {
@@ -4985,8 +5371,115 @@ function Applica-Nvidia($Voce, [string]$Obiettivo) {
 }
 
 function Ripristina-Nvidia($O) {
+    $Script:CacheNv = $null
     if ($O.NelProfilo) { [OttWin.NvDrs]::Scrivi([uint32]$O.IdNv, [uint32]$O.Valore) }
     else { [OttWin.NvDrs]::Ripristina([uint32]$O.IdNv) }
+}
+
+# ---------- Profilo delle impostazioni NVIDIA: salva e riapplica ----------
+# Il profilo globale del driver (DRS) contiene sia le impostazioni del Pannello di controllo NVIDIA sia quelle di
+# NVIDIA Profile Inspector: un solo file le salva tutte, comprese quelle che Regia non conosce. Un'installazione
+# pulita del driver le azzera: con "Carica profilo" si rimettono. Cartella: Dati\ProfiliNvidia (solo sul tuo PC).
+$Script:CartellaProfiliNv = Join-Path $Script:CartellaDati 'ProfiliNvidia'
+
+function Esporta-ProfiloNvidia([string]$Percorso, [string]$Nota = '') {
+    $imp = New-Object System.Collections.ArrayList
+    $saltate = 0
+    foreach ($r in @([OttWin.NvDrs]::ProfiloGlobale())) {
+        $p = $r.Split('|')
+        if ($p[1] -ne '0') { $saltate++; continue }   # testi e dati binari: non si riapplicano
+        [void]$imp.Add([ordered]@{ Id = ('0x{0:X8}' -f [uint32]$p[0]); Valore = [uint32]$p[2]; Nome = [string]$p[3] })
+    }
+    $scheda = $null; if ($Script:SchedeVideo) { $scheda = Scheda-Nvidia }
+    $oggetto = [ordered]@{
+        Programma = 'Regia'; Tipo = 'ProfiloNvidia'; Versione = 1; Data = (Get-Date -Format 's')
+        Scheda = $(if ($scheda) { [string]$scheda.Nome } else { '' }); Driver = $(if ($scheda) { [string]$scheda.Versione } else { '' })
+        Nota = $Nota; Impostazioni = @($imp)
+    }
+    $cartella = Split-Path -Parent $Percorso
+    if (-not (Test-Path -LiteralPath $cartella)) { [void](New-Item -ItemType Directory -Path $cartella -Force) }
+    [IO.File]::WriteAllText($Percorso, ($oggetto | ConvertTo-Json -Depth 6), (New-Object System.Text.UTF8Encoding($false)))
+    return [pscustomobject]@{ Salvate = $imp.Count; Saltate = $saltate }
+}
+
+function Leggi-ProfiloNvidia([string]$Percorso) {
+    $o = [IO.File]::ReadAllText($Percorso, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    if ($o.Tipo -ne 'ProfiloNvidia' -or $null -eq $o.Impostazioni) { throw 'Il file scelto non è un profilo NVIDIA salvato da Regia.' }
+    return $o
+}
+
+function Salva-ProfiloNvidia {
+    if (-not (Nvidia-Disponibile)) { [void](Mostra-Messaggio 'NVIDIA non è disponibile su questo PC (nessuna scheda o driver NVIDIA).' 'Profilo NVIDIA' 'OK' 'Warning'); return }
+    if (-not (Test-Path -LiteralPath $Script:CartellaProfiliNv)) { [void](New-Item -ItemType Directory -Path $Script:CartellaProfiliNv -Force) }
+    $nv = $null; if ($Script:SchedeVideo) { $nv = Scheda-Nvidia }
+    $dlg = New-Object Microsoft.Win32.SaveFileDialog
+    $dlg.Title = Tr 'Salva il profilo delle impostazioni NVIDIA'
+    $dlg.Filter = 'Profilo NVIDIA (*.json)|*.json'
+    $dlg.InitialDirectory = $Script:CartellaProfiliNv
+    $dlg.FileName = 'Profilo_NVIDIA_{0}{1}.json' -f (Get-Date -Format 'yyyyMMdd_HHmm'), $(if ($nv) { '_driver' + $nv.Versione } else { '' })
+    $dlg.OverwritePrompt = $true
+    if (-not $dlg.ShowDialog()) { return }
+    $ris = Esporta-ProfiloNvidia $dlg.FileName
+    Scrivi-Log "Profilo NVIDIA salvato: $($dlg.FileName) ($($ris.Salvate) impostazioni, $($ris.Saltate) non numeriche saltate)." 'OK'
+    Imposta-Stato "Profilo NVIDIA salvato: $($ris.Salvate) impostazioni in $([IO.Path]::GetFileName($dlg.FileName))."
+    [void](Mostra-Messaggio ("Profilo salvato: {0} impostazioni (Pannello di controllo NVIDIA e Profile Inspector insieme).`n`nFile: {1}`n`nDopo l'aggiornamento o l'installazione pulita del driver usa 'Carica profilo' per rimetterle." -f $ris.Salvate, $dlg.FileName) 'Profilo NVIDIA')
+}
+
+function Carica-ProfiloNvidia {
+    if (-not (Nvidia-Disponibile)) { [void](Mostra-Messaggio 'NVIDIA non è disponibile su questo PC (nessuna scheda o driver NVIDIA).' 'Profilo NVIDIA' 'OK' 'Warning'); return }
+    $dlg = New-Object Microsoft.Win32.OpenFileDialog
+    $dlg.Title = Tr 'Scegli il profilo delle impostazioni NVIDIA da riapplicare'
+    $dlg.Filter = 'Profilo NVIDIA (*.json)|*.json'
+    if (Test-Path -LiteralPath $Script:CartellaProfiliNv) { $dlg.InitialDirectory = $Script:CartellaProfiliNv }
+    if (-not $dlg.ShowDialog()) { return }
+    $o = Leggi-ProfiloNvidia $dlg.FileName
+    $imp = @($o.Impostazioni)
+    if ($imp.Count -eq 0) { [void](Mostra-Messaggio 'Il profilo scelto non contiene impostazioni.' 'Profilo NVIDIA' 'OK' 'Warning'); return }
+    # Confronto con il profilo attuale: si cambia solo ciò che è diverso
+    $ids = [uint32[]]@($imp | ForEach-Object { [Convert]::ToUInt32(([string]$_.Id).Substring(2), 16) })
+    $attuali = @{}
+    foreach ($riga in [OttWin.NvDrs]::LeggiMolte($ids)) {
+        $q = $riga.Split('|')
+        $attuali[[uint32]$q[0]] = @{ Codice = [int]$q[1]; Valore = [uint32]$q[2]; Posizione = [int]$q[3]; Predef = ($q[4] -eq '1') }
+    }
+    $daCambiare = New-Object System.Collections.ArrayList
+    $righeTesto = New-Object System.Collections.ArrayList
+    foreach ($s in $imp) {
+        $id = [Convert]::ToUInt32(([string]$s.Id).Substring(2), 16); $nuovo = [uint32]$s.Valore
+        $a = $attuali[$id]
+        $inProfilo = ($a -and $a.Codice -eq 0 -and $a.Posizione -le 1 -and -not $a.Predef)
+        if ($inProfilo -and $a.Valore -eq $nuovo) { continue }
+        [void]$daCambiare.Add(@{ Id = $id; Valore = $nuovo })
+        $voce = $Script:Voci.Values | Where-Object { $_.Tipo -eq 'NVIDIA' -and [uint32]$_.IdNv -eq $id } | Select-Object -First 1
+        $nome = $(if ($voce) { $voce.Nome } elseif ($s.Nome) { [string]$s.Nome } else { ('0x{0:X8}' -f $id) })
+        $nuovoT = $(if ($voce) { Testo-Nvidia $voce $nuovo } else { "valore $nuovo" })
+        $vecchioT = $(if (-not $a -or $a.Codice -ne 0) { 'di serie' } elseif ($voce) { Testo-Nvidia $voce $a.Valore } else { "valore $($a.Valore)" })
+        [void]$righeTesto.Add("• ${nome}: $vecchioT → $nuovoT")
+    }
+    if ($daCambiare.Count -eq 0) {
+        [void](Mostra-Messaggio "Il profilo scelto ($($imp.Count) impostazioni) è già applicato: non c'è niente da cambiare." 'Profilo NVIDIA')
+        return
+    }
+    $elenco = ($righeTesto | Select-Object -First 18) -join "`n"
+    if ($righeTesto.Count -gt 18) { $elenco += "`n... e altre $($righeTesto.Count - 18)." }
+    $intestazione = "Profilo: $([IO.Path]::GetFileName($dlg.FileName))`nSalvato il $($o.Data) (scheda $($o.Scheda), driver $($o.Driver)).`n`nImpostazioni da cambiare: $($daCambiare.Count) su $($imp.Count).`n`n$elenco`n`nLe altre impostazioni NVIDIA già presenti non vengono toccate. Prima di scrivere, Regia salva le impostazioni attuali in Dati\Backup."
+    if ([bool]$Script:ChkProva.IsChecked) {
+        Scrivi-Log "Caricamento profilo NVIDIA $($dlg.FileName): $($daCambiare.Count) impostazioni da cambiare." 'PROVA'
+        foreach ($t in $righeTesto) { Scrivi-Log "Cambierei $t" 'PROVA' }
+        [void](Mostra-Messaggio ("MODALITÀ PROVA: non è stato cambiato niente.`n`n" + $intestazione) 'Profilo NVIDIA')
+        return
+    }
+    if ((Mostra-Messaggio $intestazione 'Carica profilo NVIDIA' 'YesNo' 'Question') -ne 'Yes') { return }
+    if (-not (Test-Path -LiteralPath $Script:CartellaBackup)) { [void](New-Item -ItemType Directory -Path $Script:CartellaBackup -Force) }
+    $copia = Join-Path $Script:CartellaBackup ('nvidia_profilo_prima_del_caricamento_{0}.json' -f (Get-Date -Format 'yyyyMMdd_HHmmss'))
+    [void](Esporta-ProfiloNvidia $copia 'Copia automatica prima di caricare un profilo')
+    Scrivi-Log "Copia delle impostazioni NVIDIA attuali: $copia" 'OK'
+    $errori = [OttWin.NvDrs]::ScriviMolte([uint32[]]@($daCambiare | ForEach-Object { $_.Id }), [uint32[]]@($daCambiare | ForEach-Object { $_.Valore }))
+    $Script:CacheNv = $null
+    Scrivi-Log "Profilo NVIDIA caricato da $($dlg.FileName): $($daCambiare.Count - $errori) impostazioni scritte, $errori non accettate dal driver." $(if ($errori -gt 0) { 'AVVISO' } else { 'OK' })
+    Imposta-Stato "Profilo NVIDIA caricato: $($daCambiare.Count - $errori) impostazioni scritte."
+    Esegui-Scansione
+    [void](Mostra-Messaggio ("Profilo caricato: {0} impostazioni scritte{1}.`n`nVale per i programmi avviati da ora. Se qualcosa non va, 'Carica profilo' sulla copia salvata in Dati\Backup rimette com'era." -f ($daCambiare.Count - $errori), $(if ($errori -gt 0) { ", $errori non accettate dal driver (vedi il log)" } else { '' })) 'Profilo NVIDIA')
 }
 
 # ---------- Impostazioni AMD ----------
@@ -5224,8 +5717,8 @@ $Script:TestiIntro = @{
     'Prestazioni' = "Piano energetico e comportamento del sistema. Per i piani energetici se ne può scegliere uno solo."
     'Latenza'     = "Reattività del PC: accessori (mouse, tastiere, controller), USB e Bluetooth, rete, processore, memoria e timer di sistema. Correggono anche i 'tweak' sbagliati lasciati da altri programmi. Le voci a rischio medio non sono in nessun profilo: accendile tu dopo aver letto la descrizione. 'Misura la latenza' controlla il ping verso il router e il DNS (solo lettura)."
     'Grafica'     = "Impostazioni grafiche ed effetti visivi. Colori, HDR, profili colore e impostazioni GPU delle singole app non vengono mai toccati."
-    'NVIDIA'      = "Impostazioni globali del Pannello di controllo NVIDIA, lette e scritte con NVAPI (la libreria ufficiale del driver). Scegli uno dei preset (Prestazioni, Bilanciato, Qualità: cambiano solo queste impostazioni, i profili non le toccano) oppure cambia i singoli menu a tendina: le righe 'Da applicare' vengono scritte solo con 'Anteprima e applica'. Valgono per i programmi avviati dopo la modifica; un'installazione pulita del driver le riporta ai valori di serie."
-    'NVIDIAAvanz' = "⚠  OPZIONI AVANZATE: le impostazioni che di solito si cambiano con NVIDIA Profile Inspector (DLSS, Smooth Motion, Resizable BAR, nitidezza, ray tracing, memoria CUDA...), scritte nel profilo globale con NVAPI. Non fanno parte dei preset: scegli tu, una per una, dal menu a tendina. Cambiarle male può causare errori nei giochi: 'Predefinite del driver' rimette tutto a posto e 'Annulla tutto' ripristina i valori originali. Compaiono solo quelle che il tuo driver conosce."
+    'NVIDIA'      = "Impostazioni globali del Pannello di controllo NVIDIA, lette e scritte con NVAPI (la libreria ufficiale del driver). Scegli uno dei preset (Prestazioni, Bilanciato, Qualità: cambiano solo queste impostazioni, i profili non le toccano) oppure cambia i singoli menu a tendina: le righe 'Da applicare' vengono scritte solo con 'Anteprima e applica'. Il preset Prestazioni dà anche la latenza minima possibile (Ultra, V-Sync spenta, 1 fotogramma). Valgono per i programmi avviati dopo la modifica; un'installazione pulita del driver le riporta ai valori di serie: con 'Salva profilo' e 'Carica profilo' le salvi e le rimetti."
+    'NVIDIAAvanz' = "⚠  OPZIONI AVANZATE: le impostazioni che di solito si cambiano con NVIDIA Profile Inspector (DLSS, Smooth Motion, Resizable BAR, nitidezza, ray tracing, memoria CUDA...), scritte nel profilo globale con NVAPI. Non fanno parte dei preset: scegli tu, una per una, dal menu a tendina. Cambiarle male può causare errori nei giochi: 'Predefinite del driver' rimette tutto a posto e 'Annulla tutto' ripristina i valori originali. Qui c'è tutto ciò che il tuo driver conosce (anche le voci senza descrizione, con il nome del driver): le stesse di NVIDIA Profile Inspector. 'Salva profilo' e 'Carica profilo' salvano e rimettono anche queste."
     'AMD'         = "Impostazioni grafiche globali di AMD Software: Adrenalin Edition, lette e scritte con ADLX (la libreria ufficiale del driver AMD). Scegli uno dei preset (Prestazioni, Bilanciato, Qualità: cambiano solo queste impostazioni, i profili non le toccano) oppure cambia i singoli menu a tendina: le righe 'Da applicare' vengono scritte solo con 'Anteprima e applica'. Compaiono solo le funzioni che la tua scheda supporta."
     'Pulizia'     = "File temporanei e cache. Attenzione: la pulizia NON si può annullare (i file vengono eliminati)."
     'Avanzate'    = "⚠  VOCI AVANZATE: possono togliere funzioni o avere effetti collaterali. Non sono mai incluse nei profili: spuntale solo se hai letto la descrizione e sai cosa fanno."
@@ -5364,6 +5857,7 @@ function Esegui-Scansione {
         foreach ($v in @(Trova-VociAvvio)) { $Script:Voci[$v.Id] = $v }
 
         $Script:CacheAppx = Leggi-PacchettiAppx
+        $Script:CacheNv = $null
         foreach ($c in $Script:Collezioni.Values) { $c.Clear() }
         $Script:TutteLeRighe.Clear()
 
@@ -6232,14 +6726,31 @@ $Script:CodiceCercaNvidia = {
     param($NomeGpu, $Quanti, $Studio, $Windows11)
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     # Nei runspace si usa HttpWebRequest con timeout (Invoke-WebRequest può bloccarsi).
+    # Fino a 5 tentativi con attesa crescente (2, 4, 6, 8 s): nvidia.com risponde ogni tanto 503 "Server non disponibile".
+    # Si riprova solo per errori del server (5xx, 429, 408) o di rete/timeout; un 404 o simili falliscono subito.
     $leggi = {
         param($Url)
-        $q = [Net.HttpWebRequest]::Create($Url)
-        $q.UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-        $q.Timeout = 30000; $q.ReadWriteTimeout = 30000
-        $q.AutomaticDecompression = [Net.DecompressionMethods]::GZip -bor [Net.DecompressionMethods]::Deflate
-        $risp = $q.GetResponse()
-        try { $sr = New-Object IO.StreamReader($risp.GetResponseStream(), [Text.Encoding]::UTF8); $sr.ReadToEnd() } finally { $risp.Close() }
+        $max = 5
+        for ($tentativo = 1; $tentativo -le $max; $tentativo++) {
+            try {
+                $q = [Net.HttpWebRequest]::Create($Url)
+                $q.UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+                $q.Timeout = 30000; $q.ReadWriteTimeout = 30000
+                $q.AutomaticDecompression = [Net.DecompressionMethods]::GZip -bor [Net.DecompressionMethods]::Deflate
+                $risp = $q.GetResponse()
+                try { $sr = New-Object IO.StreamReader($risp.GetResponseStream(), [Text.Encoding]::UTF8); return $sr.ReadToEnd() } finally { $risp.Close() }
+            } catch {
+                $eccezione = $_.Exception
+                while ($eccezione.InnerException -and -not ($eccezione -is [Net.WebException])) { $eccezione = $eccezione.InnerException }
+                $riprova = $true
+                if ($eccezione -is [Net.WebException] -and $eccezione.Response) {
+                    $codiceHttp = [int]$eccezione.Response.StatusCode
+                    $riprova = ($codiceHttp -ge 500 -or $codiceHttp -eq 429 -or $codiceHttp -eq 408)
+                }
+                if (-not $riprova -or $tentativo -ge $max) { throw }
+                Start-Sleep -Seconds (2 * $tentativo)
+            }
+        }
     }
     $pulisci = { param($s) ((($s -replace '^NVIDIA\s+', '') -replace '\((TM|R)\)', '') -replace '[^A-Za-z0-9]', '').ToUpperInvariant() }
     $nome = ($NomeGpu -replace '^NVIDIA\s+', '').Trim()
@@ -6964,6 +7475,14 @@ function Installa-DriverNvidia($Agg) {
     }
 
     if (-not (Crea-PuntoRipristino)) { Scrivi-Log 'Installazione NVIDIA annullata: punto di ripristino non creato.' 'AVVISO'; return }
+    # Un'installazione pulita azzera le impostazioni NVIDIA: se ne salva una copia, da riapplicare con "Carica profilo".
+    try {
+        if (Nvidia-Disponibile) {
+            $copiaNv = Join-Path $Script:CartellaProfiliNv ('Profilo_NVIDIA_prima_del_driver_{0}.json' -f (Get-Date -Format 'yyyyMMdd_HHmm'))
+            $risNv = Esporta-ProfiloNvidia $copiaNv 'Copia automatica prima di installare il driver'
+            Scrivi-Log "Impostazioni NVIDIA salvate prima dell'installazione ($($risNv.Salvate)): $copiaNv. Dopo il driver: sezione Impostazioni NVIDIA > Carica profilo." 'OK'
+        }
+    } catch { Scrivi-Log "Copia delle impostazioni NVIDIA non riuscita: $($_.Exception.Message)" 'AVVISO' }
     Blocca-Pulsanti $true
     $wu = $null; $testoRiavvio = ''
     try {
@@ -9896,6 +10415,7 @@ function Mostra-Pagina([string]$Chiave) {
     if ($Chiave -eq 'Panoramica' -and $Script:CarteLive.Count -gt 0) { try { Aggiorna-Live } catch { } }
     # I servizi degli altri programmi si leggono la prima volta che si apre la sezione.
     if ($Chiave -eq 'ServiziEsterni' -and -not $Script:ServiziEsterniLetti) { $Script:ServiziEsterniLetti = $true; try { Aggiorna-ServiziEsterni } catch { Scrivi-Log "Elenco dei servizi non disponibile: $($_.Exception.Message)" 'AVVISO' } }
+    if ($Chiave -eq 'Bios' -and -not $Script:BiosLetto -and $Script:PannelloBios) { $Script:BiosLetto = $true; try { Aggiorna-Bios } catch { Scrivi-Log "Stato del BIOS non leggibile: $($_.Exception.Message)" 'AVVISO' } }
     $Script:TitoloPagina.Text = $p.Titolo
     $Script:IconaPagina.Text = [string][char]$p.Icona
     $intro = [string]$p.Intro
@@ -11009,6 +11529,34 @@ function Crea-ContenutoCategoria([string]$Cat) {
         $griglia.EnableRowVirtualization = $false
     }
     $griglia.ItemsSource = $coll
+    if ($Cat -eq 'NVIDIAAvanz') {
+        # Gruppi a tendina come in NVIDIA Profile Inspector (chiusi all'apertura, con il numero di impostazioni).
+        $vista = [System.Windows.Data.CollectionViewSource]::GetDefaultView($coll)
+        $vista.GroupDescriptions.Add((New-Object System.Windows.Data.PropertyGroupDescription('AreaVis')))
+        $griglia.GroupStyle.Add([Windows.Markup.XamlReader]::Parse(@'
+<GroupStyle xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+  <GroupStyle.ContainerStyle>
+    <Style TargetType="GroupItem">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="GroupItem">
+            <Expander IsExpanded="False" Margin="0,2,0,2" Foreground="{DynamicResource Testo}">
+              <Expander.Header>
+                <StackPanel Orientation="Horizontal" Margin="4,6">
+                  <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14"/>
+                  <TextBlock Text="{Binding ItemCount, StringFormat=  ({0})}" Foreground="{DynamicResource Testo3}" FontSize="13"/>
+                </StackPanel>
+              </Expander.Header>
+              <ItemsPresenter/>
+            </Expander>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </GroupStyle.ContainerStyle>
+</GroupStyle>
+'@))
+    }
     $griglia.add_SelectionChanged({ param($s, $e) try { if ($s.SelectedItem) { Mostra-Descrizione $s.SelectedItem } } catch { } })
     $cornice = Nuova-Cornice $griglia
     if ($Cat -eq 'Latenza') {
@@ -11073,6 +11621,20 @@ function Crea-ContenutoCategoria([string]$Cat) {
         $b.ToolTip = $def[3]
         $b.add_Click({ try { $p = ([string]$this.Tag).Split('|'); [void](Applica-PresetNvidia $p[1] -Solo $(if ($p[0] -eq 'NVIDIAAvanz') { 'NVIDIA' } else { $p[0] }) -Categoria $p[0]); Aggiorna-Intestazioni } catch { Mostra-Errore $_ } })
         [void]$barra.Children.Add($b)
+    }
+    if ($Cat -eq 'NVIDIA' -or $Cat -eq 'NVIDIAAvanz') {
+        # Salva / riapplica TUTTE le impostazioni NVIDIA (Pannello e Profile Inspector) per dopo un aggiornamento del driver.
+        $etp = Nuovo-Testo 'PROFILO' 'Testo3' 11 $true
+        $etp.VerticalAlignment = 'Center'
+        $etp.Margin = New-Object System.Windows.Thickness(14, 0, 10, 0)
+        [void]$barra.Children.Add($etp)
+        $bs = Nuovo-Pulsante 'Salva profilo' 0xE74E
+        $bs.ToolTip = 'Salva in un file tutte le impostazioni NVIDIA scritte nel driver (Pannello di controllo e Profile Inspector insieme), per rimetterle dopo un aggiornamento o un''installazione pulita. Non modifica niente.'
+        $bs.add_Click({ try { Salva-ProfiloNvidia } catch { Mostra-Errore $_ } })
+        $bc = Nuovo-Pulsante 'Carica profilo' 0xE8E5
+        $bc.ToolTip = 'Rimette le impostazioni NVIDIA salvate in un file. Prima mostra cosa cambia, e salva quelle attuali in Dati\Backup.'
+        $bc.add_Click({ try { Carica-ProfiloNvidia } catch { Mostra-Errore $_ } })
+        foreach ($x in @($bs, $bc)) { $x.Margin = New-Object System.Windows.Thickness(0, 0, 6, 0); [void]$barra.Children.Add($x) }
     }
     $pannello = New-Object System.Windows.Controls.DockPanel
     [System.Windows.Controls.DockPanel]::SetDock($barra, [System.Windows.Controls.Dock]::Top)
@@ -11477,6 +12039,7 @@ Aggiungi-Categoria 'Registro'
 Aggiungi-Categoria 'Manutenzione'
 Aggiungi-TitoloNav 'Altro'
 Aggiungi-Categoria 'Avanzate'
+Aggiungi-Pagina 'Bios' 'BIOS e firmware' 0xE950 $null "Stato del BIOS e del firmware letto da Windows (solo lettura): modalità di avvio, Secure Boot, TPM, virtualizzazione, Resizable BAR, velocità della RAM. Regia non modifica mai il BIOS: ti dice cosa controllare e dove trovare le opzioni, e può aprire il BIOS al riavvio." $false $false
 Aggiungi-Pagina 'Feedback' 'Feedback' 0xED15 $null "Raccontaci come va: voto, problemi e idee. Le risposte finiscono in un file .zip sul desktop che mandi tu a chi ti ha dato Regia (niente viene inviato da solo)." $false $false
 Aggiungi-Pagina 'Log' 'Registro attività' 0xE8A5 (Nuova-Cornice $Script:CasellaLog) 'Tutto quello che il programma legge e fa viene scritto qui e nei file della cartella Dati\Log.' $false $false
 
@@ -11718,6 +12281,242 @@ $pannelloFeedback.FindName('BtnInviaFeedback').add_Click({
 if ($Script:Pagine['Feedback']) { $Script:Pagine['Feedback'].Contenuto = $pannelloFeedback }
 # Il pulsante in basso nella barra laterale apre la sezione Feedback.
 $Script:Finestra.FindName('BtnFeedback').add_Click({ try { Vai-A 'Feedback' } catch { Mostra-Errore $_ } })
+
+# ---------- Sezione "BIOS e firmware" ----------
+# Il BIOS/UEFI non ha un'interfaccia comune a tutti i PC: ogni produttore ha la sua e molti non ne hanno nessuna.
+# Per questo la sezione NON scrive mai nel BIOS: legge lo stato con gli strumenti standard di Windows, dice cosa
+# conviene controllare, apre il BIOS al riavvio (comando standard dei PC UEFI) e spiega dove sono le opzioni per marca.
+try {
+    if (-not ('OttWin.Firmware' -as [type])) {
+        Add-Type -Language CSharp -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+namespace OttWin
+{
+    public static class Firmware
+    {
+        [DllImport("kernel32.dll")] private static extern bool GetFirmwareType(out uint tipo);
+        public static string Tipo()
+        {
+            try { uint t; if (!GetFirmwareType(out t)) return "?"; return t == 1 ? "BIOS" : (t == 2 ? "UEFI" : "?"); }
+            catch { return "?"; }
+        }
+    }
+}
+'@
+    }
+} catch { }
+
+# Come si entra nel BIOS e dove stanno le opzioni utili, per marca (i nomi cambiano con la versione del BIOS).
+$Script:GuidaBios = @(
+    @{ Marca = 'Lenovo';   Re = 'LENOVO';      Entra = 'F2 (o Fn+F2) all''accensione; sui Legion anche il pulsante Novo.'
+       Dove = 'Resizable BAR e Above 4G Decoding: Configuration o Advanced. Virtualizzazione: Configuration > Intel Virtualization / AMD SVM. Modalità GPU (ibrida o solo NVIDIA): Configuration > Graphics Device, oppure Lenovo Vantage / Legion Space. Molti Legion nascondono le opzioni avanzate.' }
+    @{ Marca = 'ASUS';     Re = 'ASUS';        Entra = 'Canc o F2 all''accensione (portatili: F2).'
+       Dove = 'Modalità avanzata (F7). Resizable BAR: Advanced > PCI Subsystem Settings > Above 4G Decoding e Re-Size BAR Support. XMP/DOCP/EXPO: Ai Tweaker > Ai Overclock Tuner. Virtualizzazione: Advanced > CPU Configuration.' }
+    @{ Marca = 'MSI';      Re = 'Micro-Star|MSI'; Entra = 'Canc all''accensione (portatili: Canc o F2).'
+       Dove = 'Settings > Advanced > PCI Subsystem Settings > Above 4G Memory e Re-Size BAR Support. XMP/EXPO: OC > A-XMP / EXPO. Virtualizzazione: Settings > Advanced > CPU Features.' }
+    @{ Marca = 'Gigabyte'; Re = 'Gigabyte|GIGA'; Entra = 'Canc all''accensione (portatili Aorus: F2).'
+       Dove = 'Settings > IO Ports > Above 4G Decoding e Resizable BAR Support. XMP/EXPO: Tweaker > Extreme Memory Profile. Virtualizzazione: Tweaker > Advanced CPU Settings.' }
+    @{ Marca = 'ASRock';   Re = 'ASRock';      Entra = 'F2 o Canc all''accensione.'
+       Dove = 'Advanced > PCI Configuration > Above 4G Decoding e Re-Size BAR Support. XMP/EXPO: OC Tweaker > DRAM Configuration. Virtualizzazione: Advanced > CPU Configuration.' }
+    @{ Marca = 'Dell';     Re = 'Dell';        Entra = 'F2 all''accensione (F12 apre il menu di avvio).'
+       Dove = 'Virtualization Support: Settings > Virtualization Support. Secure Boot: Boot Configuration. I portatili Alienware hanno qualche opzione in più (memoria, grafica).' }
+    @{ Marca = 'HP';       Re = 'HP|Hewlett';  Entra = 'Esc poi F10 all''accensione (F9 per il menu di avvio).'
+       Dove = 'Advanced > System Options > Virtualization Technology. Secure Boot: Security. Gli Omen hanno qualche opzione in più nella sezione Advanced.' }
+    @{ Marca = 'Acer';     Re = 'Acer';        Entra = 'F2 all''accensione (F12 per il menu di avvio).'
+       Dove = 'Main > F12 Boot Menu. Virtualizzazione: Advanced o Main. Sui Predator/Nitro l''utilità PredatorSense/NitroSense gestisce alcune opzioni.' }
+)
+
+# Legge lo stato del BIOS e del firmware: solo lettura, nessuna modifica.
+function Leggi-StatoBios {
+    $r = New-Object System.Collections.ArrayList
+    $agg = { param($n, $v, $e, $c) [void]$r.Add([pscustomobject]@{ Nome = $n; Valore = $v; Esito = $e; Consiglio = $c }) }
+    $cs = Get-CimInstance Win32_ComputerSystem -ErrorAction SilentlyContinue
+    $bios = Get-CimInstance Win32_BIOS -ErrorAction SilentlyContinue | Select-Object -First 1
+    $cpu = Get-CimInstance Win32_Processor -ErrorAction SilentlyContinue | Select-Object -First 1
+
+    & $agg 'Produttore e modello' ("{0} {1}" -f $cs.Manufacturer, $cs.Model).Trim() 'info' ''
+
+    if ($bios) {
+        $data = $null; try { $data = [datetime]$bios.ReleaseDate } catch { }
+        $eta = $(if ($data) { [math]::Floor(((Get-Date) - $data).TotalDays / 365.25) } else { -1 })
+        $txt = "$($bios.SMBIOSBIOSVersion)" + $(if ($data) { " del $($data.ToString('dd/MM/yyyy'))" } else { '' })
+        if ($eta -ge 2) { & $agg 'Versione del BIOS' $txt 'attenzione' "Il BIOS ha più di $eta anni: controlla sul sito del produttore se esiste un aggiornamento. Aggiornalo solo se risolve un problema che hai o se ti serve la novità, e mai con la batteria quasi scarica." }
+        else { & $agg 'Versione del BIOS' $txt 'ok' 'Aggiornamenti del BIOS: solo dal sito del produttore del PC. Regia non li installa.' }
+    }
+
+    $tipo = [OttWin.Firmware]::Tipo()
+    if ($tipo -eq 'UEFI') { & $agg 'Modalità di avvio' 'UEFI' 'ok' 'È la modalità moderna, richiesta da Windows 11.' }
+    elseif ($tipo -eq 'BIOS') { & $agg 'Modalità di avvio' 'BIOS tradizionale (Legacy/CSM)' 'attenzione' 'Windows 11 e molte funzioni moderne vogliono UEFI. Il passaggio si può fare senza reinstallare con lo strumento MBR2GPT di Windows, ma fai prima un backup.' }
+    else { & $agg 'Modalità di avvio' 'Non rilevata' 'info' '' }
+
+    $sb = $null; try { $sb = [bool](Confirm-SecureBootUEFI -ErrorAction Stop) } catch { }
+    if ($sb -eq $true) { & $agg 'Secure Boot' 'Attivo' 'ok' 'Protegge l''avvio da software malevolo. Alcuni giochi con anti-cheat (es. Valorant, Battlefield) lo richiedono.' }
+    elseif ($sb -eq $false) { & $agg 'Secure Boot' 'Disattivato' 'attenzione' 'Va attivato dal BIOS (sezione Boot o Security). Alcuni giochi con anti-cheat e Windows 11 lo richiedono.' }
+    else { & $agg 'Secure Boot' 'Non disponibile (PC non UEFI)' 'info' '' }
+
+    try {
+        $t = Get-Tpm -ErrorAction Stop
+        $ver = ''
+        try { $ver = [string]((Get-CimInstance -Namespace 'root\cimv2\Security\MicrosoftTpm' -ClassName Win32_Tpm -ErrorAction Stop).SpecVersion -split ',')[0] } catch { }
+        if ($t.TpmPresent -and $t.TpmReady) { & $agg 'TPM (modulo di sicurezza)' ("Presente e pronto" + $(if ($ver) { ", versione $ver" } else { '' })) 'ok' 'Richiesto da Windows 11.' }
+        elseif ($t.TpmPresent) { & $agg 'TPM (modulo di sicurezza)' 'Presente ma non pronto' 'attenzione' 'Apri tpm.msc per vedere lo stato; di solito basta attivarlo nel BIOS (Intel PTT o AMD fTPM).' }
+        else { & $agg 'TPM (modulo di sicurezza)' 'Non trovato' 'attenzione' 'Nel BIOS cerca Intel PTT (Intel) o AMD fTPM (AMD) e attivalo: serve a Windows 11.' }
+    } catch { & $agg 'TPM (modulo di sicurezza)' 'Non leggibile' 'info' '' }
+
+    if ($cs -and $cs.HypervisorPresent) { & $agg 'Virtualizzazione (VT-x / AMD-V)' 'Attiva (Windows la sta usando)' 'ok' 'Serve a WSL, macchine virtuali, emulatori Android e a una parte delle protezioni di Windows.' }
+    elseif ($cpu -and $cpu.VirtualizationFirmwareEnabled) { & $agg 'Virtualizzazione (VT-x / AMD-V)' 'Attiva nel BIOS' 'ok' '' }
+    elseif ($cpu) { & $agg 'Virtualizzazione (VT-x / AMD-V)' 'Disattivata nel BIOS' 'info' 'Se usi macchine virtuali, WSL o emulatori Android, attivala nel BIOS (Intel Virtualization Technology o SVM Mode). Se non li usi puoi lasciarla così.' }
+
+    # Resizable BAR: nessuna API di Windows lo dice; con NVIDIA lo si legge da nvidia-smi (BAR1 oltre 256 MB = attivo).
+    try {
+        $smi = (Get-Command 'nvidia-smi.exe' -ErrorAction SilentlyContinue | Select-Object -First 1).Source
+        if (-not $smi -and (Test-Path "$env:SystemRoot\System32\nvidia-smi.exe")) { $smi = "$env:SystemRoot\System32\nvidia-smi.exe" }
+        if ($smi) {
+            $uscita = (@(Esegui-InBackground { param($exe) (& $exe -q -d MEMORY 2>$null) -join "`n" } @($smi)) -join "`n")
+            $m = [regex]::Match($uscita, 'BAR1 Memory Usage\s+Total\s*:\s*(\d+)\s*MiB')
+            if ($m.Success) {
+                $mb = [int]$m.Groups[1].Value
+                if ($mb -gt 256) { & $agg 'Resizable BAR (scheda NVIDIA)' "Attivo (finestra $mb MB)" 'ok' 'La CPU può usare tutta la memoria video. Il driver ha un elenco di giochi dove conviene.' }
+                else { & $agg 'Resizable BAR (scheda NVIDIA)' "Non attivo (finestra $mb MB)" 'info' 'Nel BIOS attiva Above 4G Decoding e Re-Size BAR Support (vedi la guida per marca qui sotto). Dà qualche punto percentuale in più in alcuni giochi.' }
+            }
+        }
+    } catch { }
+
+    # Memorie: velocità dichiarata e velocità in uso (XMP / EXPO).
+    try {
+        $mem = @(Get-CimInstance Win32_PhysicalMemory -ErrorAction Stop)
+        $dich = ($mem | Measure-Object Speed -Maximum).Maximum
+        $uso = ($mem | Where-Object { $_.ConfiguredClockSpeed } | Measure-Object ConfiguredClockSpeed -Minimum).Minimum
+        if ($dich -gt 0 -and $uso -gt 0) {
+            if ($uso + 100 -lt $dich) { & $agg 'Velocità della memoria RAM' "$uso MT/s in uso, $dich MT/s dichiarati" 'attenzione' 'La RAM va più piano di quanto può: nel BIOS attiva il profilo XMP (Intel) o EXPO/DOCP (AMD). Sui portatili con RAM saldata spesso non esiste.' }
+            else { & $agg 'Velocità della memoria RAM' "$uso MT/s (come dichiarato)" 'ok' '' }
+        }
+    } catch { }
+
+    $hb = $null; try { $hb = (Get-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power' -ErrorAction Stop).HiberbootEnabled } catch { }
+    if ($null -ne $hb) { & $agg 'Avvio rapido di Windows' $(if ($hb -eq 1) { 'Attivo' } else { 'Disattivato' }) 'info' 'L''avvio rapido salva lo stato del sistema allo spegnimento: accende più in fretta, ma "Arresta" non riavvia davvero il PC. Se hai problemi dopo aggiornamenti o driver, usa "Riavvia" o disattivalo.' }
+    return @($r)
+}
+
+# Pulsanti e righe della sezione
+$Script:XamlBios = @'
+<ScrollViewer xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" VerticalScrollBarVisibility="Auto">
+  <StackPanel MaxWidth="900" HorizontalAlignment="Left">
+    <WrapPanel Margin="0,0,0,14">
+      <Button x:Name="BtnBiosLeggi" Margin="0,0,8,0" ToolTip="Rilegge lo stato del BIOS e del firmware. Non modifica niente.">
+        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE72C;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="Rileggi lo stato"/></StackPanel>
+      </Button>
+      <Button x:Name="BtnBiosApri" Style="{DynamicResource Primario}" ToolTip="Riavvia il PC e apre direttamente il BIOS (comando standard dei PC UEFI). Chiede conferma e ha 45 secondi di tempo per annullare.">
+        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE7E8;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="Apri il BIOS al riavvio"/></StackPanel>
+      </Button>
+    </WrapPanel>
+    <StackPanel x:Name="ElencoBios"/>
+    <Border CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie}" Padding="22,18" Margin="0,8,0,14">
+      <StackPanel>
+        <TextBlock Text="GUIDA PER MARCA" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource Testo3}"/>
+        <TextBlock x:Name="TestoGuidaBios" TextWrapping="Wrap" Margin="0,10,0,0" LineHeight="21" Foreground="{DynamicResource Testo}"/>
+        <TextBlock Text="Regia non scrive mai nel BIOS: ogni produttore ha un sistema diverso e un errore può impedire l'accensione. Le modifiche si fanno a mano, nel BIOS, una alla volta, annotando il valore di prima. I nomi delle voci cambiano da una versione all'altra." TextWrapping="Wrap" Margin="0,12,0,0" LineHeight="20" Foreground="{DynamicResource Testo2}"/>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</ScrollViewer>
+'@
+$pannelloBios = [Windows.Markup.XamlReader]::Parse($Script:XamlBios)
+$Script:PannelloBios = $pannelloBios
+$Script:BiosLetto = $false
+
+function Aggiorna-Bios {
+    $p = $Script:PannelloBios
+    $elenco = $p.FindName('ElencoBios')
+    $elenco.Children.Clear()
+    Imposta-Stato 'Leggo lo stato del BIOS e del firmware (sola lettura)...'
+    $voci = @(Leggi-StatoBios)
+    foreach ($v in $voci) {
+        $riga = New-Object System.Windows.Controls.Border
+        $riga.CornerRadius = New-Object System.Windows.CornerRadius(8)
+        $riga.BorderThickness = New-Object System.Windows.Thickness(1)
+        $riga.Padding = New-Object System.Windows.Thickness(16, 12, 16, 12)
+        $riga.Margin = New-Object System.Windows.Thickness(0, 0, 0, 8)
+        $riga.SetResourceReference([System.Windows.Controls.Border]::BorderBrushProperty, 'Bordo')
+        $riga.SetResourceReference([System.Windows.Controls.Border]::BackgroundProperty, 'Superficie')
+        $dock = New-Object System.Windows.Controls.DockPanel
+        $pill = New-Object System.Windows.Controls.Border
+        $pill.CornerRadius = New-Object System.Windows.CornerRadius(10)
+        $pill.Padding = New-Object System.Windows.Thickness(10, 2, 10, 2)
+        $pill.Margin = New-Object System.Windows.Thickness(0, 0, 14, 0)
+        $pill.Width = 96; $pill.Height = 24; $pill.VerticalAlignment = 'Top'
+        $chiaveSfondo = switch ($v.Esito) { 'ok' { 'VerdeTenue' } 'attenzione' { 'AranciaTenue' } default { 'Superficie2' } }
+        $chiaveTesto = switch ($v.Esito) { 'ok' { 'Verde' } 'attenzione' { 'Arancio' } default { 'Testo2' } }
+        $etichetta = switch ($v.Esito) { 'ok' { 'A posto' } 'attenzione' { 'Da guardare' } default { 'Info' } }
+        $pill.SetResourceReference([System.Windows.Controls.Border]::BackgroundProperty, $chiaveSfondo)
+        $tp = New-Object System.Windows.Controls.TextBlock
+        $tp.Text = Tr $etichetta; $tp.FontSize = 12; $tp.FontWeight = 'SemiBold'; $tp.HorizontalAlignment = 'Center'
+        $tp.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, $chiaveTesto)
+        $pill.Child = $tp
+        [System.Windows.Controls.DockPanel]::SetDock($pill, [System.Windows.Controls.Dock]::Left)
+        $pila = New-Object System.Windows.Controls.StackPanel
+        $nome = New-Object System.Windows.Controls.TextBlock
+        $nome.Text = (Tr $v.Nome); $nome.FontWeight = 'SemiBold'; $nome.FontSize = 14; $nome.TextWrapping = 'Wrap'
+        $nome.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, 'Testo')
+        $val = New-Object System.Windows.Controls.TextBlock
+        $val.Text = (Tr $v.Valore); $val.TextWrapping = 'Wrap'; $val.Margin = New-Object System.Windows.Thickness(0, 2, 0, 0)
+        $val.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, 'Testo')
+        [void]$pila.Children.Add($nome); [void]$pila.Children.Add($val)
+        if ($v.Consiglio) {
+            $co = New-Object System.Windows.Controls.TextBlock
+            $co.Text = (Tr $v.Consiglio); $co.TextWrapping = 'Wrap'; $co.Margin = New-Object System.Windows.Thickness(0, 6, 0, 0); $co.LineHeight = 20
+            $co.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, 'Testo2')
+            [void]$pila.Children.Add($co)
+        }
+        [void]$dock.Children.Add($pill); [void]$dock.Children.Add($pila)
+        $riga.Child = $dock
+        [void]$elenco.Children.Add($riga)
+    }
+    # Guida: prima la marca di questo PC, poi le altre
+    $cs = Get-CimInstance Win32_ComputerSystem -ErrorAction SilentlyContinue
+    $bb = Get-CimInstance Win32_BaseBoard -ErrorAction SilentlyContinue | Select-Object -First 1
+    $produttore = "$($cs.Manufacturer) $($bb.Manufacturer)"
+    $mia = $Script:GuidaBios | Where-Object { $produttore -match $_.Re } | Select-Object -First 1
+    $righeGuida = New-Object System.Collections.ArrayList
+    if ($mia) { [void]$righeGuida.Add((Tr "Il tuo PC: $($mia.Marca)") + "`n" + (Tr 'Come si entra nel BIOS: ') + (Tr $mia.Entra) + "`n" + (Tr 'Dove sono le opzioni: ') + (Tr $mia.Dove)) }
+    else { [void]$righeGuida.Add((Tr 'La marca di questo PC non è nell''elenco: di solito il BIOS si apre con Canc, F2 o F10 subito dopo l''accensione. Il pulsante "Apri il BIOS al riavvio" funziona su tutti i PC UEFI.')) }
+    $altre = @($Script:GuidaBios | Where-Object { -not $mia -or $_.Marca -ne $mia.Marca })
+    if ($altre.Count -gt 0) {
+        [void]$righeGuida.Add((Tr 'Altre marche:'))
+        foreach ($g in $altre) { [void]$righeGuida.Add("• $($g.Marca): " + (Tr $g.Entra)) }
+    }
+    $p.FindName('TestoGuidaBios').Text = ($righeGuida -join "`n")
+    $Script:BiosLetto = $true
+    Scrivi-Log "Stato del BIOS letto: $(($voci | ForEach-Object { "$($_.Nome)=$($_.Valore)" }) -join ' | ')" 'OK'
+    Imposta-Stato 'Stato del BIOS letto (sola lettura).'
+}
+
+function Apri-Bios {
+    if ([OttWin.Firmware]::Tipo() -ne 'UEFI') {
+        [void](Mostra-Messaggio 'Questo PC non usa UEFI: il riavvio diretto nel BIOS non è disponibile. Riavvia e premi subito Canc, F2 o F10 (vedi la guida per marca).' 'Apri il BIOS' 'OK' 'Warning')
+        return
+    }
+    $ris = Mostra-Messaggio "Il PC si riavvia tra 45 secondi e si apre direttamente il BIOS.`n`nSalva i documenti e chiudi i programmi: quelli aperti vengono chiusi. Dopo il riavvio, per tornare a Windows esci dal BIOS senza salvare modifiche (di solito Esc o 'Exit').`n`nProcedo?" 'Apri il BIOS al riavvio' 'YesNo' 'Warning'
+    if ($ris -ne 'Yes') { return }
+    $p = Start-Process -FilePath "$env:SystemRoot\System32\shutdown.exe" -ArgumentList @('/r', '/fw', '/t', '45', '/c', 'Regia: riavvio per aprire il BIOS') -WindowStyle Hidden -PassThru -Wait
+    if ($p.ExitCode -ne 0) {
+        Scrivi-Log "Riavvio verso il BIOS non riuscito (codice $($p.ExitCode))." 'ERRORE'
+        [void](Mostra-Messaggio "Windows non ha accettato il comando (codice $($p.ExitCode)). Riavvia a mano e premi subito il tasto del BIOS." 'Apri il BIOS' 'OK' 'Warning')
+        return
+    }
+    Scrivi-Log 'Riavvio verso il BIOS programmato tra 45 secondi (shutdown /r /fw).' 'AVVISO'
+    if ((Mostra-Messaggio "Riavvio verso il BIOS programmato tra 45 secondi.`n`nVuoi annullarlo?" 'Apri il BIOS al riavvio' 'YesNo' 'Question') -eq 'Yes') {
+        [void](Start-Process -FilePath "$env:SystemRoot\System32\shutdown.exe" -ArgumentList '/a' -WindowStyle Hidden -PassThru -Wait)
+        Scrivi-Log 'Riavvio verso il BIOS annullato.' 'OK'
+        Imposta-Stato 'Riavvio annullato.'
+    }
+}
+
+$pannelloBios.FindName('BtnBiosLeggi').add_Click({ try { Aggiorna-Bios } catch { Mostra-Errore $_ } })
+$pannelloBios.FindName('BtnBiosApri').add_Click({ try { Apri-Bios } catch { Mostra-Errore $_ } })
+if ($Script:Pagine['Bios']) { $Script:Pagine['Bios'].Contenuto = $pannelloBios }
 
 # ---------- Aggiornamenti online ----------
 # Il programma controlla all'avvio se esiste una versione più recente e, solo se lo confermi, la scarica,
