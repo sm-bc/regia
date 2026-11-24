@@ -98,7 +98,7 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 # 2. PERCORSI, LOG E UTILITÀ GENERICHE
 # ==============================================================================
 
-$Script:Versione       = '3.13'
+$Script:Versione       = '3.14'
 $Script:FileProgramma  = $PSCommandPath
 $Script:CartellaBase   = Split-Path -Parent $PSCommandPath
 $Script:CartellaDati   = Join-Path $Script:CartellaBase 'Dati'
@@ -2058,6 +2058,27 @@ Esc poi F10 all'accensione (F9 per il menu di avvio).	Esc then F10 at power-on (
 Advanced > System Options > Virtualization Technology. Secure Boot: Security. Gli Omen hanno qualche opzione in più nella sezione Advanced.	Advanced > System Options > Virtualization Technology. Secure Boot: Security. Omen laptops have a few more options in the Advanced section.
 F2 all'accensione (F12 per il menu di avvio).	F2 at power-on (F12 for the boot menu).
 Main > F12 Boot Menu. Virtualizzazione: Advanced o Main. Sui Predator/Nitro l'utilità PredatorSense/NitroSense gestisce alcune opzioni.	Main > F12 Boot Menu. Virtualization: Advanced or Main. On Predator/Nitro laptops the PredatorSense/NitroSense utility handles some options.
+Firewall di Windows spento	Windows Firewall turned off
+Controllo account utente (UAC) disattivato	User Account Control (UAC) turned off
+Efficacia del roaming Wi-Fi (quando cambiare punto di accesso)	Wi-Fi roaming (when to switch access point)
+Valore di fabbrica	Factory value
+Decide quando la scheda Wi-Fi lascia il punto di accesso attuale per cercarne un altro. Il valore di fabbrica (Medio-alto) cambia punto di accesso più in fretta quando il segnale cala. 'Minimo' resta più a lungo sullo stesso punto, anche con segnale debole. Cambiarlo può interrompere il Wi-Fi per qualche secondo.	Sets when the Wi-Fi card leaves the current access point to look for another one. The factory value (Medio-alto, high) switches access point sooner when the signal drops. 'Minimo' (minimum) stays longer on the same access point, even with a weak signal. Changing it may interrupt Wi-Fi for a few seconds.
+Nessuna scheda Wi-Fi	No Wi-Fi adapter
+Interruzioni MSI per GPU, USB e scheda di rete	MSI interrupts for GPU, USB and network adapter
+Attive (MSI)	On (MSI)
+Le schede avvisano il processore con segnali MSI, più diretti di quelli a linea condivisa dei vecchi sistemi: di solito è più rapido e lo usano i driver moderni. Riguarda schede video, controller USB e schede di rete che lo supportano. Regia non sceglie il core della CPU: lo decide Windows. Richiede un riavvio. Se un dispositivo dà problemi, 'Annulla' ripristina i valori precedenti.	Devices notify the processor with MSI signals, which are more direct than the shared-line signals of older systems: usually faster, and modern drivers use them. It applies to graphics cards, USB controllers and network cards that support it. Regia does not pick the CPU core: Windows does. Requires a restart. If a device gives trouble, 'Annulla' (undo) restores the previous values.
+Telemetria NVIDIA (servizio NvTelemetryContainer)	NVIDIA telemetry (NvTelemetryContainer service)
+Attivo (Windows)	Active (Windows)
+Il driver NVIDIA installa un servizio che invia a NVIDIA dati d'uso e diagnostica. Non serve al gioco né alla scheda video: disattivarlo non cambia le prestazioni. Se il servizio non c'è (succede con alcuni driver), la voce non fa nulla.	The NVIDIA driver installs a service that sends usage and diagnostic data to NVIDIA. It is not needed for games or for the graphics card: turning it off does not change performance. If the service is not there (happens with some drivers), the item does nothing.
+Stato del BIOS letto (sola lettura).	BIOS status read (read-only).
+Leggo lo stato del BIOS e del firmware (sola lettura)...	Reading the BIOS and firmware status (read-only)...
+Stato del BIOS letto: {}	BIOS status read: {}
+10 pacchetti/ms	10 packets/ms
+5% (Windows)	5% (Windows)
+100% (sempre pronta)	100% (always ready)
+Attive su tutti i {}	On for all {}
+{} · modalità {}	{} · {} mode
+Su questo PC non c'è una scheda video {} con il driver installato: questa sezione non serve.	This PC has no {} graphics card with the driver installed: this section is not needed.
 '@
 
 # I backup valgono solo per il PC su cui sono stati creati: se la cartella viene copiata su un altro PC,
@@ -3199,6 +3220,20 @@ function Interfacce-Tcp {
     } | ForEach-Object { $_.PSPath })
 }
 
+# ---------- Dalla 3.14: roaming Wi-Fi, MSI, telemetria NVIDIA ----------
+# Schede Wi-Fi fisiche e la loro proprietà "Efficacia roaming" (parola chiave RoamNeedIndicateTh).
+function Wifi-Roaming {
+    return @(Get-NetAdapter -Physical -ErrorAction SilentlyContinue | Where-Object { $_.InterfaceDescription -match 'Wi-?Fi|Wireless|802\.11' } |
+        Get-NetAdapterAdvancedProperty -RegistryKeyword RoamNeedIndicateTh -ErrorAction SilentlyContinue)
+}
+
+# Dispositivi PCI con interruzioni MSI: schede video, controller USB e schede di rete.
+function Dispositivi-Msi {
+    return @(Get-PnpDevice -PresentOnly -ErrorAction SilentlyContinue | Where-Object { $_.InstanceId -like 'PCI\*' -and $_.Class -in @('Display', 'USB', 'Net') })
+}
+function Chiave-Msi([string]$IdIstanza) {
+    return "HKLM:\SYSTEM\CurrentControlSet\Enum\$IdIstanza\Device Parameters\Interrupt Management\MessageSignaledInterruptProperties"
+}
 # Valori del caricatore di avvio che alcuni "ottimizzatori" cambiano (timer della piattaforma).
 $Script:ChiaviBcdTimer = @('useplatformclock', 'useplatformtick', 'disabledynamictick', 'tscsyncpolicy')
 function Leggi-BcdTimer {
@@ -4106,6 +4141,86 @@ $Script:Catalogo = @(
            }
        } }
 
+    @{ Id = 'lat.roaming'; Nome = 'Efficacia del roaming Wi-Fi (quando cambiare punto di accesso)'; Categoria = 'Latenza'; Tipo = 'Personalizzato'; Rischio = 'basso'; Avanzata = $true
+       Profili = @(); TestoConsigliato = 'Valore di fabbrica'; TestoPredefinito = 'Valore di fabbrica'
+       Descrizione = "Decide quando la scheda Wi-Fi lascia il punto di accesso attuale per cercarne un altro. Il valore di fabbrica (Medio-alto) cambia punto di accesso più in fretta quando il segnale cala. 'Minimo' resta più a lungo sullo stesso punto, anche con segnale debole. Cambiarlo può interrompere il Wi-Fi per qualche secondo."
+       Leggi = {
+           $s = @(Wifi-Roaming | Select-Object -First 1)
+           if ($s.Count -eq 0) { return Nuova-Lettura 'Nessuna scheda Wi-Fi' 'Non presente' $false }
+           $att = [string](@($s[0].RegistryValue)[0]); $fab = [string](@($s[0].DefaultRegistryValue)[0])
+           $nome = [string]$s[0].DisplayValue
+           if ($att -eq $fab) { return Nuova-Lettura $nome 'A posto' $true $true }
+           Nuova-Lettura $nome 'Da modificare' $true $false
+       }
+       Applica = {
+           param($Obiettivo)
+           foreach ($s in @(Wifi-Roaming)) {
+               Set-NetAdapterAdvancedProperty -Name $s.Name -RegistryKeyword RoamNeedIndicateTh -RegistryValue ([string](@($s.DefaultRegistryValue)[0])) -ErrorAction Stop
+           }
+       }
+       Originale = { @{ Schede = @(Wifi-Roaming | ForEach-Object { @{ Nome = $_.Name; Valore = [string](@($_.RegistryValue)[0]) } }) } }
+       Ripristina = { param($O) foreach ($s in @($O.Schede)) { Set-NetAdapterAdvancedProperty -Name $s.Nome -RegistryKeyword RoamNeedIndicateTh -RegistryValue ([string]$s.Valore) -ErrorAction Stop } } }
+
+    @{ Id = 'sys.msi'; Nome = 'Interruzioni MSI per GPU, USB e scheda di rete'; Categoria = 'Latenza'; Tipo = 'Personalizzato'; Rischio = 'medio'; Avanzata = $true; Riavvio = 'riavvio'
+       Profili = @(); TestoConsigliato = 'Attive (MSI)'; TestoPredefinito = 'Decide Windows'
+       Descrizione = "Le schede avvisano il processore con segnali MSI, più diretti di quelli a linea condivisa dei vecchi sistemi: di solito è più rapido e lo usano i driver moderni. Riguarda schede video, controller USB e schede di rete che lo supportano. Regia non sceglie il core della CPU: lo decide Windows. Richiede un riavvio. Se un dispositivo dà problemi, 'Annulla' ripristina i valori precedenti."
+       Leggi = {
+           $d = @(Dispositivi-Msi)
+           if ($d.Count -eq 0) { return Nuova-Lettura 'Nessun dispositivo' 'Non presente' $false }
+           $acc = @($d | Where-Object { (Get-ItemProperty -LiteralPath (Chiave-Msi $_.InstanceId) -ErrorAction SilentlyContinue).MSISupported -eq 1 }).Count
+           if ($acc -eq $d.Count) { return Nuova-Lettura "Attive su tutti i $($d.Count)" 'A posto' }
+           Nuova-Lettura "Attive su $acc di $($d.Count)" 'Da modificare' $true $false
+       }
+       Applica = {
+           param($Obiettivo)
+           foreach ($d in @(Dispositivi-Msi)) {
+               $k = Chiave-Msi $d.InstanceId
+               if (-not (Test-Path -LiteralPath $k)) { continue }
+               if ($Obiettivo -eq 'Predefinito') { Remove-ItemProperty -LiteralPath $k -Name MSISupported -ErrorAction SilentlyContinue }
+               else { New-ItemProperty -LiteralPath $k -Name MSISupported -Value 1 -PropertyType DWord -Force -ErrorAction Stop | Out-Null }
+           }
+       }
+       Originale = {
+           @{ Valori = @(foreach ($d in @(Dispositivi-Msi)) { $k = Chiave-Msi $d.InstanceId; $p = Get-ItemProperty -LiteralPath $k -ErrorAction SilentlyContinue; @{ Chiave = $k; Valore = $(if ($p) { $p.MSISupported } else { $null }) } }) }
+       }
+       Ripristina = {
+           param($O)
+           foreach ($x in @($O.Valori)) {
+               if (-not (Test-Path -LiteralPath $x.Chiave)) { continue }
+               if ($null -eq $x.Valore) { Remove-ItemProperty -LiteralPath $x.Chiave -Name MSISupported -ErrorAction SilentlyContinue }
+               else { New-ItemProperty -LiteralPath $x.Chiave -Name MSISupported -Value ([int]$x.Valore) -PropertyType DWord -Force | Out-Null }
+           }
+       } }
+
+    @{ Id = 'nv.telemetria'; Nome = 'Telemetria NVIDIA (servizio NvTelemetryContainer)'; Categoria = 'NVIDIA'; Tipo = 'Personalizzato'; Rischio = 'basso'; Avanzata = $true
+       Profili = @(); TestoConsigliato = 'Disattivato'; TestoPredefinito = 'Attivo (Windows)'
+       Descrizione = "Il driver NVIDIA installa un servizio che invia a NVIDIA dati d'uso e diagnostica. Non serve al gioco né alla scheda video: disattivarlo non cambia le prestazioni. Se il servizio non c'è (succede con alcuni driver), la voce non fa nulla."
+       Leggi = {
+           $k = 'HKLM:\SYSTEM\CurrentControlSet\Services\NvTelemetryContainer'
+           if (-not (Test-Path -LiteralPath $k)) { return Nuova-Lettura 'Non presente' 'Non presente' $false }
+           $s = [int](Get-ItemProperty -LiteralPath $k -ErrorAction SilentlyContinue).Start
+           if ($s -eq 4) { return Nuova-Lettura 'Disattivato' 'A posto' }
+           Nuova-Lettura 'Attivo' 'Da modificare' $true ($s -eq 2)
+       }
+       Applica = {
+           param($Obiettivo)
+           $k = 'HKLM:\SYSTEM\CurrentControlSet\Services\NvTelemetryContainer'
+           if (-not (Test-Path -LiteralPath $k)) { return }
+           $val = $(if ($Obiettivo -eq 'Predefinito') { 2 } else { 4 })
+           Set-ItemProperty -LiteralPath $k -Name Start -Value $val -Type DWord -ErrorAction Stop
+           if ($val -eq 4) { Stop-Service -Name NvTelemetryContainer -Force -ErrorAction SilentlyContinue }
+       }
+       Originale = {
+           $k = 'HKLM:\SYSTEM\CurrentControlSet\Services\NvTelemetryContainer'
+           if (Test-Path -LiteralPath $k) { @{ Start = [int](Get-ItemProperty -LiteralPath $k).Start } } else { @{ Start = $null } }
+       }
+       Ripristina = {
+           param($O)
+           $k = 'HKLM:\SYSTEM\CurrentControlSet\Services\NvTelemetryContainer'
+           if ($null -eq $O.Start -or -not (Test-Path -LiteralPath $k)) { return }
+           Set-ItemProperty -LiteralPath $k -Name Start -Value ([int]$O.Start) -Type DWord -ErrorAction SilentlyContinue
+           if ([int]$O.Start -ne 4) { Start-Service -Name NvTelemetryContainer -ErrorAction SilentlyContinue }
+       } }
     # --- Processore, memoria e sistema
     @{ Id = 'lat.mmcssgiochi'; Nome = 'Priorità dei giochi nello scheduler multimediale (MMCSS)'; Categoria = 'Latenza'; Tipo = 'Registro'; Rischio = 'basso'; Profili = @('Gaming')
        TestoConsigliato = 'Alta'; TestoPredefinito = 'Media (Windows)'
@@ -9022,7 +9137,8 @@ $Script:XamlFinestra = @'
       </Grid.RowDefinitions>
 
       <!-- Intestazione della sezione -->
-      <DockPanel Grid.Row="0">
+      <StackPanel Grid.Row="0">
+      <DockPanel>
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
           <Button x:Name="BtnLingua" Style="{DynamicResource Fantasma}" Margin="0,0,10,0" VerticalAlignment="Center" ToolTip="Language / Lingua: English - Italiano"/>
           <CheckBox x:Name="ChkProva" Style="{DynamicResource InterruttoreProva}" IsChecked="True" VerticalAlignment="Center" Margin="0,0,10,0"
@@ -9034,14 +9150,15 @@ $Script:XamlFinestra = @'
             </StackPanel>
           </Button>
         </StackPanel>
-        <StackPanel>
-          <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="IconaPagina" Style="{DynamicResource Icona}" FontSize="21" Foreground="{DynamicResource Accento}" Margin="0,2,12,0"/>
-            <TextBlock x:Name="TitoloPagina" FontSize="23" FontWeight="SemiBold"/>
-          </StackPanel>
-          <TextBlock x:Name="IntroPagina" Foreground="{DynamicResource Testo2}" Margin="0,8,24,0" TextWrapping="Wrap" LineHeight="19"/>
-        </StackPanel>
+        <DockPanel VerticalAlignment="Center">
+          <TextBlock x:Name="IconaPagina" DockPanel.Dock="Left" Style="{DynamicResource Icona}" FontSize="21" Foreground="{DynamicResource Accento}" Margin="0,2,12,0"/>
+          <TextBlock x:Name="TitoloPagina" FontSize="23" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Margin="0,0,12,0"/>
+        </DockPanel>
       </DockPanel>
+      <!-- Spiegazione della sezione: su tutta la larghezza; con la finestra bassa si accorcia (testo intero nel suggerimento) -->
+      <TextBlock x:Name="IntroPagina" Foreground="{DynamicResource Testo2}" Margin="0,8,0,0" MaxWidth="1100" HorizontalAlignment="Left"
+                 TextWrapping="Wrap" TextTrimming="CharacterEllipsis" LineHeight="19"/>
+      </StackPanel>
 
       <!-- Profili rapidi -->
       <Border x:Name="BarraProfili" Grid.Row="1" Margin="0,18,0,0" Padding="14,10" CornerRadius="8"
@@ -9191,9 +9308,9 @@ $Script:XamlFinestra = @'
 $Script:XamlGriglia = @'
 <DataGrid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-          AutoGenerateColumns="False" CanUserAddRows="False">
+          AutoGenerateColumns="False" CanUserAddRows="False" FrozenColumnCount="1">
   <DataGrid.Columns>
-    <DataGridTemplateColumn Header="" Width="54" CanUserResize="False">
+    <DataGridTemplateColumn Header="" Width="54" MinWidth="54" CanUserResize="False">
       <DataGridTemplateColumn.CellTemplate>
         <DataTemplate>
           <CheckBox IsChecked="{Binding Selezionata, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource InterruttorePiccolo}"
@@ -9202,12 +9319,12 @@ $Script:XamlGriglia = @'
       </DataGridTemplateColumn.CellTemplate>
     </DataGridTemplateColumn>
     <!--COLONNA_CATEGORIA-->
-    <DataGridTextColumn Header="VOCE" Binding="{Binding NomeVis}" Width="2.7*" IsReadOnly="True">
+    <DataGridTextColumn Header="VOCE" Binding="{Binding NomeVis}" Width="2.7*" MinWidth="160" IsReadOnly="True">
       <DataGridTextColumn.ElementStyle>
         <Style TargetType="TextBlock"><Setter Property="TextTrimming" Value="CharacterEllipsis"/><Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/></Style>
       </DataGridTextColumn.ElementStyle>
     </DataGridTextColumn>
-    <DataGridTextColumn Header="STATO ATTUALE" Binding="{Binding AttualeVis}" Width="1.5*" IsReadOnly="True">
+    <DataGridTextColumn Header="STATO ATTUALE" Binding="{Binding AttualeVis}" Width="1.5*" MinWidth="100" IsReadOnly="True">
       <DataGridTextColumn.ElementStyle>
         <Style TargetType="TextBlock"><Setter Property="TextTrimming" Value="CharacterEllipsis"/><Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/></Style>
       </DataGridTextColumn.ElementStyle>
@@ -9231,7 +9348,7 @@ $Script:XamlGriglia = @'
         </DataTemplate>
       </DataGridTemplateColumn.CellTemplate>
     </DataGridTemplateColumn>
-    <DataGridTextColumn Header="PREDEFINITO" Binding="{Binding PredefinitoVis}" Width="0.9*" IsReadOnly="True">
+    <DataGridTextColumn Header="PREDEFINITO" Binding="{Binding PredefinitoVis}" Width="0.9*" MinWidth="95" IsReadOnly="True">
       <DataGridTextColumn.ElementStyle>
         <Style TargetType="TextBlock">
           <Setter Property="Foreground" Value="{DynamicResource Testo2}"/>
@@ -9240,7 +9357,7 @@ $Script:XamlGriglia = @'
         </Style>
       </DataGridTextColumn.ElementStyle>
     </DataGridTextColumn>
-    <DataGridTemplateColumn Header="RISCHIO" Width="90" SortMemberPath="Rischio">
+    <DataGridTemplateColumn Header="RISCHIO" Width="90" MinWidth="90" SortMemberPath="Rischio">
       <DataGridTemplateColumn.CellTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -9260,7 +9377,7 @@ $Script:XamlGriglia = @'
         </DataTemplate>
       </DataGridTemplateColumn.CellTemplate>
     </DataGridTemplateColumn>
-    <DataGridTemplateColumn Header="ESITO" Width="130" SortMemberPath="Esito">
+    <DataGridTemplateColumn Header="ESITO" Width="130" MinWidth="130" SortMemberPath="Esito">
       <DataGridTemplateColumn.CellTemplate>
         <DataTemplate>
           <!-- Etichetta colorata: arancio = da sistemare, verde = a posto, rosso = errore, grigio = informazione -->
@@ -9294,7 +9411,7 @@ $Script:XamlGriglia = @'
 </DataGrid>
 '@
 
-$Script:XamlColonnaCategoria = '<DataGridTextColumn Header="CATEGORIA" Binding="{Binding CategoriaVis}" Width="0.9*" IsReadOnly="True"/>'
+$Script:XamlColonnaCategoria = '<DataGridTextColumn Header="CATEGORIA" Binding="{Binding CategoriaVis}" Width="0.9*" MinWidth="90" IsReadOnly="True"/>'
 
 $Script:XamlAnteprima = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10208,6 +10325,23 @@ $Script:ChkProva            = $Script:Finestra.FindName('ChkProva')
 $Script:BarraAvanzamento    = $Script:Finestra.FindName('BarraAvanzamento')
 $Script:TestoAvanzamento    = $Script:Finestra.FindName('TestoAvanzamento')
 $Script:RuotaAttesa         = $Script:Finestra.FindName('RuotaAttesa')
+
+# Finestra bassa (portatili piccoli): la spiegazione della sezione si ferma a 2-3 righe e lascia spazio alla tabella.
+# Il testo intero resta nel suggerimento che compare passando sopra con il mouse.
+function Adatta-Intro {
+    try {
+        $h = $Script:Finestra.ActualHeight
+        if (-not ($h -gt 0)) { $h = $Script:Finestra.Height }
+        if ($h -lt 800) {
+            $Script:IntroPagina.MaxHeight = $(if ($h -lt 700) { 38 } else { 57 })
+            $Script:IntroPagina.ToolTip = $(if ($Script:IntroPagina.Text) { $Script:IntroPagina.Text } else { $null })
+        } else {
+            $Script:IntroPagina.MaxHeight = [double]::PositiveInfinity
+            $Script:IntroPagina.ToolTip = $null
+        }
+    } catch { }
+}
+$Script:Finestra.add_SizeChanged({ Adatta-Intro })
 $Script:Finestra.FindName('TestoVersione').Text = "Ottimizzazione di Windows · $Script:Versione"
 $Script:FontIcone = New-Object System.Windows.Media.FontFamily('Segoe Fluent Icons, Segoe MDL2 Assets')
 
@@ -10425,6 +10559,7 @@ function Mostra-Pagina([string]$Chiave) {
     }
     $Script:IntroPagina.Text = $intro
     $Script:IntroPagina.Visibility = $(if ($intro) { 'Visible' } else { 'Collapsed' })
+    Adatta-Intro
     $Script:IntroPagina.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, $(if ($Chiave -eq 'Avanzate') { 'Rosso' } else { 'Testo2' }))
     if ($Script:Lingua -eq 'en' -and -not $p.Tradotta -and $p.Contenuto -is [System.Windows.DependencyObject]) { Traduci-Albero $p.Contenuto; $p.Tradotta = $true }
     $Script:AreaContenuto.Content = $p.Contenuto
@@ -11349,7 +11484,15 @@ function Aggiorna-DaFare {
     if ($Script:PannelloNvPresente -eq $false -and (Scheda-Nvidia)) {
         [void]$voci.Add(@{ Nome = 'Pannello di controllo NVIDIA mancante'; Sezione = 'Driver video'; Valore = 'Da installare'; Pagina = 'Video'; Colore = 'Arancio' })
     }
-    $daFare = @($Script:TutteLeRighe | Where-Object { $_.Esito -eq 'Da modificare' -or $_.Esito -eq 'Da pulire' })
+    # Sicurezza: solo segnalazione, nessuna modifica (si riattiva dalla scheda relativa, con conferma).
+    try {
+        $fwOff = @(Get-NetFirewallProfile -ErrorAction Stop | Where-Object { -not $_.Enabled }).Count
+        if ($fwOff -gt 0) { [void]$voci.Add(@{ Nome = (Tr 'Firewall di Windows spento'); Sezione = (Tr 'Sicurezza'); Valore = (Tr 'Spento'); Pagina = 'Panoramica'; Colore = 'Arancio' }) }
+    } catch { }
+    try {
+        $lua = (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -Name EnableLUA -ErrorAction Stop).EnableLUA
+        if ($lua -eq 0) { [void]$voci.Add(@{ Nome = (Tr 'Controllo account utente (UAC) disattivato'); Sezione = (Tr 'Sicurezza'); Valore = (Tr 'Disattivato'); Pagina = 'Panoramica'; Colore = 'Arancio' }) }
+    } catch { }    $daFare = @($Script:TutteLeRighe | Where-Object { $_.Esito -eq 'Da modificare' -or $_.Esito -eq 'Da pulire' })
     $pulizie = @($daFare | Where-Object { $_.Categoria -eq 'Pulizia' })
     foreach ($r in @($daFare | Where-Object { $_.Categoria -ne 'Pulizia' })) {
         $v = $Script:Voci[$r.Id]
