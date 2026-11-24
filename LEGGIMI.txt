@@ -1,5 +1,5 @@
 ﻿=====================================================================
-  REGIA 3.9
+  REGIA 3.10
   Analisi e ottimizzazione di Windows 10 e 11
 =====================================================================
 
@@ -38,6 +38,7 @@ COSA FARE PER PROVARLO IN SICUREZZA
 I TASTI PRINCIPALI
   Anteprima e applica     mostra le modifiche e, dopo la tua conferma, le applica
   Annulla tutto           rimette i valori originali salvati nei backup di questo PC
+                          (si apre l'elenco: spegni le voci che vuoi tenere)
   Riporta al predefinito  rimette le voci accese come in un Windows appena installato
   Scansiona               rilegge lo stato del PC (sola lettura)
   Modalita' prova         se accesa, nessuna modifica viene fatta
