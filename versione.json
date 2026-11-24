@@ -1,6 +1,6 @@
 {
-    "versione":  "3.12",
-    "url":  "https://github.com/sm-bc/regia/releases/download/v3.12/Regia_3.12.zip",
-    "sha256":  "a5c59a3fec4fac5b4742e73d0de02b5713ee1494640f8d96c7ce2ae3c9a43fab",
-    "note":  "Interfaccia rinnovata: Panoramica con punteggio e \u0027Ottimizza ora\u0027, ricerca delle impostazioni, finestra di avanzamento con \u0027Ferma dopo questa voce\u0027. In più (dalla 3.11): driver NVIDIA Studio, Pannello di controllo NVIDIA, niente più \u0027Non risponde\u0027, servizi di altri programmi, sezione Feedback."
+    "versione":  "3.13",
+    "url":  "https://github.com/sm-bc/regia/releases/download/v3.13/Regia_3.13.zip",
+    "sha256":  "9dc56b3dc46224529e41c7fd9066eb98dcf618fece62e1976f3f48c36879a48b",
+    "note":  "Nuovo tentativo automatico se nvidia.com non risponde (503). Impostazioni NVIDIA: più voci del Pannello, tutte le impostazioni del driver nelle Avanzate divise come in Profile Inspector, preset Prestazioni con latenza minima, Salva/Carica profilo per riapplicare le impostazioni dopo un aggiornamento del driver. Nuova sezione BIOS e firmware (solo lettura)."
 }
