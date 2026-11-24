@@ -1,6 +1,6 @@
 {
-    "versione":  "3.9",
-    "url":  "https://github.com/sm-bc/regia/releases/download/v3.9/Regia_3.9.zip",
-    "sha256":  "6914ee5e061dd8728bd4f4de75d662986504f4bd84e9ff675b006694198d12da",
-    "note":  "God Mode, pulizia sicura del registro (con backup e Annulla), nuove voci di prestazioni. / God Mode, safe registry cleanup (with backup and Undo), new performance items."
+    "versione":  "3.10",
+    "url":  "https://github.com/sm-bc/regia/releases/download/v3.10/Regia_3.10.zip",
+    "sha256":  "50fc6348dc6d2ae5bd16235fdbabe48c1692efa178a15fb04c98c176f66b1f22",
+    "note":  "Annulla tutto: ora si sceglie quali voci annullare (un interruttore per voce); le altre restano e si possono annullare più tardi."
 }
