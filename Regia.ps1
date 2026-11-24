@@ -26,6 +26,15 @@
   opzioni avanzate NVIDIA (come NVIDIA Profile Inspector), file per il feedback degli amici.
   Novità della 3.6: opzione DLSS "Forced preset letter" (lettera del preset) tra le opzioni avanzate NVIDIA, impaginazione rivista.
   Novità della 3.6.1: piani energetici e programmi di avvio già disattivati non sono più "da modificare" (solo suggerimenti); i Widget non installati risultano a posto.
+  Novità della 3.12: interfaccia rinnovata. Panoramica con indicatore del punteggio, scelta del profilo e
+  pulsante "Ottimizza ora", elenco "Da sistemare" e grafici dell'andamento in tempo reale; ricerca delle
+  impostazioni nella barra laterale; gruppi con icona e contatore; Modalità prova ben visibile; etichette
+  colorate negli esiti; finestra "Ottimizzazione in corso" con avanzamento e "Ferma dopo questa voce".
+  Novità della 3.11: driver NVIDIA Studio di nuovo trovati; Pannello di controllo NVIDIA installato anche senza
+  NVIDIA App (componenti scelti con le dipendenze lette dai manifesti .nvi) e pulsante per rimetterlo; avviso quando
+  Windows Update è impostato per non dare driver; operazioni lunghe in background (la finestra non va più in
+  "Non risponde") e pulsante "Solo questa sezione" nell'anteprima; sezione "Servizi di altri programmi";
+  sezione "Feedback" con modulo; barra laterale riordinata con gruppi chiusi all'apertura.
   Novità della 3.10: "Annulla tutto" apre l'elenco delle voci modificate con un interruttore per ognuna:
   si annullano solo quelle accese, le altre restano e si possono annullare più tardi.
   Novità della 3.9: pulsante God Mode; sezione "Pulizia registro" (solo voci di programmi cancellati, con backup .reg e Annulla);
@@ -84,7 +93,7 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 # 2. PERCORSI, LOG E UTILITÀ GENERICHE
 # ==============================================================================
 
-$Script:Versione       = '3.10'
+$Script:Versione       = '3.12'
 $Script:FileProgramma  = $PSCommandPath
 $Script:CartellaBase   = Split-Path -Parent $PSCommandPath
 $Script:CartellaDati   = Join-Path $Script:CartellaBase 'Dati'
@@ -1737,6 +1746,175 @@ Voci ripristinate: {}.  Errori: {}.	Items restored: {}.  Errors: {}.
 Alcune modifiche hanno effetto dopo il riavvio o la disconnessione.	Some changes take effect after a restart or sign-out.
 Le voci con errori restano nell'elenco di 'Annulla tutto': puoi riprovare.	Items with errors stay in the 'Undo all' list: you can try again.
 Voci ripristinate: {}.  Errori: {}.\nAlcune modifiche hanno effetto dopo il riavvio o la disconnessione.\nLe voci con errori restano nell'elenco di 'Annulla tutto': puoi riprovare.	Items restored: {}.  Errors: {}.\nSome changes take effect after a restart or sign-out.\nItems with errors stay in the 'Undo all' list: you can try again.
+sì	yes
+no	no
+In esecuzione	Running
+Fermo	Stopped
+sconosciuto	unknown
+Feedback	Feedback
+SERVIZIO	SERVICE
+Avvio:	Startup:
+Installata la {}, più recente dell'ultima di questo tipo ({})	Installed {}, newer than the latest of this type ({})
+Impostazioni del driver dentro NVIDIA App	Driver settings inside NVIDIA App
+Con NVIDIA App	With NVIDIA App
+{} (si installa solo insieme a NVIDIA App)	{} (installed only together with NVIDIA App)
+Pannello di controllo NVIDIA	NVIDIA Control Panel
+App classica del Pannello (impostazioni 3D, schermo, colori, DSR). Regia controlla che venga installata	Classic Control Panel app (3D settings, display, colors, DSR). Regia makes sure it gets installed
+  componente tenuto perché serve a {}: {}	  component kept because {} needs it: {}
+Installazione pulita NVIDIA {} ({}; cache shader: {}). Tenuti: {}. Tolti: {}. Pannello di controllo: {}	NVIDIA clean installation {} ({}; shader cache: {}). Kept: {}. Removed: {}. Control Panel: {}
+Pannello di controllo NVIDIA già presente.	NVIDIA Control Panel already present.
+La firma digitale dell'app del Pannello NVIDIA non è valida (stato: {}): non viene installata.	The digital signature of the NVIDIA Control Panel app is not valid (status: {}): it will not be installed.
+Installo il Pannello di controllo NVIDIA...	Installing the NVIDIA Control Panel...
+Pannello di controllo NVIDIA: Dism.exe {}	NVIDIA Control Panel: Dism.exe {}
+Pannello di controllo NVIDIA: DISM ha restituito il codice {}	NVIDIA Control Panel: DISM returned code {}
+Pannello di controllo NVIDIA registrato per l'utente attuale.	NVIDIA Control Panel registered for the current user.
+Pannello di controllo NVIDIA: registrazione per l'utente attuale non riuscita, comparirà dopo il riavvio ({})	NVIDIA Control Panel: registration for the current user failed, it will appear after a restart ({})
+Pannello di controllo NVIDIA installato.	NVIDIA Control Panel installed.
+Pannello di controllo NVIDIA non risulta installato.	NVIDIA Control Panel does not appear to be installed.
+Pannello di controllo NVIDIA non installato: {}	NVIDIA Control Panel not installed: {}
+Il Pannello di controllo NVIDIA non è installato.\n\nNon c'è un pacchetto del driver già scaricato in Dati\Driver da cui prenderlo: apro la sua pagina nel Microsoft Store (è gratuito e ufficiale NVIDIA)?\n\nIn alternativa, la prossima installazione pulita del driver da Regia lo installa da sola.	The NVIDIA Control Panel is not installed.\n\nThere is no driver package already downloaded in Dati\Driver to take it from: shall I open its Microsoft Store page (it is free and official from NVIDIA)?\n\nAlternatively, the next clean driver installation from Regia installs it automatically.
+Aperta la pagina del Pannello di controllo NVIDIA nel Microsoft Store.	Opened the NVIDIA Control Panel page in the Microsoft Store.
+Installo il Pannello di controllo NVIDIA dal driver già scaricato?\n\nFile: {}\n\nÈ l'app ufficiale NVIDIA contenuta nel driver: il driver grafico non viene toccato.	Install the NVIDIA Control Panel from the driver already downloaded?\n\nFile: {}\n\nIt is the official NVIDIA app contained in the driver: the graphics driver is not touched.
+Installerei il Pannello di controllo NVIDIA da {}	Would install the NVIDIA Control Panel from {}
+Modalità prova: il Pannello NON è stato installato. Spegni la Modalità prova per installarlo.	Dry-run mode: the Control Panel was NOT installed. Turn off dry-run mode to install it.
+Pannello di controllo NVIDIA installato. Lo trovi nel menu Start (o con il tasto destro sul desktop dopo il riavvio).	NVIDIA Control Panel installed. You find it in the Start menu (or by right-clicking the desktop after a restart).
+Il Pannello non risulta installato: i dettagli sono nel log. Puoi installarlo dal Microsoft Store.	The Control Panel does not appear to be installed: details are in the log. You can install it from the Microsoft Store.
+Installa Pannello NVIDIA	Install NVIDIA Control Panel
+Pannello di controllo NVIDIA non installato (succede dopo installazioni del driver senza NVIDIA App).	NVIDIA Control Panel not installed (it happens after driver installations without NVIDIA App).
+Il Pannello di controllo NVIDIA non è installato: lo installa dal driver già scaricato o apre la sua pagina nel Microsoft Store	The NVIDIA Control Panel is not installed: installs it from the driver already downloaded or opens its Microsoft Store page
+criterio 'Non includere i driver negli aggiornamenti di Windows' (ExcludeWUDriversInQualityUpdate = 1)	policy 'Do not include drivers with Windows Updates' (ExcludeWUDriversInQualityUpdate = 1)
+criterio di ricerca dei driver su Windows Update disattivato (DriverSearching\SearchOrderConfig = 0)	policy that turns off driver search on Windows Update (DriverSearching\SearchOrderConfig = 0)
+Non controllabile (vedi avviso)	Cannot be checked (see warning)
+Windows Update non propone driver per un'impostazione del PC: {}	Windows Update offers no drivers because of a setting on this PC: {}
+Windows Update non ha proposto nessun driver, ma su questo PC è attiva un'impostazione che glielo impedisce:\n\n•  {}\n\nDi solito la mette un altro programma di ottimizzazione o NVCleanstall, per evitare che Windows sostituisca il driver della scheda video. Regia non la cambia (Windows Update non si tocca).\n\nSe vuoi di nuovo i driver da Windows Update, toglila con lo stesso programma che l'ha attivata (su Windows Pro anche da Editor Criteri di gruppo > Componenti di Windows > Windows Update).	Windows Update offered no drivers, but a setting on this PC prevents it:\n\n•  {}\n\nIt is usually set by another optimization program or by NVCleanstall, to stop Windows from replacing the graphics card driver. Regia does not change it (Windows Update is never touched).\n\nIf you want drivers from Windows Update again, remove it with the same program that turned it on (on Windows Pro also from Group Policy Editor > Windows Components > Windows Update).
+Driver da Windows Update	Drivers from Windows Update
+Solo questa sezione ({})	Only this section ({})
+Applica adesso solo le voci della sezione aperta: le altre restano accese per dopo	Apply only the items of the open section now: the others stay on for later
+Applico solo la sezione aperta: {} voci.	Applying only the open section: {} items.
+Prestazioni e gioco	Performance and gaming
+PRESTAZIONI E GIOCO	PERFORMANCE AND GAMING
+SCHEDA VIDEO E DRIVER	GRAPHICS CARD AND DRIVERS
+APP E SERVIZI	APPS AND SERVICES
+PULIZIA E MANUTENZIONE	CLEANUP AND MAINTENANCE
+AVVIO	STARTUP
+Scheda video e driver	Graphics card and drivers
+App e servizi	Apps and services
+Pulizia e manutenzione	Cleanup and maintenance
+Servizi di altri programmi	Services of other programs
+Servizi installati da altri programmi (launcher, aggiornatori, utilità). Molti partono con Windows anche se li usi di rado: 'Manuale' li fa partire solo quando il loro programma li chiede. Ogni cambio chiede conferma e si annulla con 'Annulla tutto'. Antivirus, anti-cheat dei giochi, driver e hardware del PC sono protetti; i servizi di Windows stanno nella sezione 'Servizi'.	Services installed by other programs (launchers, updaters, utilities). Many start with Windows even if you rarely use them: 'Manual' starts them only when their program asks. Every change asks for confirmation and can be undone with 'Undo all'. Antivirus, game anti-cheat, drivers and PC hardware are protected; Windows services are in the 'Services' section.
+Rilegge l'elenco dei servizi	Reloads the list of services
+Cerca per nome o produttore...	Search by name or manufacturer...
+Parte con Windows	Starts with Windows
+Parte solo quando il suo programma lo chiede (scelta consigliata per aggiornatori e launcher)	Starts only when its program asks for it (recommended for updaters and launchers)
+Non parte mai: il programma che lo usa potrebbe non funzionare del tutto	Never starts: the program that uses it may not work fully
+Protetto: servizio di sistema	Protected: system service
+Protetto: sicurezza (antivirus, firewall, VPN)	Protected: security (antivirus, firewall, VPN)
+Protetto: anti-cheat dei giochi	Protected: game anti-cheat
+Protetto: driver o hardware del PC	Protected: PC driver or hardware
+Produttore sconosciuto: controlla prima di cambiarlo	Unknown manufacturer: check before changing it
+{} servizi di altri programmi  ·  {} modificabili partono con Windows  ·  {} protetti. Scegli un servizio e il tipo di avvio.	{} services of other programs  ·  {} changeable ones start with Windows  ·  {} protected. Choose a service and the startup type.
+Leggo i servizi installati dagli altri programmi...	Reading the services installed by other programs...
+Elenco dei servizi aggiornato.	Service list updated.
+Elenco dei servizi non disponibile: {}	Service list not available: {}
+Scegli prima un servizio dall'elenco.	Choose a service from the list first.
+'{}' non si cambia da qui.\n\n{}	'{}' cannot be changed from here.\n\n{}
+'{}' è già su '{}'.	'{}' is already set to '{}'.
+Disattivato non parte mai, neanche quando il suo programma lo chiede: il programma potrebbe non funzionare o non aggiornarsi. Di solito basta 'Manuale'.	Disabled never starts, not even when its program asks: the program may not work or update. 'Manual' is usually enough.
+Servizio: {}\nProduttore: {}\nFile: {}\n\nAvvio: {} -> {}{}\n\nIl valore di adesso viene salvato: puoi rimetterlo con 'Annulla tutto'. Continuare?	Service: {}\nManufacturer: {}\nFile: {}\n\nStartup: {} -> {}{}\n\nThe current value is saved: you can put it back with 'Undo all'. Continue?
+Modalità prova: il servizio NON è stato cambiato (l'operazione è scritta nel log).	Dry-run mode: the service was NOT changed (the operation is written in the log).
+Fermo il servizio {}...	Stopping the service {}...
+[Servizi di altri programmi] {}: '{}' -> '{}'	[Services of other programs] {}: '{}' -> '{}'
+[Servizi di altri programmi] {}: '{}' -> '{}' (backup: {})	[Services of other programs] {}: '{}' -> '{}' (backup: {})
+Raccontaci come va: voto, problemi e idee. Le risposte finiscono in un file .zip sul desktop che mandi tu a chi ti ha dato Regia (niente viene inviato da solo).	Tell us how it's going: rating, problems and ideas. The answers go into a .zip file on the desktop that you send to whoever gave you Regia (nothing is sent automatically).
+COME TI TROVI CON REGIA	HOW DO YOU LIKE REGIA
+Voto da 1 a 10	Rating from 1 to 10
+Dopo le modifiche il PC è	After the changes the PC is
+Più veloce o più reattivo	Faster or more responsive
+Uguale	The same
+Peggiorato	Worse
+Non ho applicato modifiche	I did not apply changes
+Il tuo PC (facoltativo)	Your PC (optional)
+HAI NOTATO QUALCOSA?	DID YOU NOTICE ANYTHING?
+Il programma si è bloccato o Windows ha detto che non risponde	The program froze or Windows said it was not responding
+Sono comparsi messaggi di errore	Error messages appeared
+Un driver non si è installato come previsto	A driver did not install as expected
+Alcuni testi non si capivano o erano troppo tecnici	Some texts were unclear or too technical
+Qualche sezione era lenta	Some section was slow
+RACCONTACI	TELL US
+Cosa ti è piaciuto?	What did you like?
+Cosa non ha funzionato? (quando, in quale sezione)	What did not work? (when, in which section)
+Cosa manca o cosa aggiungeresti?	What is missing or what would you add?
+Crea il file per il feedback	Create the feedback file
+Crea sul desktop lo .zip con le risposte: lo mandi tu, niente viene inviato da solo	Creates the .zip with the answers on the desktop: you send it, nothing is sent automatically
+Allega informazioni sul PC, report, scansione e registro di oggi (senza nome utente e nome del PC)	Attach PC information, report, scan and today's log (without user name and PC name)
+•  le tue risposte al modulo;	•  your answers to the form;
+•  il questionario da compilare;	•  the questionnaire to fill in;
+•  informazioni sul PC (Windows, processore, scheda video, memoria);	•  information about the PC (Windows, processor, graphics card, memory);
+•  il report sullo stato del PC e l'elenco delle voci trovate dalla scansione;	•  the PC status report and the list of items found by the scan;
+•  il registro di oggi (cosa ha fatto il programma).	•  today's log (what the program did).
+Apri il file 05_QUESTIONARIO.txt dentro lo .zip, rispondi alle domande che vuoi, poi manda lo .zip a chi ti ha dato Regia.	Open the file 05_QUESTIONARIO.txt inside the .zip, answer the questions you like, then send the .zip to whoever gave you Regia.
+Creo sul desktop un file .zip da mandare a chi ti ha dato Regia.\n\nContiene:\n{}\n\nIl nome utente e il nome del PC vengono sostituiti con 'UTENTE' e 'PC'. Non contiene password, file personali, documenti o foto. Niente viene inviato: il file lo mandi tu.\n\nVuoi crearlo?	I'll create on the desktop a .zip file to send to whoever gave you Regia.\n\nIt contains:\n{}\n\nThe user name and the PC name are replaced with 'UTENTE' and 'PC'. It contains no passwords, personal files, documents or photos. Nothing is sent: you send the file.\n\nDo you want to create it?
+Le tue risposte sono già dentro: manda lo .zip a chi ti ha dato Regia.	Your answers are already inside: send the .zip to whoever gave you Regia.
+Creato sul desktop:\n{}\n\n{}\n\nGrazie!	Created on the desktop:\n{}\n\n{}\n\nThank you!
+Il modulo è vuoto.\n\nCreo lo stesso il file, con il questionario da compilare a parte?	The form is empty.\n\nShall I create the file anyway, with the questionnaire to fill in separately?
+Cerca un'impostazione...	Search for a setting...
+Scrivi almeno 2 lettere: compaiono le voci di tutte le sezioni che contengono quelle parole	Type at least 2 letters: items from all sections containing those words appear
+Modalità prova · niente viene modificato	Dry-run mode · nothing is changed
+Modifiche reali attive	Real changes on
+Solo questa sezione	Only this section
+Anteprima e applica solo delle voci accese in questa sezione: le altre restano accese per dopo	Preview and apply only the items turned on in this section: the others stay on for later
+1 voce accesa in questa sezione	1 item on in this section
+{} voci accese in questa sezione	{} items on in this section
+{} in questa sezione · {} in tutto il programma	{} in this section · {} in the whole program
+Risultati della ricerca	Search results
+Risultati per «{}»	Results for «{}»
+Nessuna voce contiene «{}». Prova con un'altra parola (per esempio: avvio, rete, mouse, cache).	No item contains «{}». Try another word (for example: startup, network, mouse, cache).
+{} voci trovate in tutte le sezioni. Accendi quelle che vuoi e premi 'Anteprima e applica'.	{} items found in all sections. Turn on the ones you want and press 'Preview and apply'.
+su 100	out of 100
+SCANSIONE IN CORSO	SCAN IN PROGRESS
+Scegli un profilo e premi 'Ottimizza ora': vedi sempre l'anteprima prima di cambiare qualcosa, e tutto si annulla con 'Annulla tutto'.	Choose a profile and press 'Optimize now': you always see the preview before anything changes, and everything can be undone with 'Undo all'.
+{} controlli a posto, {} da guardare, {} problemi. Scegli un profilo e premi 'Ottimizza ora': vedi sempre l'anteprima prima di cambiare qualcosa, e tutto si annulla con 'Annulla tutto'.	{} checks fine, {} to look at, {} problems. Choose a profile and press 'Optimize now': you always see the preview before anything changes, and everything can be undone with 'Undo all'.
+Ottimizza ora	Optimize now
+Accende le voci del profilo scelto e apre l'anteprima: niente cambia finché non confermi	Turns on the items of the chosen profile and opens the preview: nothing changes until you confirm
+Niente da sistemare · {} voci controllate	Nothing to fix · {} items checked
+{} cose da sistemare · circa {} da liberare	{} things to fix · about {} to free up
+{} cose da sistemare · {} voci controllate	{} things to fix · {} items checked
+Da sistemare	To fix
+Il tuo PC	Your PC
+L'elenco compare quando finisce la scansione.	The list appears when the scan finishes.
+tutto a posto	all fine
+{} in tutto	{} in total
+Niente da sistemare: il PC è già a posto.	Nothing to fix: the PC is already fine.
+Vedi	View
+Installa	Install
+Pulisci	Clean
+Aggiornamento	Update
+Da installare	To install
+Driver NVIDIA: {}	NVIDIA driver: {}
+Pannello di controllo NVIDIA mancante	NVIDIA Control Panel missing
+Pulizia disco: {} voci da pulire	Disk cleanup: {} items to clean
+Ottimizzazione in corso	Optimization in progress
+Ottimizzazione in corso...	Optimizing...
+voci	items
+La finestra resta utilizzabile: le operazioni lunghe girano in background. Ogni voce viene salvata prima di essere cambiata.	The window stays usable: long operations run in the background. Every item is saved before it is changed.
+liberati finora	freed so far
+Ferma dopo questa voce	Stop after this item
+Finisce la voce in corso e non applica le successive (restano accese per dopo)	Finishes the current item and does not apply the next ones (they stay on for later)
+Backup in Dati\Backup: tutto si rimette com'era con 'Annulla tutto' (tranne le pulizie)	Backup in Dati\Backup: everything goes back with 'Undo all' (except cleanups)
+in attesa	waiting
+pulizia in corso...	cleaning...
+in corso...	in progress...
+liberati {}	freed {}
+fatto	done
+errore: dettagli nel log	error: details in the log
+non eseguita (fermato)	not done (stopped)
+Mi fermo dopo questa voce...	Stopping after this item...
+Fatto: rileggo lo stato del PC...	Done: re-reading the PC status...
+{} modifiche	{} changes
+Applicazione fermata dall'utente: {} voci non eseguite.	Application stopped by the user: {} items not done.
+Fermato da te: {} voci non eseguite (restano accese).	Stopped by you: {} items not done (they stay on).
+Modifiche applicate: {}.  Errori: {}.	Changes applied: {}.  Errors: {}.
+Finestra di avanzamento non disponibile: {}	Progress window not available: {}
 '@
 
 # I backup valgono solo per il PC su cui sono stati creati: se la cartella viene copiata su un altro PC,
@@ -1774,6 +1952,13 @@ function Aggiorna-UI {
     if ($Script:Finestra) {
         $Script:Finestra.Dispatcher.Invoke([Action] { }, [System.Windows.Threading.DispatcherPriority]::Background)
     }
+}
+
+# Da chiamare nei cicli lunghi (file, cartelle, voci): aggiorna la finestra al massimo ogni 150 ms,
+# così Windows non la segna come "Non risponde" e il costo resta trascurabile.
+$Script:OrologioUI = [Diagnostics.Stopwatch]::StartNew()
+function Mantieni-Viva {
+    if ($Script:OrologioUI.ElapsedMilliseconds -ge 150) { $Script:OrologioUI.Restart(); Aggiorna-UI }
 }
 
 # Testo nella barra di stato in basso.
@@ -2064,6 +2249,7 @@ function Elenca-File([string]$Cartella, [string]$Filtro = '*', [bool]$Ricorsivo 
     $pila.Push((New-Object System.IO.DirectoryInfo($Cartella)))
     while ($pila.Count -gt 0) {
         $d = $pila.Pop()
+        Mantieni-Viva
         try { foreach ($f in $d.GetFiles($Filtro)) { $risultato.Add($f) } } catch { }
         if ($Ricorsivo) {
             try {
@@ -2084,6 +2270,7 @@ function Elenca-Cartelle([string]$Cartella) {
     $pila.Push((New-Object System.IO.DirectoryInfo($Cartella)))
     while ($pila.Count -gt 0) {
         $d = $pila.Pop()
+        Mantieni-Viva
         try {
             foreach ($s in $d.GetDirectories()) {
                 if (($s.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -eq 0) { $risultato.Add($s); $pila.Push($s) }
@@ -2144,12 +2331,14 @@ function Pulisci-Cartella($P, [string]$dir) {
     $byte = [int64]0; $n = 0; $saltati = 0
     foreach ($f in (Elenca-File $dir $P.Filtro $P.Ricorsivo)) {
         if ($f.LastWriteTime -ge $limite) { continue }
+        Mantieni-Viva
         $lunghezza = $f.Length
         try { $f.Attributes = 'Normal'; $f.Delete(); $byte += $lunghezza; $n++ } catch { $saltati++ }
     }
     if ($P.Ricorsivo) {
         $cartelle = Elenca-Cartelle $dir
         foreach ($c in ($cartelle | Sort-Object { $_.FullName.Length } -Descending)) {
+            Mantieni-Viva
             try {
                 $c.Refresh()
                 if ($c.LastWriteTime -lt $limite -and -not $c.EnumerateFileSystemInfos().GetEnumerator().MoveNext()) { $c.Delete() }
@@ -2187,6 +2376,25 @@ function Esegui-InBackground([scriptblock]$Codice, [object[]]$Argomenti = @()) {
     } finally { $ps.Dispose() }
     if ($errori.Count -gt 0) { throw $errori[0].Exception }
     return $risultato
+}
+
+# Fermare o avviare un servizio può richiedere molti secondi (Windows aspetta che il servizio risponda):
+# l'attesa avviene in parallelo, così la finestra non diventa "Non risponde".
+function Ferma-Servizio([string]$Nome, [bool]$ConErrore = $false) {
+    [void](Esegui-InBackground { param($n, $e) if ($e) { Stop-Service -Name $n -Force -ErrorAction Stop } else { try { Stop-Service -Name $n -Force -ErrorAction Stop } catch { } } } @($Nome, $ConErrore))
+}
+function Avvia-Servizio([string]$Nome) {
+    [void](Esegui-InBackground { param($n) try { Start-Service -Name $n -ErrorAction Stop } catch { } } @($Nome))
+}
+
+# Elenco delle app installate (Get-AppxPackage può richiedere alcuni secondi).
+function Leggi-PacchettiAppx {
+    return @(Esegui-InBackground { Get-AppxPackage -ErrorAction SilentlyContinue })
+}
+
+# Driver dei dispositivi (la lettura WMI può richiedere alcuni secondi).
+function Leggi-DriverPnP {
+    return @(Esegui-InBackground { Get-CimInstance Win32_PnPSignedDriver -ErrorAction SilentlyContinue })
 }
 
 # ---------- 3f. Impostazioni NVIDIA (NVAPI) ---------------------------------------
@@ -3967,11 +4175,11 @@ $Script:Catalogo = @(
            $stato = @{}
            foreach ($s in @('wuauserv', 'bits')) {
                $svc = Get-Service -Name $s -ErrorAction SilentlyContinue
-               if ($svc) { $stato[$s] = ($svc.Status -eq 'Running'); if ($stato[$s]) { Stop-Service -Name $s -Force -ErrorAction Stop } }
+               if ($svc) { $stato[$s] = ($svc.Status -eq 'Running'); if ($stato[$s]) { Ferma-Servizio $s $true } }
            }
            $stato
        }
-       Dopo = { param($Stato) foreach ($k in @($Stato.Keys)) { if ($Stato[$k]) { Start-Service -Name $k -ErrorAction SilentlyContinue } } }
+       Dopo = { param($Stato) foreach ($k in @($Stato.Keys)) { if ($Stato[$k]) { Avvia-Servizio $k } } }
        Descrizione = "File scaricati per aggiornamenti già installati. Windows Update viene fermato per un attimo e poi riavviato. Se un aggiornamento era in download, verrà riscaricato. Non usarla mentre Windows sta aggiornando." }
 
     @{ Id = 'pul.cestino'; Nome = 'Svuota il Cestino'; Categoria = 'Pulizia'; Tipo = 'Pulizia'; Rischio = 'medio'; Profili = @()
@@ -3980,7 +4188,7 @@ $Script:Catalogo = @(
            try { $sh = New-Object -ComObject Shell.Application; foreach ($i in $sh.NameSpace(10).Items()) { $tot += [int64]$i.Size; $n++ } } catch { }
            @{ Byte = $tot; File = $n }
        }
-       Azione = { Clear-RecycleBin -Force -ErrorAction SilentlyContinue }
+       Azione = { [void](Esegui-InBackground { try { Clear-RecycleBin -Force -ErrorAction Stop } catch { } }) }
        Descrizione = "Elimina DEFINITIVAMENTE i file nel Cestino. Controlla prima che non ci sia niente da recuperare." }
 
     @{ Id = 'pul.dism'; Nome = 'Pulizia componenti di Windows (DISM)'; Categoria = 'Pulizia'; Tipo = 'Pulizia'; Avanzata = $true; Rischio = 'alto'
@@ -4446,16 +4654,16 @@ function Applica-Servizio($Voce, [string]$Obiettivo) {
     foreach ($s in @(Stati-Servizi $Voce)) {
         if ($s.Modo -eq 'Sistema') { continue }
         Imposta-AvvioServizio $s.Nome $modo
-        if ($modo -eq 'Disattivato' -and $s.InEsecuzione) { Stop-Service -Name $s.Nome -Force -ErrorAction SilentlyContinue }
-        if ($modo -like 'Automatico*' -and -not $s.InEsecuzione) { Start-Service -Name $s.Nome -ErrorAction SilentlyContinue }
+        if ($modo -eq 'Disattivato' -and $s.InEsecuzione) { Ferma-Servizio $s.Nome }
+        if ($modo -like 'Automatico*' -and -not $s.InEsecuzione) { Avvia-Servizio $s.Nome }
     }
 }
 
 function Ripristina-Servizio($O) {
     foreach ($s in @($O.Servizi)) {
         Imposta-AvvioServizio $s.Nome $s.Modo
-        if ($s.InEsecuzione) { Start-Service -Name $s.Nome -ErrorAction SilentlyContinue }
-        elseif ($s.Modo -eq 'Disattivato') { Stop-Service -Name $s.Nome -Force -ErrorAction SilentlyContinue }
+        if ($s.InEsecuzione) { Avvia-Servizio $s.Nome }
+        elseif ($s.Modo -eq 'Disattivato') { Ferma-Servizio $s.Nome }
     }
 }
 
@@ -4490,7 +4698,7 @@ function Applica-App($Voce, [string]$Obiettivo) {
     if ($Obiettivo -eq 'Predefinito') { throw "Per reinstallare un'app usa 'Annulla tutto' oppure il Microsoft Store." }
     foreach ($p in (Trova-Pacchetti $Voce)) {
         if (E-AppProtetta $p) { throw "L'app $($p.Name) è protetta e non viene rimossa." }
-        Remove-AppxPackage -Package $p.PackageFullName -ErrorAction Stop
+        [void](Esegui-InBackground { param($n) Remove-AppxPackage -Package $n -ErrorAction Stop } @([string]$p.PackageFullName))
         Scrivi-Log "  rimossa: $($p.Name)"
     }
 }
@@ -4499,7 +4707,7 @@ function Ripristina-App($O) {
     foreach ($p in @($O.Pacchetti)) {
         $manifesto = $(if ($p.Percorso) { Join-Path $p.Percorso 'AppxManifest.xml' } else { '' })
         if ($manifesto -and (Test-Path -LiteralPath $manifesto)) {
-            Add-AppxPackage -DisableDevelopmentMode -Register $manifesto -ErrorAction Stop
+            [void](Esegui-InBackground { param($m) Add-AppxPackage -DisableDevelopmentMode -Register $m -ErrorAction Stop } @($manifesto))
             Scrivi-Log "  reinstallata: $($p.Nome)" 'OK'
         } else {
             Start-Process "ms-windows-store://pdp/?PFN=$($p.Famiglia)"
@@ -4613,6 +4821,7 @@ function Applica-Pulizia($Voce, [string]$Obiettivo) {
         if ($Voce.Azione) { & $Voce.Azione; return }
         $tot = @{ Byte = [int64]0; File = 0; Saltati = 0 }
         foreach ($p in $Voce.Percorsi) { $x = Pulisci-Percorso $p; $tot.Byte += $x.Byte; $tot.File += $x.File; $tot.Saltati += $x.Saltati }
+        $Script:UltimiByteLiberati = [int64]$tot.Byte   # per la finestra "Ottimizzazione in corso"
         Scrivi-Log ('  liberati {0} ({1} file eliminati, {2} in uso saltati)' -f (Formatta-Dimensione $tot.Byte), $tot.File, $tot.Saltati)
     } finally {
         if ($Voce.Dopo) { & $Voce.Dopo $stato }
@@ -5076,7 +5285,7 @@ function Nuova-Riga($Voce, $Lettura) {
 }
 
 function Blocca-Pulsanti([bool]$Occupato) {
-    foreach ($n in @('BtnMassimo', 'BtnGaming', 'BtnGrafica', 'BtnBilanciato', 'BtnBatteria', 'BtnSicuro', 'BtnNessuno', 'BtnScansiona', 'BtnApplica', 'BtnPredefinito', 'BtnAnnullaTutto', 'BtnSalvaProfilo', 'BtnRiavvia')) {
+    foreach ($n in @('BtnMassimo', 'BtnGaming', 'BtnGrafica', 'BtnBilanciato', 'BtnBatteria', 'BtnSicuro', 'BtnNessuno', 'BtnScansiona', 'BtnApplica', 'BtnPredefinito', 'BtnAnnullaTutto', 'BtnSalvaProfilo', 'BtnRiavvia', 'BtnSoloSezione', 'BtnOttimizza')) {
         $b = $Script:Finestra.FindName($n); if ($b) { $b.IsEnabled = -not $Occupato }
     }
     foreach ($c in @($Script:PannelloGpu, $Script:PannelloDriver, $Script:PannelloApp)) { if ($c) { $c.IsEnabled = -not $Occupato } }
@@ -5117,6 +5326,19 @@ function Aggiorna-Intestazioni {
             if ($Script:Pannelli -and $Script:Pannelli[$marca]) { $Script:Pannelli[$marca].Visibility = $vis }
         }
     }
+    try { Aggiorna-DaFare } catch { }
+    # Contatore sul titolo di ogni gruppo: somma delle voci da sistemare delle sue sezioni
+    foreach ($g in @($Script:GruppiNav.Keys)) {
+        $gn = $Script:GruppiNav[$g]
+        if (-not $gn.Badge) { continue }
+        $somma = 0
+        foreach ($k in @($Script:Pagine.Keys)) {
+            $p = $Script:Pagine[$k]
+            if ([string]$p.Gruppo -eq $g -and -not $p.Nascosta -and $p.Badge -and $p.Badge.Visibility -eq 'Visible') { $somma += [int]$p.Numero.Text }
+        }
+        $gn.Numero.Text = "$somma"
+        $gn.Badge.Visibility = $(if ($somma -gt 0) { 'Visible' } else { 'Collapsed' })
+    }
     Aggiorna-VisibilitaNav
     Aggiorna-ConteggioSelezione
     if ($Script:PaginaAttuale) { Mostra-Pagina $Script:PaginaAttuale }
@@ -5141,7 +5363,7 @@ function Esegui-Scansione {
         foreach ($id in @($Script:Voci.Keys | Where-Object { $_ -like 'avvio|*' })) { $Script:Voci.Remove($id) }
         foreach ($v in @(Trova-VociAvvio)) { $Script:Voci[$v.Id] = $v }
 
-        $Script:CacheAppx = @(Get-AppxPackage -ErrorAction SilentlyContinue)
+        $Script:CacheAppx = Leggi-PacchettiAppx
         foreach ($c in $Script:Collezioni.Values) { $c.Clear() }
         $Script:TutteLeRighe.Clear()
 
@@ -5150,7 +5372,7 @@ function Esegui-Scansione {
         $i = 0; $daFare = 0; [int64]$pulibile = 0
         foreach ($v in $voci) {
             $i++
-            if ($i % 3 -eq 0) { Imposta-Stato "Scansione in corso... $i di $($voci.Count)"; Imposta-Avanzamento (100 * $i / [math]::Max(1, $voci.Count)) }
+            if ($i % 3 -eq 0) { Imposta-Stato "Scansione in corso... $i di $($voci.Count)"; Imposta-Avanzamento (100 * $i / [math]::Max(1, $voci.Count)) } else { Mantieni-Viva }
             # Voci che esistono solo da una certa versione di Windows in poi (o fino a una certa versione)
             if (($v.MinBuild -and $Script:Build -lt [int]$v.MinBuild) -or ($v.MaxBuild -and $Script:Build -gt [int]$v.MaxBuild)) { continue }
             try { $l = Leggi-Voce $v } catch { $l = Nuova-Lettura ('Errore: ' + $_.Exception.Message) 'Errore' }
@@ -5182,7 +5404,7 @@ function Esegui-Scansione {
         $Script:UltimoPulibile = $pulibile
         Aggiorna-Intestazioni
         try { Imposta-Stato 'Preparo il report dello stato del PC...'; Costruisci-Report } catch { Scrivi-Log "Report non riuscito: $($_.Exception.Message)" 'AVVISO' }
-        if ($Script:RiepilogoPanoramica) { $Script:RiepilogoPanoramica.Text = Tr "$daFare voci da sistemare su $($risultati.Count)  ·  circa $(Formatta-Dimensione $pulibile) recuperabili con la pulizia" }
+        if ($Script:RiepilogoPanoramica) { $Script:RiepilogoPanoramica.Text = Tr $(if ($daFare -eq 0) { "Niente da sistemare · $($risultati.Count) voci controllate" } elseif ($pulibile -ge 1MB) { "$daFare cose da sistemare · circa $(Formatta-Dimensione $pulibile) da liberare" } else { "$daFare cose da sistemare · $($risultati.Count) voci controllate" }) }
         $msg = "Scansione completata: $($risultati.Count) voci, $daFare da sistemare, circa $(Formatta-Dimensione $pulibile) recuperabili con la pulizia."
         Scrivi-Log $msg 'OK'
         Imposta-Stato "$msg  Scegli un profilo o accendi le voci, poi premi 'Anteprima e applica'."
@@ -5228,14 +5450,15 @@ function Applica-Profilo([string]$Profilo) {
 
 # Se non è vuota, "Anteprima e applica" considera solo le voci spuntate di questa categoria (usata dai tasti rapidi della pulizia).
 $Script:SoloCategoria = ''
+$Script:SoloPagina = ''     # pulsante "Solo questa sezione" della barra delle azioni
 
 # Prepara l'elenco delle modifiche reali (salta le voci già nello stato richiesto).
 function Prepara-Modifiche([string]$Obiettivo) {
     $lista = New-Object System.Collections.ArrayList
     $saltate = 0
-    $Script:CacheAppx = @(Get-AppxPackage -ErrorAction SilentlyContinue)
+    $Script:CacheAppx = Leggi-PacchettiAppx
     try {
-        foreach ($r in @($Script:TutteLeRighe | Where-Object { $_.Selezionata -and (-not $Script:SoloCategoria -or $_.Categoria -eq $Script:SoloCategoria) })) {
+        foreach ($r in @($Script:TutteLeRighe | Where-Object { $_.Selezionata -and (-not $Script:SoloCategoria -or $_.Categoria -eq $Script:SoloCategoria) -and (-not $Script:SoloPagina -or (Voce-NellaSezione $Script:Voci[$_.Id] $Script:SoloPagina)) })) {
             $v = $Script:Voci[$r.Id]
             if (-not $v) { continue }
             if ($v.Manuale) {
@@ -5281,20 +5504,182 @@ function Prepara-Modifiche([string]$Obiettivo) {
 }
 
 # Finestra di anteprima: restituisce $true se l'utente conferma.
-function Mostra-Anteprima([string]$Titolo, [string]$Intro, $Righe, [string]$TestoConferma) {
+# ---------- Finestra "Ottimizzazione in corso" (mentre le modifiche vengono applicate) ----------
+# Anello con il numero di voci fatte, MB liberati dalla pulizia, una riga per voce con il suo esito,
+# pulsante "Ferma dopo questa voce". La finestra principale resta viva (le operazioni lunghe girano in background).
+$Script:XamlAvanzamento = @'
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ottimizzazione in corso" Width="820" SizeToContent="Height" ResizeMode="NoResize" ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner" FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13"
+        Background="{DynamicResource Superficie}" Foreground="{DynamicResource Testo}" UseLayoutRounding="True">
+  <DockPanel>
+    <Grid DockPanel.Dock="Top" Margin="28,24,28,20">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid Width="112" Height="112" Margin="0,0,24,0">
+        <Canvas Width="112" Height="112">
+          <Path x:Name="AnelloFondo" StrokeThickness="9" Stroke="{DynamicResource Superficie2}"/>
+          <Path x:Name="Anello" StrokeThickness="9" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Stroke="{DynamicResource Accento}"/>
+        </Canvas>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+          <TextBlock x:Name="Contatore" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+          <TextBlock Text="voci" FontSize="11" Foreground="{DynamicResource Testo3}" HorizontalAlignment="Center"/>
+        </StackPanel>
+      </Grid>
+      <StackPanel Grid.Column="1" VerticalAlignment="Center">
+        <TextBlock x:Name="Etichetta" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource AccentoTesto}"/>
+        <TextBlock x:Name="Titolo" Text="Ottimizzazione in corso..." FontSize="22" FontWeight="Bold" Margin="0,4,0,4"/>
+        <TextBlock Text="La finestra resta utilizzabile: le operazioni lunghe girano in background. Ogni voce viene salvata prima di essere cambiata."
+                   TextWrapping="Wrap" Foreground="{DynamicResource Testo2}" LineHeight="19"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="18,0,0,0">
+        <TextBlock x:Name="Liberati" Text="0 B" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource VerdeTesto}" HorizontalAlignment="Right"/>
+        <TextBlock Text="liberati finora" FontSize="12" Foreground="{DynamicResource Testo3}" HorizontalAlignment="Right"/>
+      </StackPanel>
+    </Grid>
+    <Grid DockPanel.Dock="Top" Height="4" Background="{DynamicResource Superficie2}">
+      <Border x:Name="Riempimento" Background="{DynamicResource Accento}" RenderTransformOrigin="0,0.5">
+        <Border.RenderTransform><ScaleTransform ScaleX="0"/></Border.RenderTransform>
+      </Border>
+    </Grid>
+    <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource Bordo}" BorderThickness="0,1,0,0" Padding="28,14,28,18">
+      <DockPanel>
+        <Button x:Name="BtnFerma" DockPanel.Dock="Right" Content="Ferma dopo questa voce"
+                ToolTip="Finisce la voce in corso e non applica le successive (restano accese per dopo)"/>
+        <TextBlock Text="&#xE777;" Style="{DynamicResource Icona}" FontSize="14" Foreground="{DynamicResource Verde}" Margin="0,0,10,0"/>
+        <TextBlock Text="Backup in Dati\Backup: tutto si rimette com'era con 'Annulla tutto' (tranne le pulizie)" VerticalAlignment="Center"
+                   Foreground="{DynamicResource Testo2}" TextWrapping="Wrap"/>
+      </DockPanel>
+    </Border>
+    <ScrollViewer x:Name="Scorrimento" MaxHeight="440" VerticalScrollBarVisibility="Auto" Margin="16,10,16,10">
+      <ItemsControl x:Name="Passi">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border x:Name="riga" CornerRadius="8" Padding="12,0" Height="42" Background="Transparent">
+              <DockPanel>
+                <Grid DockPanel.Dock="Left" Width="24" Height="24" Margin="0,0,14,0" VerticalAlignment="Center">
+                  <Ellipse x:Name="bolla" Fill="{DynamicResource Superficie2}"/>
+                  <TextBlock x:Name="segno" Style="{DynamicResource Icona}" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+                </Grid>
+                <TextBlock x:Name="esito" DockPanel.Dock="Right" Text="{Binding Esito}" FontSize="12" Foreground="{DynamicResource Testo3}"
+                           VerticalAlignment="Center" Margin="12,0,0,0" MaxWidth="330" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="nome" Text="{Binding Nome}" VerticalAlignment="Center" Foreground="{DynamicResource Testo3}" TextTrimming="CharacterEllipsis"/>
+              </DockPanel>
+            </Border>
+            <DataTemplate.Triggers>
+              <DataTrigger Binding="{Binding Stato}" Value="corso">
+                <Setter TargetName="riga" Property="Background" Value="{DynamicResource AccentoTenue}"/>
+                <Setter TargetName="bolla" Property="Fill" Value="{DynamicResource Accento}"/>
+                <Setter TargetName="segno" Property="Text" Value="&#xE895;"/>
+                <Setter TargetName="nome" Property="Foreground" Value="{DynamicResource Testo}"/>
+                <Setter TargetName="nome" Property="FontWeight" Value="Bold"/>
+                <Setter TargetName="esito" Property="Foreground" Value="{DynamicResource AccentoTesto}"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding Stato}" Value="fatto">
+                <Setter TargetName="bolla" Property="Fill" Value="{DynamicResource Verde}"/>
+                <Setter TargetName="segno" Property="Text" Value="&#xE73E;"/>
+                <Setter TargetName="segno" Property="Foreground" Value="#0B0D12"/>
+                <Setter TargetName="nome" Property="Foreground" Value="{DynamicResource Testo2}"/>
+                <Setter TargetName="esito" Property="Foreground" Value="{DynamicResource VerdeTesto}"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding Stato}" Value="errore">
+                <Setter TargetName="bolla" Property="Fill" Value="{DynamicResource Rosso}"/>
+                <Setter TargetName="segno" Property="Text" Value="&#xE711;"/>
+                <Setter TargetName="nome" Property="Foreground" Value="{DynamicResource Testo}"/>
+                <Setter TargetName="esito" Property="Foreground" Value="{DynamicResource RossoTesto}"/>
+              </DataTrigger>
+            </DataTemplate.Triggers>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </DockPanel>
+</Window>
+'@
+$Script:FermaRichiesto = $false
+$Script:AvanzamentoFinito = $true
+$Script:UltimiByteLiberati = [int64]0
+
+function Apri-Avanzamento([string[]]$Nomi, [string]$Etichetta) {
+    $w = [Windows.Markup.XamlReader]::Parse($Script:XamlAvanzamento)
+    Applica-TemaFinestra $w
+    if ($Script:Finestra -and $Script:Finestra.IsVisible) { $w.Owner = $Script:Finestra }
+    $righe = New-Object 'System.Collections.ObjectModel.ObservableCollection[OttWin.RigaPasso]'
+    foreach ($n in $Nomi) { $r = New-Object OttWin.RigaPasso; $r.Nome = $n; $r.Stato = 'attesa'; $r.Esito = Tr 'in attesa'; $righe.Add($r) }
+    $w.FindName('Passi').ItemsSource = $righe
+    $w.FindName('AnelloFondo').Data = Geometria-Arco 56 56 47 -90 359.9
+    $w.FindName('Etichetta').Text = (Tr $Etichetta).ToUpper()
+    $Script:FermaRichiesto = $false
+    $Script:AvanzamentoFinito = $false
+    $w.FindName('BtnFerma').add_Click({ $Script:FermaRichiesto = $true; $this.IsEnabled = $false; $this.Content = Tr 'Mi fermo dopo questa voce...' })
+    # Chiudere la finestra a metà equivale a "Ferma dopo questa voce" (la voce in corso finisce comunque).
+    $w.add_Closing({ param($s, $e) if (-not $Script:AvanzamentoFinito) { $e.Cancel = $true; $Script:FermaRichiesto = $true; try { $s.FindName('BtnFerma').IsEnabled = $false } catch { } } })
+    $w.Show()
+    $st = @{ Finestra = $w; Righe = $righe; Byte = [int64]0 }
+    Aggiorna-FinestraAvanzamento $st 0
+    return $st
+}
+
+function Aggiorna-FinestraAvanzamento($St, [int]$Fatte) {
+    $w = $St.Finestra
+    $tot = [math]::Max(1, $St.Righe.Count)
+    $frazione = [math]::Min(1.0, [double]$Fatte / $tot)
+    $w.FindName('Contatore').Text = "$Fatte/$($St.Righe.Count)"
+    $anello = $w.FindName('Anello')
+    if ($frazione -le 0) { $anello.Visibility = 'Collapsed' }
+    else { $anello.Data = Geometria-Arco 56 56 47 -90 ([math]::Min(359.9, 360 * $frazione)); $anello.Visibility = 'Visible' }
+    $w.FindName('Riempimento').RenderTransform.ScaleX = $frazione
+    $w.FindName('Liberati').Text = Formatta-Dimensione $St.Byte
+    # la riga in corso resta visibile
+    $corso = @($St.Righe | Where-Object { $_.Stato -eq 'corso' })
+    if ($corso.Count -gt 0) {
+        $idx = $St.Righe.IndexOf($corso[0])
+        try { $w.FindName('Scorrimento').ScrollToVerticalOffset([math]::Max(0, ($idx - 4) * 42)) } catch { }
+    }
+    Aggiorna-UI
+}
+
+function Chiudi-Avanzamento($St) {
+    $Script:AvanzamentoFinito = $true
+    try { $St.Finestra.Close() } catch { }
+}
+
+#   $TestoSezione: se non è vuoto compare anche il pulsante per applicare solo la sezione aperta.
+#   Restituisce 'Tutto', 'Sezione' oppure $false (torna indietro).
+function Mostra-Anteprima([string]$Titolo, [string]$Intro, $Righe, [string]$TestoConferma, [string]$TestoSezione = '') {
     $w = [Windows.Markup.XamlReader]::Parse($Script:XamlAnteprima)
     Applica-TemaFinestra $w
     $w.Owner = $Script:Finestra
-    $w.Title = $Titolo
-    $w.FindName('TitoloAnteprima').Text = $Titolo
-    $w.FindName('Intro').Text = $Intro
+    $w.Title = Tr $Titolo
+    $w.FindName('TitoloAnteprima').Text = Tr $Titolo
+    $w.FindName('Intro').Text = Tr $Intro
     $elenco = New-Object System.Collections.ArrayList
     foreach ($r in $Righe) { [void]$elenco.Add($r) }
     $w.FindName('Lista').ItemsSource = $elenco
+    $w.Tag = 'Tutto'
     $b = $w.FindName('BtnConferma')
-    $b.Content = $TestoConferma
-    $b.add_Click({ [System.Windows.Window]::GetWindow($this).DialogResult = $true })
-    return ($w.ShowDialog() -eq $true)
+    $b.Content = Tr $TestoConferma
+    $b.add_Click({ $f = [System.Windows.Window]::GetWindow($this); $f.Tag = 'Tutto'; $f.DialogResult = $true })
+    if ($TestoSezione) {
+        $s = $w.FindName('BtnSezione')
+        $s.Content = Tr $TestoSezione
+        $s.Visibility = 'Visible'
+        $s.add_Click({ $f = [System.Windows.Window]::GetWindow($this); $f.Tag = 'Sezione'; $f.DialogResult = $true })
+    }
+    if ($w.ShowDialog() -ne $true) { return $false }
+    return [string]$w.Tag
+}
+
+# Vero se la voce appartiene alla sezione aperta (le voci avanzate stanno nella sezione "Avanzate").
+function Voce-NellaSezione($Voce, [string]$Sezione) {
+    if (-not $Sezione) { return $false }
+    if ($Sezione -eq 'Ricerca') { return [bool](@($Script:CollRicerca | Where-Object { $_.Id -eq $Voce.Id }).Count) }
+    if ($Voce.Avanzata) { return ($Sezione -eq 'Avanzate') }
+    return ([string]$Voce.Categoria -eq $Sezione)
 }
 
 # Punto di ripristino. Restituisce $true se si può proseguire.
@@ -5366,10 +5751,20 @@ function Applica-Modifiche([string]$Obiettivo) {
     if ($prova) { $intro = "MODALITÀ PROVA: non verrà modificato niente, le operazioni verranno solo scritte nel log.`n`n" + $intro }
 
     $conferma = $(if ($prova) { 'Simula (modalità prova)' } else { 'Conferma e applica' })
-    if (-not (Mostra-Anteprima 'Anteprima delle modifiche' $intro $righe $conferma)) {
+    # Voci di più sezioni: si può applicare solo la sezione aperta (le altre restano accese per dopo).
+    $sezione = [string]$Script:PaginaAttuale
+    $nSezione = @($elenco | Where-Object { Voce-NellaSezione $_.Voce $sezione }).Count
+    $testoSezione = $(if ($nSezione -gt 0 -and $nSezione -lt $elenco.Count) { "Solo questa sezione ($nSezione)" } else { '' })
+    $scelta = Mostra-Anteprima 'Anteprima delle modifiche' $intro $righe $conferma $testoSezione
+    if (-not $scelta) {
         Scrivi-Log 'Applicazione annullata dall''utente nell''anteprima.'
         Imposta-Stato 'Nessuna modifica applicata.'
         return
+    }
+    if ($scelta -eq 'Sezione') {
+        $elenco = @($elenco | Where-Object { Voce-NellaSezione $_.Voce $sezione })
+        $righe = @($elenco | ForEach-Object { Descrivi-Modifica $_.Voce $_.Lettura $_.Obiettivo $_.TestoScelta })
+        Scrivi-Log "Applico solo la sezione aperta: $($elenco.Count) voci."
     }
 
     if ($prova) {
@@ -5392,13 +5787,23 @@ function Applica-Modifiche([string]$Obiettivo) {
         $fileBackup = Join-Path $Script:CartellaBackup ('originali_{0:yyyyMMdd_HHmmss}.json' -f (Get-Date))
         $backup = [ordered]@{ Versione = $Script:Versione; Computer = $env:COMPUTERNAME; Creato = (Get-Date).ToString('s'); Obiettivo = $Obiettivo; Modifiche = (New-Object System.Collections.ArrayList) }
         Scrivi-Log "--- Applicazione di $($elenco.Count) modifiche (obiettivo: $Obiettivo) ---"
-        $ok = 0; $errori = 0; $riavvio = @()
+        $ok = 0; $errori = 0; $riavvio = @(); $fermate = 0
         $i = 0
+        # Finestra "Ottimizzazione in corso": una riga per voce, MB liberati, pulsante "Ferma dopo questa voce".
+        $av = $null
+        try { $av = Apri-Avanzamento @($elenco | ForEach-Object { Tr ([string]$_.Voce.Nome) }) "$($elenco.Count) modifiche" } catch { Scrivi-Log "Finestra di avanzamento non disponibile: $($_.Exception.Message)" 'AVVISO' }
         foreach ($m in $elenco) {
             $i++
             $v = $m.Voce
+            if ($Script:FermaRichiesto) {
+                $fermate++
+                if ($av) { $av.Righe[$i - 1].Stato = 'saltata'; $av.Righe[$i - 1].Esito = Tr 'non eseguita (fermato)' }
+                continue
+            }
             Imposta-Stato "Applico ($i di $($elenco.Count)): $($v.Nome)..."
             Imposta-Avanzamento (100 * ($i - 1) / $elenco.Count)
+            if ($av) { $av.Righe[$i - 1].Stato = 'corso'; $av.Righe[$i - 1].Esito = Tr $(if ($v.Tipo -eq 'Pulizia') { 'pulizia in corso...' } else { 'in corso...' }); Aggiorna-FinestraAvanzamento $av ($i - 1) }
+            $Script:UltimiByteLiberati = [int64]0
             try {
                 # Prima si salva l'originale, poi si modifica: così il backup c'è sempre.
                 if ($v.Tipo -ne 'Pulizia') {
@@ -5408,17 +5813,28 @@ function Applica-Modifiche([string]$Obiettivo) {
                 }
                 Applica-Voce $v $m.Obiettivo
                 $ok++
-                Scrivi-Log "[$($v.Categoria)] $($v.Nome): '$($m.Lettura.Attuale)' -> '$(Testo-Verso $v $m.Obiettivo $m.TestoScelta)'" 'OK'
+                $verso = Testo-Verso $v $m.Obiettivo $m.TestoScelta
+                Scrivi-Log "[$($v.Categoria)] $($v.Nome): '$($m.Lettura.Attuale)' -> '$verso'" 'OK'
                 if ($v.Riavvio) { $riavvio += $v.Riavvio }
+                if ($av) {
+                    $av.Byte += $Script:UltimiByteLiberati
+                    $av.Righe[$i - 1].Stato = 'fatto'
+                    $av.Righe[$i - 1].Esito = $(if ($v.Tipo -eq 'Pulizia' -and $Script:UltimiByteLiberati -gt 0) { Tr "liberati $(Formatta-Dimensione $Script:UltimiByteLiberati)" } elseif ($v.Tipo -eq 'Pulizia') { Tr 'fatto' } else { "$(Tr ([string]$m.Lettura.Attuale)) → $(Tr ([string]$verso))" })
+                }
             } catch {
                 $errori++
                 Scrivi-Log "[$($v.Categoria)] $($v.Nome): ERRORE - $($_.Exception.Message)" 'ERRORE'
+                if ($av) { $av.Righe[$i - 1].Stato = 'errore'; $av.Righe[$i - 1].Esito = Tr 'errore: dettagli nel log' }
             }
+            if ($av) { Aggiorna-FinestraAvanzamento $av $i }
         }
+        if ($fermate -gt 0) { Scrivi-Log "Applicazione fermata dall'utente: $fermate voci non eseguite." 'AVVISO' }
         if ($backup.Modifiche.Count -gt 0) { Scrivi-Log "Backup dei valori originali: $fileBackup" 'OK' }
 
-        Esegui-Scansione
+        if ($av) { $av.Finestra.FindName('Titolo').Text = Tr 'Fatto: rileggo lo stato del PC...'; $av.Finestra.FindName('BtnFerma').IsEnabled = $false; Aggiorna-UI }
+        try { Esegui-Scansione } finally { if ($av) { Chiudi-Avanzamento $av } }
         $riepilogo = "Modifiche applicate: $ok.  Errori: $errori."
+        if ($fermate -gt 0) { $riepilogo += "`nFermato da te: $fermate voci non eseguite (restano accese)." }
         if ($errori -gt 0) { $riepilogo += "`nI dettagli degli errori sono nella scheda Log." }
         $riavvio = @($riavvio | Select-Object -Unique)
         if ($riavvio -contains 'riavvio') { $riepilogo += "`n`nAlcune modifiche hanno effetto dopo il RIAVVIO del PC." }
@@ -5670,6 +6086,7 @@ $Script:VersioniNvidia = @()
 $Script:VersioniAmd    = @()
 $Script:CmbVersioniAmd = $null
 $Script:UltimaVideo    = @{}
+$Script:PannelloNvPresente = $null   # $null = da controllare
 $Script:TestoAggiornamenti = $null
 $Script:PannelloDriver = $null
 $Script:PannelloApp    = $null
@@ -5694,7 +6111,9 @@ $Script:NvComponenti = @(
     @{ Modello = '^PPC$';                 Stato = 'Consigliato';  Descr = 'Driver USB-C collegato alla GPU' }
     @{ Modello = '^NVPCF$';               Stato = 'Consigliato';  Descr = 'Platform Controllers and Framework (Dynamic Boost, portatili)' }
     @{ Modello = 'PlatformController';    Stato = 'Consigliato';  Descr = 'Controller di piattaforma (portatili)' }
-    @{ Modello = '^NvCpl$';               Stato = 'Consigliato';  Descr = 'Pannello di controllo NVIDIA (impostazioni 3D, schermo, colori)' }
+    # NvCpl NON è il Pannello di controllo classico: sono le impostazioni del driver dentro NVIDIA App
+    # (pacchetto "Display.NvApp.NvCPL", verificato sul 621.24). Il Pannello classico è un'app dentro Display.Driver\NVCPL.
+    @{ Modello = '^NvCpl$';               Stato = 'Facoltativo';  Descr = 'Impostazioni del driver dentro NVIDIA App' }
     @{ Modello = '^NvDLISR$';             Stato = 'Consigliato';  Descr = 'DLDSR: risoluzione superiore con l''IA, da attivare nel Pannello NVIDIA' }
     @{ Modello = '^NvVAD$';               Stato = 'Facoltativo';  Descr = 'Audio virtuale usato da registrazione e overlay NVIDIA' }
     @{ Modello = '^NvApp';                Stato = 'Facoltativo';  Descr = 'NVIDIA App (pannello, overlay, aggiornamenti)' }
@@ -5764,7 +6183,7 @@ function Formatta-DataDriver($Data) {
 # Schede video presenti (anche con il driver di base Microsoft). Sola lettura, nessuna connessione.
 function Leggi-SchedeVideo {
     $visti = @{}
-    $righe = foreach ($d in @(Get-CimInstance Win32_PnPSignedDriver -ErrorAction SilentlyContinue | Where-Object { $_.DeviceClass -eq 'DISPLAY' -and $_.DeviceName })) {
+    $righe = foreach ($d in @(Leggi-DriverPnP | Where-Object { $_.DeviceClass -eq 'DISPLAY' -and $_.DeviceName })) {
         $nome = $d.DeviceName.Trim()
         if ($visti.ContainsKey($nome)) { continue }
         $visti[$nome] = $true
@@ -5786,7 +6205,7 @@ function Leggi-Dispositivi {
     $ordine = @{ 'DISPLAY' = 1; 'MEDIA' = 2; 'NET' = 3; 'BLUETOOTH' = 4; 'SYSTEM' = 5 }
     $utiliSistema = 'Management Engine|Smart Sound|Innovation Platform Framework Manager|Serial IO|Chipset|SMBus|Thunderbolt|Dynamic Tuning|GPIO|PSP|Lenovo|Dell|ASUS|Acer|MSI'
     $virtuali = 'Virtual|TAP-Windows|VPN|mirroring|VAD|Easy Surround|Hyper-V|WAN Miniport'
-    $driver = @(Get-CimInstance Win32_PnPSignedDriver -ErrorAction SilentlyContinue | Where-Object {
+    $driver = @(Leggi-DriverPnP | Where-Object {
         $_.DeviceName -and $_.DriverProviderName -and $_.DriverProviderName -notmatch '^Microsoft' -and $_.DeviceName -notmatch $virtuali -and
         ($ordine.ContainsKey([string]$_.DeviceClass)) -and ($_.DeviceClass -ne 'SYSTEM' -or $_.DeviceName -match $utiliSistema) })
     $visti = @{}
@@ -5811,21 +6230,35 @@ function Leggi-Dispositivi {
 # per il modello di scheda, dal più recente al più vecchio.
 $Script:CodiceCercaNvidia = {
     param($NomeGpu, $Quanti, $Studio, $Windows11)
-    $ProgressPreference = 'SilentlyContinue'
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    $h = @{ 'User-Agent' = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+    # Nei runspace si usa HttpWebRequest con timeout (Invoke-WebRequest può bloccarsi).
+    $leggi = {
+        param($Url)
+        $q = [Net.HttpWebRequest]::Create($Url)
+        $q.UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+        $q.Timeout = 30000; $q.ReadWriteTimeout = 30000
+        $q.AutomaticDecompression = [Net.DecompressionMethods]::GZip -bor [Net.DecompressionMethods]::Deflate
+        $risp = $q.GetResponse()
+        try { $sr = New-Object IO.StreamReader($risp.GetResponseStream(), [Text.Encoding]::UTF8); $sr.ReadToEnd() } finally { $risp.Close() }
+    }
+    $pulisci = { param($s) ((($s -replace '^NVIDIA\s+', '') -replace '\((TM|R)\)', '') -replace '[^A-Za-z0-9]', '').ToUpperInvariant() }
     $nome = ($NomeGpu -replace '^NVIDIA\s+', '').Trim()
-    $r = Invoke-WebRequest -UseBasicParsing -Headers $h -TimeoutSec 30 -Uri 'https://www.nvidia.com/Download/API/lookupValueSearch.aspx?TypeID=3'
-    $prod = ([xml]$r.Content).LookupValueSearch.LookupValues.LookupValue | Where-Object { ($_.Name -replace '^NVIDIA\s+', '').Trim() -eq $nome } | Select-Object -First 1
+    $prodotti = @(([xml](& $leggi 'https://www.nvidia.com/Download/API/lookupValueSearch.aspx?TypeID=3')).LookupValueSearch.LookupValues.LookupValue)
+    $prod = $prodotti | Where-Object { ($_.Name -replace '^NVIDIA\s+', '').Trim() -eq $nome } | Select-Object -First 1
+    if (-not $prod) { $chiave = & $pulisci $nome; $prod = $prodotti | Where-Object { (& $pulisci $_.Name) -eq $chiave } | Select-Object -First 1 }
     if (-not $prod) { throw "Il modello '$nome' non è nell'elenco dei prodotti NVIDIA." }
     $osId = $(if ($Windows11) { 135 } else { 57 })   # 135 = Windows 11, 57 = Windows 10 a 64 bit
-    $crd = $(if ($Studio) { 1 } else { 0 })
-    $u = "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=$($prod.ParentID)&pfid=$($prod.Value)&osID=$osId&languageCode=1033&beta=0&isWHQL=1&dltype=-1&dch=1&upCRD=$crd&qnf=0&sort1=1&numberOfResults=$Quanti"
-    $j = (Invoke-WebRequest -UseBasicParsing -Headers $h -TimeoutSec 30 -Uri $u).Content | ConvertFrom-Json
+    # Driver Studio: nvidia.com li restituisce solo con isWHQL=0 (con isWHQL=1 l'elenco è vuoto, verificato 11/2026).
+    $filtro = $(if ($Studio) { 'beta=0&isWHQL=0&upCRD=1' } else { 'beta=0&isWHQL=1&upCRD=0' })
+    $u = "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=$($prod.ParentID)&pfid=$($prod.Value)&osID=$osId&languageCode=1033&$filtro&dltype=-1&dch=1&qnf=0&sort1=1&numberOfResults=$Quanti"
+    $j = (& $leggi $u) | ConvertFrom-Json
     $visti = @{}
     foreach ($x in @($j.IDS)) {
         $d = $x.downloadInfo
         if (-not $d -or -not $d.Version -or -not $d.DownloadURL -or $visti.ContainsKey([string]$d.Version)) { continue }
+        $tipo = [uri]::UnescapeDataString([string]$d.Name)
+        if ($Studio -and $tipo -notmatch 'Studio') { continue }
+        if (-not $Studio -and $tipo -match 'Studio') { continue }
         $visti[[string]$d.Version] = $true
         $data = [string]$d.ReleaseDateTime
         try { $data = [datetime]::ParseExact($data, 'ddd MMM dd, yyyy', [cultureinfo]::InvariantCulture).ToString('dd/MM/yyyy') } catch { }
@@ -6059,12 +6492,14 @@ function Controlla-AggiornamentiVideo {
         $Script:UltimaVideo = @{}
         if (Scheda-Nvidia) {
             try {
-                if ($Script:CmbTipoNvidia) { $Script:CmbTipoNvidia.SelectedIndex = 0 }
+                # Si controlla il tipo scelto nel menu (Game Ready o Studio): chi usa Studio resta su Studio.
                 $nv = Scheda-Nvidia
                 $info = @(Cerca-VersioniNvidia)[0]
                 if (-not $info) { throw 'NVIDIA non ha restituito driver per questo modello.' }
-                $nuovo = ([version]$info.Versione -gt [version]$nv.Versione)
-                $Script:UltimaVideo['NVIDIA'] = $(if ($nuovo) { "Disponibile la $($info.Versione) del $($info.Data) (nuova)" } else { "La $($info.Versione) è la più recente: già installata" })
+                $confronto = ([version]$info.Versione).CompareTo([version]$nv.Versione)
+                $Script:UltimaVideo['NVIDIA'] = $(if ($confronto -gt 0) { "Disponibile la $($info.Versione) del $($info.Data) (nuova)" }
+                                                  elseif ($confronto -eq 0) { "La $($info.Versione) è la più recente: già installata" }
+                                                  else { "Installata la $($nv.Versione), più recente dell'ultima di questo tipo ($($info.Versione))" })
                 Scrivi-Log "NVIDIA: installato $($nv.Versione), ultimo disponibile $($info.Versione) del $($info.Data)" 'OK'
             } catch { $Script:UltimaVideo['NVIDIA'] = 'Controllo non riuscito'; Scrivi-Log "Controllo NVIDIA non riuscito: $($_.Exception.Message)" 'ERRORE' }
         }
@@ -6083,6 +6518,24 @@ function Controlla-AggiornamentiVideo {
     } finally { Blocca-Pulsanti $false }
 }
 
+# Impostazioni che impediscono a Windows Update di proporre driver (spesso messe da altri programmi di
+# ottimizzazione o da NVCleanstall). Regia non le cambia (Windows Update non si tocca): le segnala e basta.
+function Blocchi-DriverWU {
+    $b = @()
+    if ((Leggi-Registro 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate' 'ExcludeWUDriversInQualityUpdate').Valore -eq 1) {
+        $b += "criterio 'Non includere i driver negli aggiornamenti di Windows' (ExcludeWUDriversInQualityUpdate = 1)"
+    }
+    if ((Leggi-Registro 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching' 'SearchOrderConfig').Valore -eq 0) {
+        $b += "criterio di ricerca dei driver su Windows Update disattivato (DriverSearching\SearchOrderConfig = 0)"
+    }
+    return @($b)
+}
+
+# Nome "pulito" per confrontare dispositivi e aggiornamenti: senza (R), (TM), sigle finali tipo "- 7A4C" e simboli.
+function Chiave-Dispositivo([string]$Nome) {
+    return ((($Nome -replace '\((R|TM|C)\)', '') -replace '\s+-\s+[0-9A-Fa-f]{4}$', '') -replace '[^A-Za-z0-9]', '').ToUpperInvariant()
+}
+
 # Controlla gli aggiornamenti degli altri driver nel catalogo di Windows Update. Non installa niente.
 function Controlla-AggiornamentiDriver {
     Blocca-Pulsanti $true
@@ -6097,10 +6550,17 @@ function Controlla-AggiornamentiDriver {
                 [void]$trovati.Add((Nuovo-Aggiornamento 'WU' $u.Titolo $u.Modello $u.Data "$($u.DimensioneMB) MB" "Windows Update ($($u.Produttore))" $u.Id))
             }
             foreach ($d in $Script:Dispositivi) {
-                $m = $wu | Where-Object { $_.Modello -and ($_.Modello -eq $d.Dispositivo -or $_.Titolo -like "*$($d.Dispositivo)*") } | Select-Object -First 1
+                $chiave = Chiave-Dispositivo $d.Dispositivo
+                $m = $wu | Where-Object { $_.Modello -and ($_.Modello -eq $d.Dispositivo -or (Chiave-Dispositivo $_.Modello) -eq $chiave -or ($chiave.Length -ge 8 -and (Chiave-Dispositivo $_.Titolo).Contains($chiave))) } | Select-Object -First 1
                 $d.Ultima = $(if ($m) { "Aggiornamento del $($m.Data)" } else { 'Nessun aggiornamento' })
             }
             Scrivi-Log "Windows Update: $($wu.Count) driver disponibili." 'OK'
+            $blocchi = Blocchi-DriverWU
+            if ($wu.Count -eq 0 -and $blocchi.Count -gt 0) {
+                foreach ($d in $Script:Dispositivi) { $d.Ultima = 'Non controllabile (vedi avviso)' }
+                Scrivi-Log "Windows Update non propone driver per un'impostazione del PC: $($blocchi -join '; ')" 'AVVISO'
+                [void](Mostra-Messaggio ("Windows Update non ha proposto nessun driver, ma su questo PC è attiva un'impostazione che glielo impedisce:`n`n•  " + ($blocchi -join "`n•  ") + "`n`nDi solito la mette un altro programma di ottimizzazione o NVCleanstall, per evitare che Windows sostituisca il driver della scheda video. Regia non la cambia (Windows Update non si tocca).`n`nSe vuoi di nuovo i driver da Windows Update, toglila con lo stesso programma che l'ha attivata (su Windows Pro anche da Editor Criteri di gruppo > Componenti di Windows > Windows Update).") 'Driver da Windows Update' 'OK' 'Warning')
+            }
         } catch {
             Scrivi-Log "Ricerca su Windows Update non riuscita: $($_.Exception.Message)" 'ERRORE'
             foreach ($d in $Script:Dispositivi) { $d.Ultima = 'Controllo non riuscito' }
@@ -6280,6 +6740,106 @@ function Chiedi-InstallazionePulita([string]$Titolo, [string]$Intro, [string]$Ma
     return @{ Completa = ($w.FindName('Modo').SelectedIndex -eq 0); Cache = [bool]$w.FindName('ChkCache').IsChecked; Tutto = [bool]$w.FindName('ChkTutto').IsChecked }
 }
 
+# Legge i manifesti .nvi del pacchetto NVIDIA estratto:
+#   Richiede    = per ogni cartella, le cartelle di cui ha bisogno ("requires"), così togliere un componente
+#                 non rompe quelli tenuti (es. NvCpl richiede NvContainer);
+#   SuRichiesta = cartelle che il programma NVIDIA installa solo se un altro componente le chiede
+#                 (disposition="demand": in pratica solo insieme a NVIDIA App).
+function Dipendenze-PacchettoNvidia([string]$Estratti) {
+    $nomeACartella = @{}; $richieste = @{}; $disposizioni = @{}
+    foreach ($d in @(Get-ChildItem -LiteralPath $Estratti -Directory -ErrorAction SilentlyContinue)) {
+        foreach ($f in @(Get-ChildItem -LiteralPath $d.FullName -Filter '*.nvi' -File -ErrorAction SilentlyContinue)) {
+            try { $x = [xml][IO.File]::ReadAllText($f.FullName) } catch { continue }
+            if (-not $x.nvi) { continue }
+            $n = [string]$x.nvi.name
+            if ($n -and $n -notmatch '\$\{\{') { $nomeACartella[$n] = $d.Name }
+            if (-not $disposizioni.ContainsKey($d.Name)) { $disposizioni[$d.Name] = New-Object System.Collections.ArrayList }
+            [void]$disposizioni[$d.Name].Add([string]$x.nvi.disposition)
+            $dip = $x.nvi.dependencies
+            if ($dip -isnot [System.Xml.XmlElement]) { continue }
+            foreach ($p in @($dip.SelectNodes('package'))) {
+                if ([string]$p.type -ne 'requires' -or [string]$p.package -match '\$\{\{') { continue }
+                if (-not $richieste.ContainsKey($d.Name)) { $richieste[$d.Name] = New-Object System.Collections.ArrayList }
+                [void]$richieste[$d.Name].Add([string]$p.package)
+            }
+        }
+    }
+    $mappa = @{}
+    foreach ($c in @($richieste.Keys)) {
+        # Le parti di NvContainer hanno nomi a modello (NvContainer.Session, .LocalSystem...): si riconoscono dal prefisso.
+        $mappa[$c] = @($richieste[$c] | ForEach-Object {
+            if ($nomeACartella.ContainsKey($_)) { $nomeACartella[$_] }
+            elseif ($_ -like 'NvContainer*' -or $_ -like 'NvPlugin.*') { 'NvContainer' }
+        } | Where-Object { $_ -and $_ -ne $c } | Select-Object -Unique)
+    }
+    $suRichiesta = @($disposizioni.Keys | Where-Object { @($disposizioni[$_] | Where-Object { $_ -ne 'demand' }).Count -eq 0 })
+    return @{ Richiede = $mappa; SuRichiesta = $suRichiesta }
+}
+
+# Pannello di controllo NVIDIA classico (app NVIDIACorp.NVIDIAControlPanel): installato per qualche utente
+# o pronto per i nuovi accessi (provisioned).
+#   $Completo = $false: solo le app installate (più veloce, per la finestra).
+function Pannello-NvidiaPresente([bool]$Completo = $true) {
+    try {
+        $r = @(Esegui-InBackground {
+            param($completo)
+            @(Get-AppxPackage -AllUsers -Name 'NVIDIACorp.NVIDIAControlPanel' -ErrorAction SilentlyContinue).Count
+            if ($completo) { @(Get-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue | Where-Object { $_.DisplayName -eq 'NVIDIACorp.NVIDIAControlPanel' }).Count }
+        } @($Completo))
+        return (($r | Measure-Object -Sum).Sum -gt 0)
+    } catch { return $false }
+}
+
+# App del Pannello dentro un pacchetto NVIDIA estratto (Display.Driver\NVCPL\*.appx), oppure $null.
+function Trova-AppxPannello([string]$Estratti) {
+    return (Get-ChildItem -LiteralPath (Join-Path $Estratti 'Display.Driver\NVCPL') -Filter '*.appx' -File -ErrorAction SilentlyContinue | Select-Object -First 1)
+}
+
+# Installa il Pannello di controllo NVIDIA dall'app contenuta nel driver, con lo stesso comando che usa
+# il programma di installazione NVIDIA (DISM /add-provisionedappxpackage), più la registrazione per l'utente attuale.
+# Serve perché con un'installazione pulita senza NVIDIA App il programma NVIDIA può saltarlo o toglierlo.
+function Installa-PannelloNvidia([string]$Appx) {
+    if (Pannello-NvidiaPresente) { Scrivi-Log 'Pannello di controllo NVIDIA già presente.' 'OK'; return $true }
+    $firma = Get-AuthenticodeSignature -LiteralPath $Appx
+    if ($firma.Status -ne 'Valid') { throw "La firma digitale dell'app del Pannello NVIDIA non è valida (stato: $($firma.Status)): non viene installata." }
+    $licenza = Join-Path (Split-Path -Parent $Appx) ([IO.Path]::GetFileNameWithoutExtension($Appx) + '_License1.xml')
+    Imposta-Stato 'Installo il Pannello di controllo NVIDIA...'
+    $arg = "/online /add-provisionedappxpackage /packagepath:`"$Appx`"" + $(if (Test-Path -LiteralPath $licenza) { " /LicensePath:`"$licenza`"" } else { ' /SkipLicense' }) + ' /Region:all'
+    Scrivi-Log "Pannello di controllo NVIDIA: Dism.exe $arg"
+    $codice = Esegui-Processo "$env:WINDIR\System32\Dism.exe" $arg
+    Scrivi-Log "Pannello di controllo NVIDIA: DISM ha restituito il codice $codice" $(if ($codice -eq 0) { 'OK' } else { 'AVVISO' })
+    # Per l'utente attuale (senza aspettare il prossimo accesso)
+    try { [void](Esegui-InBackground { param($p) Add-AppxPackage -Path $p -ErrorAction Stop } @($Appx)); Scrivi-Log 'Pannello di controllo NVIDIA registrato per l''utente attuale.' 'OK' }
+    catch { Scrivi-Log "Pannello di controllo NVIDIA: registrazione per l'utente attuale non riuscita, comparirà dopo il riavvio ($($_.Exception.Message))" 'AVVISO' }
+    $ok = Pannello-NvidiaPresente
+    Scrivi-Log $(if ($ok) { 'Pannello di controllo NVIDIA installato.' } else { 'Pannello di controllo NVIDIA non risulta installato.' }) $(if ($ok) { 'OK' } else { 'ERRORE' })
+    return $ok
+}
+
+# Pulsante della sezione "Driver video": installa il Pannello da un pacchetto già scaricato in Dati\Driver,
+# altrimenti apre la sua pagina nel Microsoft Store.
+function Installa-PannelloNvidiaDaPulsante {
+    $appx = $null
+    foreach ($c in @(Get-ChildItem -LiteralPath $Script:CartellaDriver -Directory -Filter 'NVIDIA_*' -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending)) {
+        $appx = Trova-AppxPannello (Join-Path $c.FullName 'pacchetto')
+        if ($appx) { break }
+    }
+    $prova = [bool]$Script:ChkProva.IsChecked
+    if (-not $appx) {
+        $r = Mostra-Messaggio "Il Pannello di controllo NVIDIA non è installato.`n`nNon c'è un pacchetto del driver già scaricato in Dati\Driver da cui prenderlo: apro la sua pagina nel Microsoft Store (è gratuito e ufficiale NVIDIA)?`n`nIn alternativa, la prossima installazione pulita del driver da Regia lo installa da sola." 'Pannello di controllo NVIDIA' 'YesNo' 'Information'
+        if ($r -eq 'Yes') { Start-Process 'ms-windows-store://pdp/?PFN=NVIDIACorp.NVIDIAControlPanel_56jybvy8sckqj'; Scrivi-Log 'Aperta la pagina del Pannello di controllo NVIDIA nel Microsoft Store.' }
+        return
+    }
+    $r = Mostra-Messaggio "Installo il Pannello di controllo NVIDIA dal driver già scaricato?`n`nFile: $($appx.FullName -replace [regex]::Escape($Script:CartellaDati), 'Dati')`n`nÈ l'app ufficiale NVIDIA contenuta nel driver: il driver grafico non viene toccato." 'Pannello di controllo NVIDIA' 'YesNo' 'Information'
+    if ($r -ne 'Yes') { return }
+    if ($prova) { Scrivi-Log "Installerei il Pannello di controllo NVIDIA da $($appx.FullName)" 'PROVA'; [void](Mostra-Messaggio 'Modalità prova: il Pannello NON è stato installato. Spegni la Modalità prova per installarlo.' 'Modalità prova'); return }
+    Blocca-Pulsanti $true
+    try { $ok = Installa-PannelloNvidia $appx.FullName } finally { Blocca-Pulsanti $false }
+    $Script:PannelloNvPresente = $null
+    if (Get-Command Mostra-SchedeVideo -ErrorAction SilentlyContinue) { Mostra-SchedeVideo }
+    [void](Mostra-Messaggio $(if ($ok) { 'Pannello di controllo NVIDIA installato. Lo trovi nel menu Start (o con il tasto destro sul desktop dopo il riavvio).' } else { 'Il Pannello non risulta installato: i dettagli sono nel log. Puoi installarlo dal Microsoft Store.' }) 'Pannello di controllo NVIDIA' 'OK' $(if ($ok) { 'Information' } else { 'Warning' }))
+}
+
 # Installazione pulita del driver NVIDIA (versione scelta dall'utente: nuova, uguale o precedente).
 function Installa-DriverNvidia($Agg) {
     $url = [string]$Agg.Url
@@ -6326,14 +6886,29 @@ function Installa-DriverNvidia($Agg) {
     $cartelle = @(Get-ChildItem -LiteralPath $estratti -Directory)
     if (-not ($cartelle | Where-Object { $_.Name -eq 'Display.Driver' })) { throw 'Nel pacchetto manca Display.Driver: formato non riconosciuto, installazione annullata.' }
 
+    $dipendenze = Dipendenze-PacchettoNvidia $estratti
+    $appxPannello = Trova-AppxPannello $estratti
     $componenti = New-Object 'System.Collections.Generic.List[OttWin.RigaComponente]'
-    foreach ($c in ($cartelle | Sort-Object { @('Obbligatorio', 'Consigliato', 'Facoltativo').IndexOf((Descrivi-ComponenteNvidia $_.Name).Stato) }, Name)) {
+    $ordine = @('Obbligatorio', 'Consigliato', 'Facoltativo', 'Con NVIDIA App')
+    $righeComp = foreach ($c in $cartelle) {
         $d = Descrivi-ComponenteNvidia $c.Name
         $r = New-Object OttWin.RigaComponente
         $r.Nome = $c.Name; $r.Stato = $d.Stato; $r.Descrizione = $d.Descr
         $r.Includi = ($d.Stato -ne 'Facoltativo'); $r.Modificabile = ($d.Stato -ne 'Obbligatorio')
-        $componenti.Add($r)
+        # Componenti che NVIDIA installa solo se richiesti da NVIDIA App: da soli non verrebbero installati.
+        if ($d.Stato -ne 'Obbligatorio' -and $dipendenze.SuRichiesta -contains $c.Name) {
+            $r.Stato = 'Con NVIDIA App'; $r.Includi = $false; $r.Modificabile = $false
+            $r.Descrizione = "$($d.Descr) (si installa solo insieme a NVIDIA App)"
+        }
+        $r
     }
+    if ($appxPannello) {
+        $r = New-Object OttWin.RigaComponente
+        $r.Nome = 'Pannello di controllo NVIDIA'; $r.Stato = 'Consigliato'; $r.Speciale = $true; $r.Includi = $true; $r.Modificabile = $true
+        $r.Descrizione = 'App classica del Pannello (impostazioni 3D, schermo, colori, DSR). Regia controlla che venga installata'
+        $righeComp = @($righeComp) + $r
+    }
+    foreach ($r in (@($righeComp) | Sort-Object { $ordine.IndexOf($_.Stato) }, { -not $_.Speciale }, Nome)) { $componenti.Add($r) }
 
     $prova = [bool]$Script:ChkProva.IsChecked
     $intro = "Driver NVIDIA $($Agg.Versione) scaricato e verificato (firma digitale NVIDIA valida).$confronto`n" +
@@ -6345,11 +6920,28 @@ function Installa-DriverNvidia($Agg) {
         Imposta-Stato 'Installazione annullata: nessuna modifica.'
         return
     }
-    $tenuti = @($componenti | Where-Object { $scelta.Tutto -or $_.Includi })
-    $tolti  = @($componenti | Where-Object { -not $scelta.Tutto -and -not $_.Includi })
+    # NVIDIA App accesa: si tengono anche i componenti che le servono. In generale si tiene ogni cartella
+    # richiesta da un componente tenuto (dai manifesti .nvi), così niente resta a metà.
+    if (-not $scelta.Tutto) {
+        $app = $componenti | Where-Object { $_.Nome -eq 'NvApp' -and $_.Includi } | Select-Object -First 1
+        if ($app) { foreach ($c in @($componenti | Where-Object { $_.Stato -eq 'Con NVIDIA App' })) { $c.Includi = $true } }
+        $cambiato = $true
+        while ($cambiato) {
+            $cambiato = $false
+            foreach ($c in @($componenti | Where-Object { $_.Includi -and -not $_.Speciale })) {
+                foreach ($serve in @($dipendenze.Richiede[$c.Nome])) {
+                    $x = $componenti | Where-Object { $_.Nome -eq $serve -and -not $_.Includi } | Select-Object -First 1
+                    if ($x) { $x.Includi = $true; $cambiato = $true; Scrivi-Log "  componente tenuto perché serve a $($c.Nome): $serve" }
+                }
+            }
+        }
+    }
+    $pannelloScelto = [bool]($appxPannello -and ($scelta.Tutto -or @($componenti | Where-Object { $_.Speciale -and $_.Includi }).Count -gt 0))
+    $tenuti = @($componenti | Where-Object { -not $_.Speciale -and ($scelta.Tutto -or $_.Includi) })
+    $tolti  = @($componenti | Where-Object { -not $_.Speciale -and -not $scelta.Tutto -and -not $_.Includi })
     $modo = $(if ($scelta.Completa) { 'rimozione completa dei vecchi driver' } else { 'standard' })
     if ($prova) {
-        Scrivi-Log "Installazione pulita NVIDIA $($Agg.Versione) ($modo; cache shader: $($scelta.Cache)). Tenuti: $(($tenuti | ForEach-Object Nome) -join ', '). Tolti: $(($tolti | ForEach-Object Nome) -join ', ')" 'PROVA'
+        Scrivi-Log "Installazione pulita NVIDIA $($Agg.Versione) ($modo; cache shader: $($scelta.Cache)). Tenuti: $(($tenuti | ForEach-Object Nome) -join ', '). Tolti: $(($tolti | ForEach-Object Nome) -join ', '). Pannello di controllo: $(if ($pannelloScelto) { 'sì' } else { 'no' })" 'PROVA'
         if ($scelta.Completa) {
             try { foreach ($p in @(Esegui-InBackground $Script:CodiceElencaPacchettiVideo @('NVIDIA'))) { Scrivi-Log "Rimuoverei dall'archivio di Windows: $($p.Inf) ($($p.File) $($p.Versione))" 'PROVA' } }
             catch { Scrivi-Log "Elenco dei vecchi driver non disponibile: $($_.Exception.Message)" 'AVVISO' }
@@ -6388,6 +6980,11 @@ function Installa-DriverNvidia($Agg) {
         Scrivi-Log 'Avvio: setup.exe -s -clean -noreboot -noeula'
         $codice = Esegui-Processo (Join-Path $estratti 'setup.exe') '-s -clean -noreboot -noeula'
         Scrivi-Log "Installazione NVIDIA terminata con codice $codice" $(if ($codice -eq 0) { 'OK' } else { 'AVVISO' })
+        # Pannello di controllo classico: senza NVIDIA App il programma NVIDIA può saltarlo, quindi si controlla.
+        $Script:PannelloNvPresente = $null
+        if ($pannelloScelto) {
+            try { [void](Installa-PannelloNvidia $appxPannello.FullName) } catch { Scrivi-Log "Pannello di controllo NVIDIA non installato: $($_.Exception.Message)" 'ERRORE' }
+        }
         $Script:Aggiornamenti = @($Script:Aggiornamenti | Where-Object { $_.Tipo -ne 'NVIDIA' })
         Aggiorna-Dispositivi
         $nvOra = Scheda-Nvidia
@@ -6753,6 +7350,32 @@ namespace OttWin
         public string Dimensione { get; set; }
     }
 
+    // Un passo della finestra "Ottimizzazione in corso": Stato = attesa | corso | fatto | errore | saltata.
+    public class RigaPasso : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void Notifica(string n) { PropertyChangedEventHandler h = PropertyChanged; if (h != null) h(this, new PropertyChangedEventArgs(n)); }
+        private string _stato, _esito;
+        public string Nome { get; set; }
+        public string Stato { get { return _stato; } set { _stato = value; Notifica("Stato"); } }
+        public string Esito { get { return _esito; } set { _esito = value; Notifica("Esito"); } }
+    }
+
+    // Un servizio installato da un altro programma (sezione "Servizi di altri programmi").
+    public class RigaServizio
+    {
+        public string Nome { get; set; }
+        public string NomeVis { get; set; }
+        public string Produttore { get; set; }
+        public string Modo { get; set; }
+        public string Avvio { get; set; }
+        public string Stato { get; set; }
+        public bool InEsecuzione { get; set; }
+        public bool Protetto { get; set; }
+        public string Note { get; set; }
+        public string Percorso { get; set; }
+    }
+
     // Una voce della finestra "Annulla tutto": si sceglie quali modifiche riportare com'erano.
     public class RigaAnnulla : INotifyPropertyChanged
     {
@@ -6786,6 +7409,7 @@ namespace OttWin
     {
         public bool Includi { get; set; }
         public bool Modificabile { get; set; }
+        public bool Speciale { get; set; }   // non è una cartella del pacchetto (es. Pannello di controllo NVIDIA classico)
         public string Nome { get; set; }
         public string Stato { get; set; }
         public string Descrizione { get; set; }
@@ -6803,10 +7427,14 @@ namespace OttWin
 # e finestre, tabelle e messaggi si aggiornano da soli.
 
 $Script:Palette = @{
-    Scuro  = @{ Sfondo = '#0E1014'; Superficie = '#15181E'; Superficie2 = '#1C2028'; Selezione = '#242A36'; Bordo = '#252A34'
-                Testo = '#E7EAF0'; Testo2 = '#939AA9'; Testo3 = '#5F6675'; Verde = '#3FB950'; Arancio = '#E3A008'; Rosso = '#F0524A'; Avviso = '#2A1416'; Accento = '#4C8DF6' }
+    Scuro  = @{ Sfondo = '#0B0D12'; Superficie = '#121620'; Superficie2 = '#1A1F2A'; Selezione = '#1A2030'; Bordo = '#222837'
+                Testo = '#E8EBF1'; Testo2 = '#9AA3B2'; Testo3 = '#7A8392'; Verde = '#3FB950'; Arancio = '#E3A008'; Rosso = '#F0524A'; Avviso = '#2A1416'; Accento = '#4C8DF6'
+                Laterale = '#0F1218'; AccentoTenue = '#16223A'; AccentoTesto = '#8FB8FF'; VerdeTenue = '#10291A'; VerdeTesto = '#6FD88A'
+                AranciaTenue = '#3A2A0B'; AranciaTesto = '#F5C451'; ProvaBordo = '#5A4512'; RossoTenue = '#3A1416'; RossoTesto = '#FF8A80' }
     Chiaro = @{ Sfondo = '#F4F5F7'; Superficie = '#FFFFFF'; Superficie2 = '#F1F3F6'; Selezione = '#E4E9F2'; Bordo = '#DFE3EA'
-                Testo = '#14161B'; Testo2 = '#5A6170'; Testo3 = '#8E95A3'; Verde = '#1A7F37'; Arancio = '#A15C00'; Rosso = '#C42B1C'; Avviso = '#FDECEC'; Accento = '#2563EB' }
+                Testo = '#14161B'; Testo2 = '#5A6170'; Testo3 = '#6B7280'; Verde = '#1A7F37'; Arancio = '#A15C00'; Rosso = '#C42B1C'; Avviso = '#FDECEC'; Accento = '#2563EB'
+                Laterale = '#ECEEF2'; AccentoTenue = '#E3ECFD'; AccentoTesto = '#1D4ED8'; VerdeTenue = '#E3F4E8'; VerdeTesto = '#1A7F37'
+                AranciaTenue = '#FDF0D5'; AranciaTesto = '#8A4B00'; ProvaBordo = '#E8C77A'; RossoTenue = '#FDECEC'; RossoTesto = '#B42318' }
 }
 # Per cambiare il colore d'accento (pulsante principale, icone, voce attiva) basta cambiare "Accento" qui sopra.
 
@@ -6829,6 +7457,105 @@ $Script:XamlTema = @'
   <SolidColorBrush x:Key="Avviso" Color="#2A1416"/>
 
   <SolidColorBrush x:Key="Accento" Color="#4C8DF6"/>
+  <SolidColorBrush x:Key="Laterale" Color="#0F1218"/>
+  <SolidColorBrush x:Key="AccentoTenue" Color="#16223A"/>
+  <SolidColorBrush x:Key="AccentoTesto" Color="#8FB8FF"/>
+  <SolidColorBrush x:Key="VerdeTenue" Color="#10291A"/>
+  <SolidColorBrush x:Key="VerdeTesto" Color="#6FD88A"/>
+  <SolidColorBrush x:Key="AranciaTenue" Color="#3A2A0B"/>
+  <SolidColorBrush x:Key="AranciaTesto" Color="#F5C451"/>
+  <SolidColorBrush x:Key="ProvaBordo" Color="#5A4512"/>
+  <SolidColorBrush x:Key="RossoTenue" Color="#3A1416"/>
+  <SolidColorBrush x:Key="RossoTesto" Color="#FF8A80"/>
+
+  <!-- Interruttore della Modalità prova: pillola arancio quando è accesa (niente viene modificato),
+       rossa quando è spenta (le modifiche confermate vengono applicate davvero) -->
+  <Style x:Key="InterruttoreProva" TargetType="CheckBox">
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="FontSize" Value="12.5"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="CheckBox">
+          <Border x:Name="pillola" CornerRadius="17" Height="34" Padding="7,0,14,0" BorderThickness="1"
+                  Background="{DynamicResource RossoTenue}" BorderBrush="{DynamicResource Rosso}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Grid Width="34" Height="20" VerticalAlignment="Center">
+                <Border x:Name="pista" CornerRadius="10" Background="{DynamicResource Rosso}"/>
+                <Ellipse x:Name="pomello" Width="14" Height="14" Fill="White" HorizontalAlignment="Left" Margin="3,0,0,0"/>
+              </Grid>
+              <ContentPresenter x:Name="testo" Margin="9,0,0,0" VerticalAlignment="Center" TextElement.Foreground="{DynamicResource RossoTesto}"/>
+            </StackPanel>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+              <Setter TargetName="pillola" Property="Background" Value="{DynamicResource AranciaTenue}"/>
+              <Setter TargetName="pillola" Property="BorderBrush" Value="{DynamicResource ProvaBordo}"/>
+              <Setter TargetName="pista" Property="Background" Value="{DynamicResource Arancio}"/>
+              <Setter TargetName="pomello" Property="HorizontalAlignment" Value="Right"/>
+              <Setter TargetName="pomello" Property="Margin" Value="0,0,3,0"/>
+              <Setter TargetName="pomello" Property="Fill" Value="#1A1405"/>
+              <Setter TargetName="testo" Property="TextElement.Foreground" Value="{DynamicResource AranciaTesto}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="pillola" Property="Opacity" Value="0.9"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Pulsante a segmenti (scelta del profilo nella Panoramica): Tag="Scelto" = segmento attivo -->
+  <Style x:Key="Segmento" TargetType="Button">
+    <Setter Property="Foreground" Value="{DynamicResource Testo2}"/>
+    <Setter Property="FontSize" Value="12"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="b" CornerRadius="7" Background="Transparent" Height="32" Margin="2,0">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0"/>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter Property="Foreground" Value="{DynamicResource Testo}"/>
+            </Trigger>
+            <Trigger Property="Tag" Value="Scelto">
+              <Setter TargetName="b" Property="Background" Value="{DynamicResource Selezione}"/>
+              <Setter Property="Foreground" Value="{DynamicResource Testo}"/>
+              <Setter Property="FontWeight" Value="SemiBold"/>
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!-- Pulsante principale grande ("Ottimizza ora") -->
+  <Style x:Key="PrimarioGrande" TargetType="Button">
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="FontSize" Value="15"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="b" Background="{DynamicResource Accento}" CornerRadius="10" Height="48">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="b" Property="Opacity" Value="0.9"/></Trigger>
+            <Trigger Property="IsPressed" Value="True"><Setter TargetName="b" Property="Opacity" Value="0.78"/></Trigger>
+            <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.4"/></Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
   <!-- Icone (Segoe Fluent Icons su Windows 11, Segoe MDL2 Assets su Windows 10: stessi codici) -->
   <Style x:Key="Icona" TargetType="TextBlock">
@@ -6932,7 +7659,7 @@ $Script:XamlTema = @'
       <Setter.Value>
         <ControlTemplate TargetType="Button">
           <Border x:Name="b" Background="{DynamicResource Superficie}" BorderBrush="{DynamicResource Bordo}" BorderThickness="1"
-                  CornerRadius="8" Padding="16,13" Margin="0,0,10,10">
+                  CornerRadius="12" Padding="16,13" Margin="0,0,10,10">
             <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
           </Border>
           <ControlTemplate.Triggers>
@@ -6990,16 +7717,15 @@ $Script:XamlTema = @'
     </Setter>
   </Style>
   <Style x:Key="TitoloNav" TargetType="ListBoxItem">
-    <Setter Property="Foreground" Value="{DynamicResource Testo3}"/>
-    <Setter Property="FontSize" Value="10.5"/>
-    <Setter Property="FontWeight" Value="SemiBold"/>
+    <Setter Property="Foreground" Value="{DynamicResource Testo2}"/>
+    <Setter Property="FontSize" Value="13"/>
     <Setter Property="Focusable" Value="False"/>
     <Setter Property="Cursor" Value="Hand"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="ListBoxItem">
-          <Border x:Name="b" Background="Transparent" CornerRadius="6" Margin="0,4,0,0">
-            <ContentPresenter Margin="8,8,6,5"/>
+          <Border x:Name="b" Background="Transparent" CornerRadius="8" Margin="0,2,0,0">
+            <ContentPresenter Margin="10,10,4,10"/>
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
@@ -7242,7 +7968,7 @@ $Script:XamlTema = @'
     <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource Bordo}"/>
     <Setter Property="HeadersVisibility" Value="Column"/>
     <Setter Property="RowHeaderWidth" Value="0"/>
-    <Setter Property="MinRowHeight" Value="36"/>
+    <Setter Property="MinRowHeight" Value="44"/>
     <Setter Property="SelectionMode" Value="Single"/>
     <Setter Property="CanUserAddRows" Value="False"/>
     <Setter Property="CanUserDeleteRows" Value="False"/>
@@ -7693,15 +8419,25 @@ $Script:XamlFinestra = @'
     </Grid.ColumnDefinitions>
 
     <!-- Barra laterale -->
-    <Border Grid.Column="0" Background="{DynamicResource Superficie}" BorderBrush="{DynamicResource Bordo}" BorderThickness="0,0,1,0">
+    <Border Grid.Column="0" Background="{DynamicResource Laterale}" BorderBrush="{DynamicResource Bordo}" BorderThickness="0,0,1,0">
       <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="20,22,16,10">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="20,22,16,14">
           <Image x:Name="LogoProgramma" Width="36" Height="36" VerticalAlignment="Center"/>
           <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-            <TextBlock Text="Regia" FontSize="16" FontWeight="SemiBold"/>
+            <TextBlock Text="Regia" FontSize="16" FontWeight="Bold"/>
             <TextBlock x:Name="TestoVersione" FontSize="11" Foreground="{DynamicResource Testo3}" Margin="0,1,0,0"/>
           </StackPanel>
         </StackPanel>
+        <!-- Ricerca: trova le voci in tutte le sezioni -->
+        <Border DockPanel.Dock="Top" Margin="14,0,12,10" CornerRadius="8" BorderThickness="1" Height="36"
+                Background="{DynamicResource Superficie}" BorderBrush="{DynamicResource Bordo}">
+          <Grid>
+            <TextBlock Text="&#xE721;" Style="{DynamicResource Icona}" FontSize="13" Foreground="{DynamicResource Testo3}" Margin="11,0,0,0" HorizontalAlignment="Left" IsHitTestVisible="False"/>
+            <TextBlock x:Name="SuggerimentoRicerca" Text="Cerca un'impostazione..." Foreground="{DynamicResource Testo3}" Margin="33,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"/>
+            <TextBox x:Name="CercaVoci" Background="Transparent" Foreground="{DynamicResource Testo}" Padding="30,0,8,0" VerticalContentAlignment="Center"
+                     ToolTip="Scrivi almeno 2 lettere: compaiono le voci di tutte le sezioni che contengono quelle parole"/>
+          </Grid>
+        </Border>
         <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource Bordo}" BorderThickness="0,1,0,0" Padding="10,8,10,10">
           <StackPanel>
             <Button x:Name="BtnAggiorna" Style="{DynamicResource Menu}" Visibility="Collapsed" ToolTip="È disponibile una versione più recente di Regia: premi per aggiornare (prima ti mostra le novità e chiede conferma)">
@@ -7770,8 +8506,8 @@ $Script:XamlFinestra = @'
       <DockPanel Grid.Row="0">
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Top">
           <Button x:Name="BtnLingua" Style="{DynamicResource Fantasma}" Margin="0,0,10,0" VerticalAlignment="Center" ToolTip="Language / Lingua: English - Italiano"/>
-          <CheckBox x:Name="ChkProva" Style="{DynamicResource Interruttore}" IsChecked="True" VerticalAlignment="Center" Margin="0,0,14,0"
-                    Content="Modalità prova" ToolTip="Accesa: il programma mostra e scrive nel log cosa farebbe, ma non modifica niente"/>
+          <CheckBox x:Name="ChkProva" Style="{DynamicResource InterruttoreProva}" IsChecked="True" VerticalAlignment="Center" Margin="0,0,10,0"
+                    Content="Modalità prova · niente viene modificato" ToolTip="Accesa: il programma mostra e scrive nel log cosa farebbe, ma non modifica niente"/>
           <Button x:Name="BtnScansiona" ToolTip="Rilegge lo stato del PC (sola lettura)">
             <StackPanel Orientation="Horizontal">
               <TextBlock Text="&#xE72C;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/>
@@ -7840,19 +8576,29 @@ $Script:XamlFinestra = @'
       </Border>
 
       <!-- Azioni -->
-      <DockPanel x:Name="BarraAzioni" Grid.Row="4" Margin="0,14,0,0">
+      <Border x:Name="BarraAzioni" Grid.Row="4" Margin="0,14,0,0" Padding="14,10" CornerRadius="12" BorderThickness="1"
+              Background="{DynamicResource Laterale}" BorderBrush="{DynamicResource Bordo}">
+      <DockPanel>
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
           <Button x:Name="BtnAnnullaTutto" ToolTip="Rimette i valori originali salvati nei backup di questo PC: puoi scegliere quali voci">
             <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE7A7;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="Annulla tutto"/></StackPanel>
           </Button>
           <Button x:Name="BtnPredefinito" Content="Riporta al predefinito"
                   ToolTip="Rimette le voci accese come in un Windows appena installato (non vale per app e pulizia)"/>
+          <Button x:Name="BtnSoloSezione" Content="Solo questa sezione"
+                  ToolTip="Anteprima e applica solo delle voci accese in questa sezione: le altre restano accese per dopo"/>
           <Button x:Name="BtnApplica" Style="{DynamicResource Primario}" Margin="4,0,0,0">
             <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE73E;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="Anteprima e applica"/></StackPanel>
           </Button>
         </StackPanel>
-        <TextBlock x:Name="TestoSelezione" VerticalAlignment="Center" Foreground="{DynamicResource Testo2}"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+          <Border x:Name="BollinoSelezione" Width="28" Height="28" CornerRadius="14" Background="{DynamicResource AccentoTenue}" Margin="0,0,10,0">
+            <TextBlock x:Name="NumeroSelezione" Text="0" FontWeight="Bold" Foreground="{DynamicResource AccentoTesto}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <TextBlock x:Name="TestoSelezione" VerticalAlignment="Center" Foreground="{DynamicResource Testo2}"/>
+        </StackPanel>
       </DockPanel>
+      </Border>
 
       <Border Grid.Row="5" Margin="0,12,0,0" Padding="0,10,0,0" BorderBrush="{DynamicResource Bordo}" BorderThickness="0,1,0,0">
         <DockPanel>
@@ -7995,21 +8741,33 @@ $Script:XamlGriglia = @'
         </DataTemplate>
       </DataGridTemplateColumn.CellTemplate>
     </DataGridTemplateColumn>
-    <DataGridTemplateColumn Header="ESITO" Width="120" SortMemberPath="Esito">
+    <DataGridTemplateColumn Header="ESITO" Width="130" SortMemberPath="Esito">
       <DataGridTemplateColumn.CellTemplate>
         <DataTemplate>
-          <TextBlock Text="{Binding EsitoVis}" VerticalAlignment="Center" FontWeight="SemiBold">
-            <TextBlock.Style>
-              <Style TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{DynamicResource Arancio}"/>
-                <Style.Triggers>
-                  <DataTrigger Binding="{Binding Esito}" Value="A posto"><Setter Property="Foreground" Value="{DynamicResource Verde}"/></DataTrigger>
-                  <DataTrigger Binding="{Binding Esito}" Value="Errore"><Setter Property="Foreground" Value="{DynamicResource Rosso}"/></DataTrigger>
-                  <DataTrigger Binding="{Binding Esito}" Value="Info"><Setter Property="Foreground" Value="{DynamicResource Testo3}"/></DataTrigger>
-                </Style.Triggers>
-              </Style>
-            </TextBlock.Style>
-          </TextBlock>
+          <!-- Etichetta colorata: arancio = da sistemare, verde = a posto, rosso = errore, grigio = informazione -->
+          <Border x:Name="pillola" CornerRadius="11" Height="22" Padding="9,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                  Background="{DynamicResource AranciaTenue}">
+            <TextBlock x:Name="testo" Text="{Binding EsitoVis}" VerticalAlignment="Center" FontSize="11.5" FontWeight="SemiBold"
+                       Foreground="{DynamicResource AranciaTesto}" TextTrimming="CharacterEllipsis"/>
+          </Border>
+          <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Esito}" Value="A posto">
+              <Setter TargetName="pillola" Property="Background" Value="{DynamicResource VerdeTenue}"/>
+              <Setter TargetName="testo" Property="Foreground" Value="{DynamicResource VerdeTesto}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Esito}" Value="Errore">
+              <Setter TargetName="pillola" Property="Background" Value="{DynamicResource RossoTenue}"/>
+              <Setter TargetName="testo" Property="Foreground" Value="{DynamicResource RossoTesto}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Esito}" Value="Info">
+              <Setter TargetName="pillola" Property="Background" Value="{DynamicResource Superficie2}"/>
+              <Setter TargetName="testo" Property="Foreground" Value="{DynamicResource Testo2}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Esito}" Value="Non presente">
+              <Setter TargetName="pillola" Property="Background" Value="{DynamicResource Superficie2}"/>
+              <Setter TargetName="testo" Property="Foreground" Value="{DynamicResource Testo2}"/>
+            </DataTrigger>
+          </DataTemplate.Triggers>
         </DataTemplate>
       </DataGridTemplateColumn.CellTemplate>
     </DataGridTemplateColumn>
@@ -8032,6 +8790,7 @@ $Script:XamlAnteprima = @'
       <TextBlock x:Name="Intro" DockPanel.Dock="Top" TextWrapping="Wrap" Foreground="{DynamicResource Testo2}" Margin="0,8,0,16" LineHeight="19"/>
       <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
         <Button x:Name="BtnIndietro" Content="Torna indietro" IsCancel="True"/>
+        <Button x:Name="BtnSezione" Visibility="Collapsed" Margin="4,0,0,0" ToolTip="Applica adesso solo le voci della sezione aperta: le altre restano accese per dopo"/>
         <Button x:Name="BtnConferma" Content="Conferma" Style="{DynamicResource Primario}" Margin="4,0,0,0"/>
       </StackPanel>
       <Border CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie}" Padding="1">
@@ -8614,7 +9373,8 @@ function Leggi-AppInstallate {
         }
     }
     # App dello Store dell'utente (non i framework, non i componenti di sistema, non quelle protette)
-    foreach ($p in @(Get-AppxPackage -ErrorAction SilentlyContinue)) {
+    foreach ($p in @(Leggi-PacchettiAppx)) {
+        Mantieni-Viva
         if ($p.IsFramework -or $p.NonRemovable -or "$($p.SignatureKind)" -eq 'System' -or (E-AppProtetta $p)) { continue }
         $r = New-Object OttWin.RigaApp
         # Nome mostrato dal manifesto dell'app; se è un riferimento a una risorsa si usa il nome del pacchetto
@@ -9033,33 +9793,64 @@ function Imposta-GruppoNav([string]$Nome, [bool]$Aperto, [bool]$Salva = $true) {
     }
 }
 
+# Icone dei gruppi della barra laterale
+$Script:IconeGruppi = @{ 'Generale' = 0xE80F; 'Prestazioni e gioco' = 0xE945; 'Scheda video e driver' = 0xE7F4; 'Windows' = 0xE770
+                         'App e servizi' = 0xE71D; 'Pulizia e manutenzione' = 0xE74D; 'Altro' = 0xE712 }
+
 function Aggiungi-TitoloNav([string]$Testo) {
     $i = New-Object System.Windows.Controls.ListBoxItem
     $riga = New-Object System.Windows.Controls.DockPanel
+    $riga.LastChildFill = $true
+    # freccia a destra, contatore delle voci da sistemare, icona e nome del gruppo
     $freccia = Nuova-Icona 0xE70D 10
-    $freccia.Width = 18
-    [System.Windows.Controls.DockPanel]::SetDock($freccia, [System.Windows.Controls.Dock]::Left)
+    $freccia.Width = 16
+    $freccia.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, 'Testo3')
+    [System.Windows.Controls.DockPanel]::SetDock($freccia, [System.Windows.Controls.Dock]::Right)
+    $badge = New-Object System.Windows.Controls.Border
+    $badge.CornerRadius = New-Object System.Windows.CornerRadius(10)
+    $badge.MinWidth = 20; $badge.Height = 20
+    $badge.Padding = New-Object System.Windows.Thickness(6, 0, 6, 0)
+    $badge.Margin = New-Object System.Windows.Thickness(6, 0, 6, 0)
+    $badge.SetResourceReference([System.Windows.Controls.Border]::BackgroundProperty, 'AranciaTenue')
+    $badge.Visibility = 'Collapsed'
+    $numero = Nuovo-Testo '0' 'AranciaTesto' 11 $true
+    $numero.HorizontalAlignment = 'Center'; $numero.VerticalAlignment = 'Center'
+    $badge.Child = $numero
+    [System.Windows.Controls.DockPanel]::SetDock($badge, [System.Windows.Controls.Dock]::Right)
+    $ic = Nuova-Icona $(if ($Script:IconeGruppi[$Testo]) { [int]$Script:IconeGruppi[$Testo] } else { 0xE712 }) 15
+    $ic.Width = 28
+    [System.Windows.Controls.DockPanel]::SetDock($ic, [System.Windows.Controls.Dock]::Left)
     $nome = New-Object System.Windows.Controls.TextBlock
-    $nome.Text = (Tr $Testo).ToUpper()
+    $nome.Text = (Tr $Testo)
     $nome.VerticalAlignment = 'Center'
-    [void]$riga.Children.Add($freccia); [void]$riga.Children.Add($nome)
+    $nome.TextTrimming = 'CharacterEllipsis'
+    [void]$riga.Children.Add($freccia); [void]$riga.Children.Add($badge); [void]$riga.Children.Add($ic); [void]$riga.Children.Add($nome)
     $i.Content = $riga
     $i.Style = $Script:Tema['TitoloNav']
     $i.Tag = $null
+    $i.DataContext = $Testo   # nome del gruppo (Tag resta vuoto: non è una pagina)
     $i.ToolTip = (Tr 'Clic per mostrare o nascondere le sezioni')
     $i.add_PreviewMouseLeftButtonDown({
         param($s, $e)
         try {
-            $nomeGruppo = ([string]$s.Content.Children[1].Text)
+            $nomeGruppo = [string]$s.DataContext
             foreach ($k in @($Script:GruppiNav.Keys)) {
-                if ((Tr $k).ToUpper() -eq $nomeGruppo) { Imposta-GruppoNav $k (-not $Script:GruppiNav[$k].Aperto); break }
+                if ($k -eq $nomeGruppo) {
+                    $apri = -not $Script:GruppiNav[$k].Aperto
+                    # Aprendo un gruppo si chiudono gli altri (tranne "Generale"): la barra resta corta.
+                    if ($apri) { foreach ($altro in @($Script:GruppiNav.Keys)) { if ($altro -ne $k -and $altro -ne 'Generale' -and $Script:GruppiNav[$altro].Aperto) { Imposta-GruppoNav $altro $false $false } } }
+                    Imposta-GruppoNav $k $apri
+                    break
+                }
             }
         } catch { }
         $e.Handled = $true
     })
     [void]$Script:Nav.Items.Add($i)
-    $Script:GruppiNav[$Testo] = @{ Titolo = $i; Freccia = $freccia; Aperto = $true }
+    $Script:GruppiNav[$Testo] = @{ Titolo = $i; Freccia = $freccia; Aperto = $true; Badge = $badge; Numero = $numero; Icona = $ic }
     $Script:GruppoCorrente = $Testo
+    # "Generale" contiene solo la Panoramica: il suo titolo non serve.
+    if ($Testo -eq 'Generale') { $i.Visibility = 'Collapsed' }
 }
 
 function Aggiungi-Pagina([string]$Chiave, [string]$Titolo, [int]$Icona, $Contenuto, [string]$Intro, [bool]$ConVoci = $true, [bool]$ConProfili = $true) {
@@ -9090,6 +9881,8 @@ function Aggiungi-Pagina([string]$Chiave, [string]$Titolo, [int]$Icona, $Contenu
     $item.Content = $riga
     $item.Tag = $Chiave
     $item.Style = $Script:Tema['VoceNav']
+    # Le sezioni dentro un gruppo sono rientrate sotto il titolo del gruppo
+    if ($Script:GruppoCorrente -and $Script:GruppoCorrente -ne 'Generale') { $item.Margin = New-Object System.Windows.Thickness(16, 0, 0, 0) }
     [void]$Script:Nav.Items.Add($item)
     $Script:Pagine[$Chiave] = @{ Titolo = $Titolo; Icona = $Icona; Contenuto = $Contenuto; Intro = $Intro; ConVoci = $ConVoci; ConProfili = $ConProfili
                                  Badge = $badge; Numero = $numero; Elemento = $item; Gruppo = $Script:GruppoCorrente; Nascosta = $false }
@@ -9101,6 +9894,8 @@ function Mostra-Pagina([string]$Chiave) {
     $Script:PaginaAttuale = $Chiave
     if ($Script:Sensori) { $Script:Sensori.Richiesta = ($Chiave -eq 'Panoramica') }   # i sensori si leggono solo mentre servono
     if ($Chiave -eq 'Panoramica' -and $Script:CarteLive.Count -gt 0) { try { Aggiorna-Live } catch { } }
+    # I servizi degli altri programmi si leggono la prima volta che si apre la sezione.
+    if ($Chiave -eq 'ServiziEsterni' -and -not $Script:ServiziEsterniLetti) { $Script:ServiziEsterniLetti = $true; try { Aggiorna-ServiziEsterni } catch { Scrivi-Log "Elenco dei servizi non disponibile: $($_.Exception.Message)" 'AVVISO' } }
     $Script:TitoloPagina.Text = $p.Titolo
     $Script:IconaPagina.Text = [string][char]$p.Icona
     $intro = [string]$p.Intro
@@ -9116,20 +9911,32 @@ function Mostra-Pagina([string]$Chiave) {
     $Script:BarraProfili.Visibility = $(if ($p.ConVoci -and $p.ConProfili) { 'Visible' } else { 'Collapsed' })
     $Script:PannelloDescrizione.Visibility = $(if ($p.ConVoci) { 'Visible' } else { 'Collapsed' })
     $Script:BarraAzioni.Visibility = $(if ($p.ConVoci) { 'Visible' } else { 'Collapsed' })
+    try { Aggiorna-ConteggioSelezione } catch { }
 }
 
 function Vai-A([string]$Chiave) {
     $p = $Script:Pagine[$Chiave]
     if (-not $p) { return }
     $g = $Script:GruppiNav[[string]$p.Gruppo]
-    if ($g -and -not $g.Aperto) { Imposta-GruppoNav ([string]$p.Gruppo) $true }   # il gruppo si riapre da solo
+    if ($g -and -not $g.Aperto) {
+        # il gruppo si riapre da solo; gli altri si chiudono (come con il clic sul titolo)
+        foreach ($altro in @($Script:GruppiNav.Keys)) { if ($altro -ne [string]$p.Gruppo -and $altro -ne 'Generale' -and $Script:GruppiNav[$altro].Aperto) { Imposta-GruppoNav $altro $false $false } }
+        Imposta-GruppoNav ([string]$p.Gruppo) $true
+    }
     $Script:Nav.SelectedItem = $p.Elemento
 }
 
 # Aggiorna il conteggio "N voci accese" accanto ai pulsanti di applicazione.
 function Aggiorna-ConteggioSelezione {
-    $n = @($Script:TutteLeRighe | Where-Object { $_.Selezionata }).Count
-    $Script:TestoSelezione.Text = Tr $(if ($n -eq 0) { 'Nessuna voce accesa' } elseif ($n -eq 1) { '1 voce accesa' } else { "$n voci accese" })
+    $accese = @($Script:TutteLeRighe | Where-Object { $_.Selezionata })
+    $n = $accese.Count
+    $sez = [string]$Script:PaginaAttuale
+    $nSez = @($accese | Where-Object { $v = $Script:Voci[$_.Id]; $v -and (Voce-NellaSezione $v $sez) }).Count
+    $Script:TestoSelezione.Text = Tr $(if ($n -eq 0) { 'Nessuna voce accesa' } elseif ($nSez -eq $n) { $(if ($n -eq 1) { '1 voce accesa in questa sezione' } else { "$n voci accese in questa sezione" }) } else { "$nSez in questa sezione · $n in tutto il programma" })
+    $num = $Script:Finestra.FindName('NumeroSelezione')
+    if ($num) { $num.Text = [string]$n }
+    $solo = $Script:Finestra.FindName('BtnSoloSezione')
+    if ($solo) { $solo.Visibility = $(if ($nSez -gt 0 -and $nSez -lt $n) { 'Visible' } else { 'Collapsed' }) }
 }
 
 # ---------- Sezione Panoramica ----------
@@ -9181,7 +9988,7 @@ function Nuova-SchedaInfo([int]$Icona, [string]$Etichetta, [string]$Valore, [str
     $x.TextWrapping = 'NoWrap'; $x.TextTrimming = 'CharacterEllipsis'; $x.ToolTip = $Sotto
     [void]$s.Children.Add($testa); [void]$s.Children.Add($v); [void]$s.Children.Add($x)
     $b = New-Object System.Windows.Controls.Border
-    $b.CornerRadius = New-Object System.Windows.CornerRadius(8)
+    $b.CornerRadius = New-Object System.Windows.CornerRadius(12)
     $b.BorderThickness = New-Object System.Windows.Thickness(1)
     $b.Padding = New-Object System.Windows.Thickness(16, 14, 16, 14)
     $b.Margin = New-Object System.Windows.Thickness(0, 0, 10, 10)
@@ -9397,8 +10204,39 @@ function Avvia-Sensori {
 function Nuova-CartaLive([string]$Chiave, [int]$Icona, [string]$Etichetta) {
     $c = Nuova-SchedaInfo $Icona $Etichetta '...' 'Lettura in corso'
     $pila = $c.Child
-    $Script:CarteLive[$Chiave] = @{ Carta = $c; Valore = $pila.Children[1]; Sotto = $pila.Children[2] }
+    $pila.Children[1].FontSize = 20
+    # Grafico dell'andamento (ultimi 30 valori, uno ogni 2 secondi): tela fissa 200x30 allargata da un Viewbox
+    $linea = New-Object System.Windows.Shapes.Polyline
+    $linea.StrokeThickness = 2
+    $linea.StrokeLineJoin = 'Round'
+    $linea.SetResourceReference([System.Windows.Shapes.Shape]::StrokeProperty, 'Accento')
+    $tela = New-Object System.Windows.Controls.Canvas
+    $tela.Width = 200; $tela.Height = 30
+    [void]$tela.Children.Add($linea)
+    $vb = New-Object System.Windows.Controls.Viewbox
+    $vb.Stretch = 'Fill'; $vb.Height = 28
+    $vb.Margin = New-Object System.Windows.Thickness(0, 8, 0, 0)
+    $vb.Child = $tela
+    [void]$pila.Children.Add($vb)
+    $Script:CarteLive[$Chiave] = @{ Carta = $c; Valore = $pila.Children[1]; Sotto = $pila.Children[2]; Linea = $linea; Storia = (New-Object System.Collections.ArrayList) }
     return $c
+}
+
+# Aggiunge un valore al grafico di una carta. $Massimo = 0: scala automatica sul valore più alto visto.
+function Aggiungi-PuntoLive([string]$Chiave, $Valore, [double]$Massimo = 100) {
+    $c = $Script:CarteLive[$Chiave]
+    if (-not $c -or -not $c.Linea -or $null -eq $Valore) { return }
+    [void]$c.Storia.Add([double]$Valore)
+    while ($c.Storia.Count -gt 30) { $c.Storia.RemoveAt(0) }
+    $max = $(if ($Massimo -gt 0) { $Massimo } else { [math]::Max(1.0, [double]($c.Storia | Measure-Object -Maximum).Maximum) })
+    $punti = New-Object System.Windows.Media.PointCollection
+    $n = $c.Storia.Count
+    for ($i = 0; $i -lt $n; $i++) {
+        $x = 200.0 * ($i + 30 - $n) / 29
+        $y = 28.0 - 26.0 * [math]::Min(1.0, [math]::Max(0.0, [double]$c.Storia[$i] / $max))
+        $punti.Add((New-Object System.Windows.Point($x, $y)))
+    }
+    $c.Linea.Points = $punti
 }
 
 # ---------- Sensori avanzati (facoltativi): temperatura e consumo del processore ----------
@@ -9601,6 +10439,17 @@ function Aggiorna-Live {
         $Script:NotaLive.Visibility = $(if ($Script:NotaLive.Text) { 'Visible' } else { 'Collapsed' })
         if ($Script:BtnSensori) { $Script:BtnSensori.Visibility = $(if ($manca -and -not $pronti) { 'Visible' } else { 'Collapsed' }) }
     }
+    # Grafici dell'andamento
+    try {
+        Aggiungi-PuntoLive 'Cpu' $d.CpuUso
+        if ($null -ne $d.RamTot) { Aggiungi-PuntoLive 'Ram' (100 * ($d.RamTot - $d.RamLib) / [math]::Max(0.1, $d.RamTot)) }
+        if ($g -and $null -ne $g.Uso) { Aggiungi-PuntoLive 'Gpu' $g.Uso }
+        elseif ($g -and $null -ne $g.Temp) { Aggiungi-PuntoLive 'Gpu' $g.Temp }
+        elseif ($d.GpuAlt -and $null -ne $d.GpuAlt.Uso) { Aggiungi-PuntoLive 'Gpu' $d.GpuAlt.Uso }
+        Aggiungi-PuntoLive 'Disco' $d.DiscoUso
+        if ($n -and $n.Nome) { Aggiungi-PuntoLive 'Rete' ([double]$n.Giu + [double]$n.Su) 0 }
+        Aggiungi-PuntoLive 'Energia' $d.BatPerc
+    } catch { }
     # Testi delle carte: in inglese si traducono i singoli pezzi (separati da '  ·  ')
     if ($Script:Lingua -eq 'en') {
         foreach ($k in @($c.Keys)) { foreach ($q in @('Valore', 'Sotto')) { $tb = $c[$k].$q; if ($tb -and $tb.Text) { $tb.Text = (($tb.Text -split '  ·  ' | ForEach-Object { Tr $_ }) -join '  ·  ') } } }
@@ -9822,30 +10671,262 @@ function Costruisci-Report {
     }
     [void]$c.Children.Add($griglia)
     Scrivi-Log "Report dello stato del PC: $punti/100 ($ok a posto, $av da guardare, $er problemi)." 'OK'
+    try { Aggiorna-Punteggio $punti $verdetto[0] $verdetto[1] "$ok controlli a posto, $av da guardare, $er problemi. Scegli un profilo e premi 'Ottimizza ora': vedi sempre l'anteprima prima di cambiare qualcosa, e tutto si annulla con 'Annulla tutto'." } catch { }
     $Script:UltimoReport = @{ Punti = $punti; Ok = $ok; Avvisi = $av; Problemi = $er; Voci = @($sezioni.GetEnumerator() | ForEach-Object { $s = $_.Key; $_.Value | ForEach-Object { "$s | $($_.Stato) | $($_.Titolo) | $($_.Dettaglio)" } }) }
+}
+
+# Arco dell'indicatore del punteggio: parte in basso a sinistra (135°) e gira in senso orario.
+function Geometria-Arco([double]$Cx, [double]$Cy, [double]$R, [double]$Inizio, [double]$Ampiezza) {
+    $inv = [Globalization.CultureInfo]::InvariantCulture
+    $a1 = $Inizio * [math]::PI / 180; $a2 = ($Inizio + $Ampiezza) * [math]::PI / 180
+    $x1 = $Cx + $R * [math]::Cos($a1); $y1 = $Cy + $R * [math]::Sin($a1)
+    $x2 = $Cx + $R * [math]::Cos($a2); $y2 = $Cy + $R * [math]::Sin($a2)
+    $grande = $(if ($Ampiezza -gt 180) { 1 } else { 0 })
+    return [System.Windows.Media.Geometry]::Parse([string]::Format($inv, 'M {0:0.##},{1:0.##} A {2:0.##},{2:0.##} 0 {3} 1 {4:0.##},{5:0.##}', $x1, $y1, $R, $grande, $x2, $y2))
+}
+
+function Nuovo-Arco($Geometria, [string]$Colore) {
+    $p = New-Object System.Windows.Shapes.Path
+    $p.Data = $Geometria
+    $p.StrokeThickness = 10
+    $p.StrokeStartLineCap = 'Round'; $p.StrokeEndLineCap = 'Round'
+    $p.SetResourceReference([System.Windows.Shapes.Shape]::StrokeProperty, $Colore)
+    return $p
+}
+
+# Punteggio dello stato del PC nell'indicatore (dopo ogni scansione e report).
+function Aggiorna-Punteggio([int]$Punti, [string]$Stato, [string]$Titolo, [string]$Dettaglio) {
+    if (-not $Script:ArcoPunteggio) { return }
+    $colore = $(switch ($Stato) { 'ok' { 'Verde' } 'avviso' { 'Arancio' } default { 'Rosso' } })
+    $amp = 270.0 * [math]::Max(0, [math]::Min(100, $Punti)) / 100
+    if ($amp -lt 1) { $Script:ArcoPunteggio.Visibility = 'Collapsed' }
+    else { $Script:ArcoPunteggio.Data = Geometria-Arco 66 66 56 135 ([math]::Min(269.9, $amp)); $Script:ArcoPunteggio.Visibility = 'Visible' }
+    $Script:ArcoPunteggio.SetResourceReference([System.Windows.Shapes.Shape]::StrokeProperty, $colore)
+    $Script:NumeroPunteggio.Text = "$Punti"
+    $Script:EtichettaPunteggio.Text = (Tr $Titolo).ToUpper()
+    $Script:EtichettaPunteggio.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, $colore)
+    $Script:DettaglioPunteggio.Text = Tr $Dettaglio
+}
+
+# Riquadro in cima alla Panoramica: punteggio, riepilogo, scelta del profilo e "Ottimizza ora".
+$Script:ProfiloRiquadro = 'Gaming'
+function Crea-RiquadroPrincipale {
+    $b = New-Object System.Windows.Controls.Border
+    $b.CornerRadius = New-Object System.Windows.CornerRadius(14)
+    $b.BorderThickness = New-Object System.Windows.Thickness(1)
+    $b.Padding = New-Object System.Windows.Thickness(24, 20, 24, 20)
+    $b.Margin = New-Object System.Windows.Thickness(0, 0, 10, 12)
+    $b.SetResourceReference([System.Windows.Controls.Border]::BackgroundProperty, 'Superficie')
+    $b.SetResourceReference([System.Windows.Controls.Border]::BorderBrushProperty, 'Bordo')
+    $g = New-Object System.Windows.Controls.Grid
+    foreach ($w in @('Auto', '*', 'Auto')) {
+        $cd = New-Object System.Windows.Controls.ColumnDefinition
+        $cd.Width = $(if ($w -eq '*') { New-Object System.Windows.GridLength(1, 'Star') } else { [System.Windows.GridLength]::Auto })
+        $g.ColumnDefinitions.Add($cd)
+    }
+    # Indicatore
+    $ind = New-Object System.Windows.Controls.Grid
+    $ind.Width = 132; $ind.Height = 132; $ind.Margin = New-Object System.Windows.Thickness(0, 0, 26, 0)
+    $tela = New-Object System.Windows.Controls.Canvas
+    $tela.Width = 132; $tela.Height = 132
+    [void]$tela.Children.Add((Nuovo-Arco (Geometria-Arco 66 66 56 135 269.9) 'Superficie2'))
+    $Script:ArcoPunteggio = Nuovo-Arco (Geometria-Arco 66 66 56 135 1) 'Verde'
+    $Script:ArcoPunteggio.Visibility = 'Collapsed'
+    [void]$tela.Children.Add($Script:ArcoPunteggio)
+    [void]$ind.Children.Add($tela)
+    $centro = New-Object System.Windows.Controls.StackPanel
+    $centro.VerticalAlignment = 'Center'; $centro.HorizontalAlignment = 'Center'
+    $Script:NumeroPunteggio = Nuovo-Testo '—' '' 38 $true
+    $Script:NumeroPunteggio.HorizontalAlignment = 'Center'
+    $su = Nuovo-Testo 'su 100' 'Testo3' 11
+    $su.HorizontalAlignment = 'Center'
+    [void]$centro.Children.Add($Script:NumeroPunteggio); [void]$centro.Children.Add($su)
+    [void]$ind.Children.Add($centro)
+    [System.Windows.Controls.Grid]::SetColumn($ind, 0)
+    [void]$g.Children.Add($ind)
+    # Testi
+    $testi = New-Object System.Windows.Controls.StackPanel
+    $testi.VerticalAlignment = 'Center'; $testi.Margin = New-Object System.Windows.Thickness(0, 0, 24, 0)
+    $Script:EtichettaPunteggio = Nuovo-Testo 'SCANSIONE IN CORSO' 'Testo3' 11 $true
+    $Script:RiepilogoPanoramica = Nuovo-Testo 'Scansione in corso...' '' 19 $true
+    $Script:RiepilogoPanoramica.TextWrapping = 'Wrap'
+    $Script:RiepilogoPanoramica.Margin = New-Object System.Windows.Thickness(0, 6, 0, 6)
+    $Script:DettaglioPunteggio = Nuovo-Testo "Scegli un profilo e premi 'Ottimizza ora': vedi sempre l'anteprima prima di cambiare qualcosa, e tutto si annulla con 'Annulla tutto'." 'Testo2' 13
+    $Script:DettaglioPunteggio.TextWrapping = 'Wrap'; $Script:DettaglioPunteggio.LineHeight = 19
+    foreach ($x in @($Script:EtichettaPunteggio, $Script:RiepilogoPanoramica, $Script:DettaglioPunteggio)) { [void]$testi.Children.Add($x) }
+    [System.Windows.Controls.Grid]::SetColumn($testi, 1)
+    [void]$g.Children.Add($testi)
+    # Profilo + Ottimizza ora
+    $dx = New-Object System.Windows.Controls.StackPanel
+    $dx.Width = 300; $dx.VerticalAlignment = 'Center'
+    $seg = New-Object System.Windows.Controls.Border
+    $seg.CornerRadius = New-Object System.Windows.CornerRadius(10)
+    $seg.BorderThickness = New-Object System.Windows.Thickness(1)
+    $seg.Padding = New-Object System.Windows.Thickness(2, 4, 2, 4)
+    $seg.SetResourceReference([System.Windows.Controls.Border]::BackgroundProperty, 'Sfondo')
+    $seg.SetResourceReference([System.Windows.Controls.Border]::BorderBrushProperty, 'Bordo')
+    $ug = New-Object System.Windows.Controls.Primitives.UniformGrid
+    $ug.Columns = 4
+    $Script:SegmentiProfilo = @{}
+    foreach ($pr in @(@('Gaming', 'Gaming'), @('Bilanciato', 'Bilanciato'), @('Batteria', 'Batteria'), @('Sicuro', 'Sicuro'))) {
+        $s = New-Object System.Windows.Controls.Button
+        $s.Style = $Script:Tema['Segmento']
+        $s.Content = Tr $pr[1]
+        $s.DataContext = $pr[0]
+        $s.ToolTip = $Script:PulsantiProfilo[$pr[0]].ToolTip
+        if ($pr[0] -eq $Script:ProfiloRiquadro) { $s.Tag = 'Scelto' }
+        $s.add_Click({ try { Scegli-ProfiloRiquadro ([string]$this.DataContext) } catch { } })
+        $Script:SegmentiProfilo[$pr[0]] = $s
+        [void]$ug.Children.Add($s)
+    }
+    $seg.Child = $ug
+    [void]$dx.Children.Add($seg)
+    $ott = New-Object System.Windows.Controls.Button
+    $ott.Style = $Script:Tema['PrimarioGrande']
+    $ott.Margin = New-Object System.Windows.Thickness(0, 10, 0, 0)
+    $ott.ToolTip = Tr "Accende le voci del profilo scelto e apre l'anteprima: niente cambia finché non confermi"
+    $cont = New-Object System.Windows.Controls.StackPanel
+    $cont.Orientation = 'Horizontal'
+    $icOtt = Nuova-Icona 0xE945 16
+    $icOtt.Margin = New-Object System.Windows.Thickness(0, 0, 10, 0)
+    $icOtt.Foreground = [System.Windows.Media.Brushes]::White
+    [void]$cont.Children.Add($icOtt)
+    $tOtt = New-Object System.Windows.Controls.TextBlock
+    $tOtt.Text = Tr 'Ottimizza ora'
+    $tOtt.VerticalAlignment = 'Center'
+    [void]$cont.Children.Add($tOtt)
+    $ott.Content = $cont
+    $ott.add_Click({ try { Ottimizza-Ora } catch { Blocca-Pulsanti $false; Mostra-Errore $_ } })
+    try { $Script:Finestra.RegisterName('BtnOttimizza', $ott) } catch { }
+    [void]$dx.Children.Add($ott)
+    [System.Windows.Controls.Grid]::SetColumn($dx, 2)
+    [void]$g.Children.Add($dx)
+    $b.Child = $g
+    return $b
+}
+
+function Scegli-ProfiloRiquadro([string]$Profilo) {
+    $Script:ProfiloRiquadro = $Profilo
+    foreach ($k in @($Script:SegmentiProfilo.Keys)) { $Script:SegmentiProfilo[$k].Tag = $(if ($k -eq $Profilo) { 'Scelto' } else { $null }) }
+}
+
+# "Ottimizza ora": accende le voci del profilo scelto e apre l'anteprima (si conferma sempre prima di cambiare).
+function Ottimizza-Ora {
+    $p = $Script:ProfiloRiquadro
+    if (-not (Applica-Profilo $p)) { return }
+    Evidenzia-Profilo $p
+    Applica-Modifiche 'Consigliato'
+}
+
+# Elenco "Da sistemare" della Panoramica: le prime voci da modificare, la pulizia in una riga sola, e le schede video.
+function Aggiorna-DaFare {
+    if (-not $Script:ElencoDaFare) { return }
+    $Script:ElencoDaFare.Children.Clear()
+    $voci = New-Object System.Collections.ArrayList
+    if ($Script:UltimaVideo -and ([string]$Script:UltimaVideo['NVIDIA']) -match '^Disponibile') {
+        [void]$voci.Add(@{ Nome = "Driver NVIDIA: $($Script:UltimaVideo['NVIDIA'])"; Sezione = 'Driver video'; Valore = 'Aggiornamento'; Pagina = 'Video'; Colore = 'Accento' })
+    }
+    if ($Script:PannelloNvPresente -eq $false -and (Scheda-Nvidia)) {
+        [void]$voci.Add(@{ Nome = 'Pannello di controllo NVIDIA mancante'; Sezione = 'Driver video'; Valore = 'Da installare'; Pagina = 'Video'; Colore = 'Arancio' })
+    }
+    $daFare = @($Script:TutteLeRighe | Where-Object { $_.Esito -eq 'Da modificare' -or $_.Esito -eq 'Da pulire' })
+    $pulizie = @($daFare | Where-Object { $_.Categoria -eq 'Pulizia' })
+    foreach ($r in @($daFare | Where-Object { $_.Categoria -ne 'Pulizia' })) {
+        $v = $Script:Voci[$r.Id]
+        $pag = $(if ($v -and $v.Avanzata) { 'Avanzate' } else { [string]$r.Categoria })
+        $tit = $(if ($Script:Pagine[$pag]) { [string]$Script:Pagine[$pag].Titolo } else { [string]$r.CategoriaVis })
+        [void]$voci.Add(@{ Nome = [string]$r.NomeVis; Sezione = $tit; Valore = [string]$r.AttualeVis; Pagina = $pag; Riga = $r; Colore = 'Arancio' })
+    }
+    if ($pulizie.Count -gt 0) {
+        [void]$voci.Add(@{ Nome = "Pulizia disco: $($pulizie.Count) voci da pulire"; Sezione = 'Pulizia disco'; Valore = (Formatta-Dimensione $Script:UltimoPulibile); Pagina = 'Pulizia'; Colore = 'Arancio' })
+    }
+    $Script:TestoDaFare.Text = Tr $(if ($voci.Count -eq 0) { 'tutto a posto' } else { "$($voci.Count) in tutto" })
+    if ($voci.Count -eq 0) {
+        [void]$Script:ElencoDaFare.Children.Add((Nuovo-Testo 'Niente da sistemare: il PC è già a posto.' 'Testo2'))
+        return
+    }
+    foreach ($x in @($voci | Select-Object -First 6)) {
+        $riga = New-Object System.Windows.Controls.DockPanel
+        $riga.Margin = New-Object System.Windows.Thickness(0, 4, 0, 4)
+        $pt = New-Object System.Windows.Shapes.Ellipse
+        $pt.Width = 8; $pt.Height = 8; $pt.Margin = New-Object System.Windows.Thickness(0, 0, 12, 0); $pt.VerticalAlignment = 'Center'
+        $pt.SetResourceReference([System.Windows.Shapes.Shape]::FillProperty, $x.Colore)
+        [System.Windows.Controls.DockPanel]::SetDock($pt, [System.Windows.Controls.Dock]::Left)
+        $vedi = Nuovo-Pulsante (Tr $(if ($x.Pagina -eq 'Video' -and $x.Valore -eq 'Da installare') { 'Installa' } elseif ($x.Pagina -eq 'Pulizia') { 'Pulisci' } else { 'Vedi' }))
+        $vedi.Margin = New-Object System.Windows.Thickness(10, 0, 0, 0)
+        $vedi.Padding = New-Object System.Windows.Thickness(12, 5, 12, 5)
+        $vedi.Tag = $x
+        $vedi.add_Click({ try { $t = $this.Tag; Vai-A ([string]$t.Pagina); if ($t.Riga) { Mostra-Descrizione $t.Riga } } catch { } })
+        [System.Windows.Controls.DockPanel]::SetDock($vedi, [System.Windows.Controls.Dock]::Right)
+        $val = Nuovo-Testo $x.Valore 'Testo2' 12
+        $val.VerticalAlignment = 'Center'; $val.MaxWidth = 220; $val.TextWrapping = 'NoWrap'; $val.TextTrimming = 'CharacterEllipsis'; $val.ToolTip = $val.Text
+        [System.Windows.Controls.DockPanel]::SetDock($val, [System.Windows.Controls.Dock]::Right)
+        $testi = New-Object System.Windows.Controls.StackPanel
+        $n = Nuovo-Testo $x.Nome '' 13 $true
+        $n.TextWrapping = 'NoWrap'; $n.TextTrimming = 'CharacterEllipsis'; $n.ToolTip = $n.Text
+        $s = Nuovo-Testo $x.Sezione 'Testo3' 11.5
+        $s.TextWrapping = 'NoWrap'; $s.TextTrimming = 'CharacterEllipsis'
+        [void]$testi.Children.Add($n); [void]$testi.Children.Add($s)
+        foreach ($e in @($pt, $vedi, $val, $testi)) { [void]$riga.Children.Add($e) }
+        [void]$Script:ElencoDaFare.Children.Add($riga)
+    }
+}
+
+# Riquadro con titolo piccolo maiuscolo (usato per "Da sistemare" e "Il tuo PC").
+function Nuovo-Riquadro([string]$Titolo, $Contenuto, $Destra = $null) {
+    $b = New-Object System.Windows.Controls.Border
+    $b.CornerRadius = New-Object System.Windows.CornerRadius(12)
+    $b.BorderThickness = New-Object System.Windows.Thickness(1)
+    $b.Padding = New-Object System.Windows.Thickness(18, 14, 18, 12)
+    $b.SetResourceReference([System.Windows.Controls.Border]::BackgroundProperty, 'Superficie')
+    $b.SetResourceReference([System.Windows.Controls.Border]::BorderBrushProperty, 'Bordo')
+    $sp = New-Object System.Windows.Controls.StackPanel
+    $testa = New-Object System.Windows.Controls.DockPanel
+    $testa.Margin = New-Object System.Windows.Thickness(0, 0, 0, 8)
+    if ($Destra) { [System.Windows.Controls.DockPanel]::SetDock($Destra, [System.Windows.Controls.Dock]::Right); [void]$testa.Children.Add($Destra) }
+    [void]$testa.Children.Add((Nuovo-Testo (Tr $Titolo).ToUpper() 'Testo3' 11 $true))
+    [void]$sp.Children.Add($testa)
+    [void]$sp.Children.Add($Contenuto)
+    $b.Child = $sp
+    return $b
 }
 
 function Crea-Panoramica {
     $radice = New-Object System.Windows.Controls.StackPanel
     $d = Leggi-DatiSistema
-    $info = New-Object System.Windows.Controls.Primitives.UniformGrid
-    $info.Columns = 4
-    [void]$info.Children.Add((Nuova-SchedaInfo 0xE7F8 'Sistema' $d.Sistema $d.SistemaSotto))
-    [void]$info.Children.Add((Nuova-SchedaInfo 0xE950 'Processore' $d.Cpu $d.CpuSotto))
-    [void]$info.Children.Add((Nuova-SchedaInfo 0xE7F4 'Scheda video' $d.Gpu $d.GpuSotto))
-    [void]$info.Children.Add((Nuova-SchedaInfo 0xEDA2 'Memoria e disco' $d.Memoria $d.MemoriaSotto))
-    [void]$radice.Children.Add($info)
 
-    $Script:RiepilogoPanoramica = Nuovo-Testo 'Scansione in corso...' '' 15 $true
-    $Script:RiepilogoPanoramica.Margin = New-Object System.Windows.Thickness(2, 12, 0, 4)
-    [void]$radice.Children.Add($Script:RiepilogoPanoramica)
-    $guida = Nuovo-Testo "Come si usa:  1) scegli una sezione qui sotto o un profilo   2) accendi le voci che vuoi   3) premi 'Anteprima e applica'.  Con la Modalità prova accesa non viene modificato niente; ogni modifica vera è preceduta da punto di ripristino e backup, e si annulla con 'Annulla tutto'." 'Testo2'
-    $guida.Margin = New-Object System.Windows.Thickness(2, 0, 0, 14)
-    $guida.LineHeight = 19
-    [void]$radice.Children.Add($guida)
+    # Punteggio, riepilogo, profilo e "Ottimizza ora"
+    [void]$radice.Children.Add((Crea-RiquadroPrincipale))
 
     # Dati in tempo reale (temperature, frequenze, carico): si aggiornano da soli mentre questa pagina è aperta.
     [void]$radice.Children.Add((Nuovo-GruppoEspandibile 'Stato in tempo reale' (Crea-PannelloLive) $true))
+
+    # Da sistemare (a sinistra) e Il tuo PC (a destra)
+    $doppia = New-Object System.Windows.Controls.Grid
+    $doppia.Margin = New-Object System.Windows.Thickness(0, 4, 10, 10)
+    foreach ($w in @('*', '12', '300')) {
+        $cd = New-Object System.Windows.Controls.ColumnDefinition
+        $cd.Width = $(if ($w -eq '*') { New-Object System.Windows.GridLength(1, 'Star') } else { New-Object System.Windows.GridLength([double]$w) })
+        $doppia.ColumnDefinitions.Add($cd)
+    }
+    $Script:ElencoDaFare = New-Object System.Windows.Controls.StackPanel
+    [void]$Script:ElencoDaFare.Children.Add((Nuovo-Testo 'L''elenco compare quando finisce la scansione.' 'Testo2'))
+    $Script:TestoDaFare = Nuovo-Testo '' 'Testo3' 11.5
+    $sx = Nuovo-Riquadro 'Da sistemare' $Script:ElencoDaFare $Script:TestoDaFare
+    [System.Windows.Controls.Grid]::SetColumn($sx, 0)
+    $pc = New-Object System.Windows.Controls.StackPanel
+    foreach ($r in @(@('Sistema', $d.Sistema, $d.SistemaSotto), @('Processore', $d.Cpu, $d.CpuSotto), @('Scheda video', $d.Gpu, $d.GpuSotto), @('Memoria e disco', $d.Memoria, $d.MemoriaSotto))) {
+        $e = Nuovo-Testo (Tr $r[0]) 'Testo3' 11.5
+        $e.Margin = New-Object System.Windows.Thickness(0, 6, 0, 0)
+        $v = Nuovo-Testo (Tr $r[1]) '' 13 $true
+        $v.TextWrapping = 'Wrap'
+        $v.ToolTip = (Tr $r[2])
+        [void]$pc.Children.Add($e); [void]$pc.Children.Add($v)
+    }
+    $dx = Nuovo-Riquadro 'Il tuo PC' $pc
+    [System.Windows.Controls.Grid]::SetColumn($dx, 2)
+    [void]$doppia.Children.Add($sx); [void]$doppia.Children.Add($dx)
+    [void]$radice.Children.Add($doppia)
 
     # Report riassuntivo dello stato del PC: si compila dopo ogni scansione.
     $Script:ContenitoreReport = New-Object System.Windows.Controls.StackPanel
@@ -10090,6 +11171,149 @@ $Script:GrigliaAggiornamenti.AddHandler([System.Windows.Controls.Primitives.Butt
     } catch { Blocca-Pulsanti $false; Mostra-Errore $_ }
 })
 
+# ---------- Sezione "Servizi di altri programmi" ----------
+# Servizi installati da programmi non Microsoft (launcher, aggiornatori, utilità del produttore...).
+# Si può cambiare come partono (Automatico / Manuale / Disattivato), con conferma, backup e "Annulla tutto".
+# Protetti (si vedono ma non si cambiano): antivirus e sicurezza, anti-cheat dei giochi, driver e hardware.
+$Script:XamlServiziEsterni = @'
+<DockPanel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+    <Button x:Name="BtnAggiornaServizi" DockPanel.Dock="Right" ToolTip="Rilegge l'elenco dei servizi">
+      <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE72C;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="Aggiorna elenco"/></StackPanel>
+    </Button>
+    <Grid Margin="0,0,10,0">
+      <TextBox x:Name="CercaServizi" VerticalContentAlignment="Center" Padding="30,6,8,6"/>
+      <TextBlock Text="&#xE721;" Style="{DynamicResource Icona}" FontSize="13" Foreground="{DynamicResource Testo3}" Margin="10,0,0,0" IsHitTestVisible="False"/>
+      <TextBlock x:Name="SuggerimentoServizi" Text="Cerca per nome o produttore..." Foreground="{DynamicResource Testo3}" Margin="31,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"/>
+    </Grid>
+  </DockPanel>
+  <DockPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+      <TextBlock Text="Avvio:" VerticalAlignment="Center" Foreground="{DynamicResource Testo2}" Margin="0,0,8,0"/>
+      <Button x:Name="BtnSvcAutomatico" Content="Automatico" ToolTip="Parte con Windows"/>
+      <Button x:Name="BtnSvcManuale" Content="Manuale" Margin="4,0,0,0" ToolTip="Parte solo quando il suo programma lo chiede (scelta consigliata per aggiornatori e launcher)"/>
+      <Button x:Name="BtnSvcDisattivato" Content="Disattivato" Margin="4,0,0,0" ToolTip="Non parte mai: il programma che lo usa potrebbe non funzionare del tutto"/>
+    </StackPanel>
+    <TextBlock x:Name="TestoServizi" VerticalAlignment="Center" Foreground="{DynamicResource Testo2}" TextWrapping="Wrap" Margin="2,0,16,0"/>
+  </DockPanel>
+  <Border CornerRadius="8" BorderThickness="1" Padding="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie}">
+    <DataGrid x:Name="GrigliaServizi" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="SERVIZIO" Binding="{Binding NomeVis}" Width="2*"/>
+        <DataGridTextColumn Header="PRODUTTORE" Binding="{Binding Produttore}" Width="1.3*"/>
+        <DataGridTextColumn Header="AVVIO" Binding="{Binding Avvio}" Width="1*"/>
+        <DataGridTextColumn Header="STATO" Binding="{Binding Stato}" Width="0.8*"/>
+        <DataGridTextColumn Header="NOTE" Binding="{Binding Note}" Width="1.6*"/>
+      </DataGrid.Columns>
+    </DataGrid>
+  </Border>
+</DockPanel>
+'@
+
+$Script:ServiziEsterni = @()
+$Script:ServiziEsterniLetti = $false
+$Script:RegexSicurezza = 'Antivirus|Anti-Malware|Defender|Kaspersky|Avast|\bAVG\b|Bitdefender|\bESET\b|Norton|Gen Digital|McAfee|Malwarebytes|Sophos|Trend Micro|Avira|Panda|F-Secure|Webroot|Comodo|Emsisoft|G DATA|Firewall|VPN'
+$Script:RegexAntiCheat = 'EasyAntiCheat|BattlEye|\bBEService\b|^vgc$|Vanguard|EAAntiCheat|EA AntiCheat|FACEIT|Ricochet|nProtect|XIGNCODE|Javelin|mhyprot|AntiCheat|Anti-Cheat|PunkBuster|ESEA'
+$Script:RegexHardware = 'NVIDIA|Advanced Micro Devices|\bAMD\b|Intel|Realtek|Dolby|Waves|Synaptics|ELAN|Qualcomm|MediaTek|Broadcom|Killer|Rivet|Conexant|Cirrus|Tobii|Logitech G HUB|Razer|Corsair|SteelSeries|ASUSTeK|Micro-Star|Lenovo|Dell|HP Inc|Hewlett|Acer|Samsung'
+
+# File del programma di un servizio, dal suo comando (con o senza virgolette).
+function Exe-DaComando([string]$Comando) {
+    $c = [Environment]::ExpandEnvironmentVariables($Comando.Trim())
+    if ($c -match '^"([^"]+)"') { return $Matches[1] }
+    if ($c -match '^(.+?\.exe)\b') { return $Matches[1] }
+    return ($c -split '\s+')[0]
+}
+
+function Leggi-ServiziEsterni {
+    $servizi = @(Esegui-InBackground { Get-CimInstance Win32_Service -ErrorAction Stop | Select-Object Name, DisplayName, PathName, StartMode, State })
+    $windir = $env:WINDIR.TrimEnd('\') + '\'
+    $righe = New-Object System.Collections.ArrayList
+    foreach ($s in $servizi) {
+        Mantieni-Viva
+        if (-not $s.PathName) { continue }
+        $exe = Exe-DaComando ([string]$s.PathName)
+        if ($exe -match '(?i)\\svchost\.exe$') { continue }
+        $produttore = ''
+        try { if (Test-Path -LiteralPath $exe) { $produttore = [string][Diagnostics.FileVersionInfo]::GetVersionInfo($exe).CompanyName } } catch { }
+        $produttore = $produttore.Trim()
+        # I servizi di Windows (cartella di Windows o firmati Microsoft) stanno nella sezione "Servizi" e non qui.
+        if ($produttore -match '^Microsoft') { continue }
+        if (-not $produttore -and $exe.StartsWith($windir, [StringComparison]::OrdinalIgnoreCase)) { continue }
+        $stato = Leggi-AvvioServizio ([string]$s.Name)
+        if (-not $stato -or $stato.Modo -eq 'Sistema') { continue }
+        $r = New-Object OttWin.RigaServizio
+        $r.Nome = [string]$s.Name; $r.NomeVis = $(if ($s.DisplayName) { [string]$s.DisplayName } else { [string]$s.Name })
+        $r.Produttore = $(if ($produttore) { $produttore } else { Tr 'sconosciuto' }); $r.Percorso = $exe
+        $r.Modo = $stato.Modo; $r.Avvio = Tr (Nome-Modo $stato.Modo)
+        $r.InEsecuzione = $stato.InEsecuzione; $r.Stato = Tr $(if ($stato.InEsecuzione) { 'In esecuzione' } else { 'Fermo' })
+        $testo = "$($r.Nome) $($r.NomeVis) $produttore $exe"
+        if ($Script:ServiziProtetti -contains $r.Nome) { $r.Protetto = $true; $r.Note = Tr 'Protetto: servizio di sistema' }
+        elseif ($testo -match $Script:RegexSicurezza) { $r.Protetto = $true; $r.Note = Tr 'Protetto: sicurezza (antivirus, firewall, VPN)' }
+        elseif ($testo -match $Script:RegexAntiCheat) { $r.Protetto = $true; $r.Note = Tr 'Protetto: anti-cheat dei giochi' }
+        elseif ($produttore -match $Script:RegexHardware) { $r.Protetto = $true; $r.Note = Tr 'Protetto: driver o hardware del PC' }
+        elseif (-not $produttore) { $r.Note = Tr 'Produttore sconosciuto: controlla prima di cambiarlo' }
+        [void]$righe.Add($r)
+    }
+    return @($righe | Sort-Object Protetto, NomeVis)
+}
+
+function Mostra-ServiziEsterni {
+    if (-not $Script:GrigliaServizi) { return }
+    $f = [string]$Script:CercaServizi.Text
+    $Script:GrigliaServizi.ItemsSource = @($Script:ServiziEsterni | Where-Object { -not $f -or $_.NomeVis -like "*$f*" -or $_.Produttore -like "*$f*" -or $_.Nome -like "*$f*" })
+    $n = @($Script:ServiziEsterni).Count; $nProt = @($Script:ServiziEsterni | Where-Object { $_.Protetto }).Count
+    $nAuto = @($Script:ServiziEsterni | Where-Object { -not $_.Protetto -and $_.Modo -like 'Automatico*' }).Count
+    $Script:TestoServizi.Text = Tr "$n servizi di altri programmi  ·  $nAuto modificabili partono con Windows  ·  $nProt protetti. Scegli un servizio e il tipo di avvio."
+}
+
+function Aggiorna-ServiziEsterni {
+    Imposta-Stato 'Leggo i servizi installati dagli altri programmi...'
+    $Script:ServiziEsterni = Leggi-ServiziEsterni
+    $Script:ServiziEsterniLetti = $true
+    Mostra-ServiziEsterni
+    Imposta-Stato 'Elenco dei servizi aggiornato.'
+}
+
+# Cambia il tipo di avvio del servizio scelto: conferma, Modalità prova, backup (per "Annulla tutto"), log.
+function Cambia-ServizioEsterno([string]$Modo) {
+    $r = $Script:GrigliaServizi.SelectedItem
+    if (-not $r) { [void](Mostra-Messaggio 'Scegli prima un servizio dall''elenco.' 'Servizi di altri programmi'); return }
+    if ($r.Protetto) { [void](Mostra-Messaggio "'$($r.NomeVis)' non si cambia da qui.`n`n$($r.Note)" 'Servizi di altri programmi' 'OK' 'Warning'); return }
+    if ($r.Modo -eq $Modo) { [void](Mostra-Messaggio "'$($r.NomeVis)' è già su '$(Tr (Nome-Modo $Modo))'." 'Servizi di altri programmi'); return }
+    $avviso = $(if ($Modo -eq 'Disattivato') { "`n`nDisattivato non parte mai, neanche quando il suo programma lo chiede: il programma potrebbe non funzionare o non aggiornarsi. Di solito basta 'Manuale'." } else { '' })
+    $domanda = "Servizio: $($r.NomeVis)`nProduttore: $($r.Produttore)`nFile: $($r.Percorso)`n`nAvvio: $(Nome-Modo $r.Modo) -> $(Nome-Modo $Modo)$avviso`n`nIl valore di adesso viene salvato: puoi rimetterlo con 'Annulla tutto'. Continuare?"
+    if ((Mostra-Messaggio $domanda 'Servizi di altri programmi' 'YesNo' $(if ($Modo -eq 'Disattivato') { 'Warning' } else { 'Information' })) -ne 'Yes') { return }
+    if ([bool]$Script:ChkProva.IsChecked) {
+        Scrivi-Log "[Servizi di altri programmi] $($r.NomeVis): '$(Nome-Modo $r.Modo)' -> '$(Nome-Modo $Modo)'" 'PROVA'
+        [void](Mostra-Messaggio 'Modalità prova: il servizio NON è stato cambiato (l''operazione è scritta nel log).' 'Modalità prova')
+        return
+    }
+    Blocca-Pulsanti $true
+    try {
+        $orig = @{ Servizi = @(@{ Nome = $r.Nome; Modo = $r.Modo; InEsecuzione = $r.InEsecuzione }) }
+        $file = Join-Path $Script:CartellaBackup ('originali_{0:yyyyMMdd_HHmmss}.json' -f (Get-Date))
+        $backup = [ordered]@{ Versione = $Script:Versione; Computer = $env:COMPUTERNAME; Creato = (Get-Date).ToString('s'); Obiettivo = 'Servizi di altri programmi'
+                              Modifiche = @([ordered]@{ Id = "svcext|$($r.Nome)"; Nome = "Servizio: $($r.NomeVis)"; Categoria = 'Servizi di altri programmi'; Tipo = 'Servizio'
+                                                       Data = (Get-Date).ToString('s'); Prima = (Nome-Modo $r.Modo); Originale = $orig }) }
+        Salva-Json $backup $file
+        Imposta-AvvioServizio $r.Nome $Modo
+        if ($Modo -eq 'Disattivato' -and $r.InEsecuzione) { Imposta-Stato "Fermo il servizio $($r.NomeVis)..."; Ferma-Servizio $r.Nome }
+        Scrivi-Log "[Servizi di altri programmi] $($r.NomeVis): '$(Nome-Modo $r.Modo)' -> '$(Nome-Modo $Modo)' (backup: $(Split-Path -Leaf $file))" 'OK'
+    } finally { Blocca-Pulsanti $false }
+    Aggiorna-ServiziEsterni
+}
+
+$pannelloServizi = [Windows.Markup.XamlReader]::Parse($Script:XamlServiziEsterni)
+$Script:GrigliaServizi = $pannelloServizi.FindName('GrigliaServizi')
+$Script:CercaServizi   = $pannelloServizi.FindName('CercaServizi')
+$Script:TestoServizi   = $pannelloServizi.FindName('TestoServizi')
+$Script:CercaServizi.add_TextChanged({ try { $pannelloServizi.FindName('SuggerimentoServizi').Visibility = $(if ($Script:CercaServizi.Text) { 'Collapsed' } else { 'Visible' }); Mostra-ServiziEsterni } catch { } })
+$pannelloServizi.FindName('BtnAggiornaServizi').add_Click({ try { Aggiorna-ServiziEsterni } catch { Mostra-Errore $_ } })
+$pannelloServizi.FindName('BtnSvcAutomatico').add_Click({ try { Cambia-ServizioEsterno 'Automatico' } catch { Blocca-Pulsanti $false; Mostra-Errore $_ } })
+$pannelloServizi.FindName('BtnSvcManuale').add_Click({ try { Cambia-ServizioEsterno 'Manuale' } catch { Blocca-Pulsanti $false; Mostra-Errore $_ } })
+$pannelloServizi.FindName('BtnSvcDisattivato').add_Click({ try { Cambia-ServizioEsterno 'Disattivato' } catch { Blocca-Pulsanti $false; Mostra-Errore $_ } })
+
 # Riquadro "Schede video": per NVIDIA la scelta della versione, per AMD/Intel l'installazione da file.
 function Mostra-SchedeVideo {
     if (-not $Script:ElencoGpu) { return }
@@ -10097,7 +11321,7 @@ function Mostra-SchedeVideo {
     $versionePrima = $(if ($Script:CmbVersioniNvidia) { $Script:CmbVersioniNvidia.SelectedIndex } else { 0 })
     $Script:ElencoGpu.Children.Clear()
     $Script:CmbTipoNvidia = $null; $Script:CmbVersioniNvidia = $null
-    $nvFatta = $false; $amdFatta = $false
+    $nvFatta = $false; $amdFatta = $false; $rigaCpl = $null
     if (@($Script:SchedeVideo).Count -eq 0) { [void]$Script:ElencoGpu.Children.Add((Nuovo-Testo 'Nessuna scheda video rilevata.' 'Testo2')); return }
     foreach ($g in @($Script:SchedeVideo)) {
         $riga = New-Object System.Windows.Controls.DockPanel
@@ -10141,6 +11365,21 @@ function Mostra-SchedeVideo {
             $inst.ToolTip = 'Scarica la versione scelta, toglie i vecchi driver e la installa da zero (con punto di ripristino). Prima vedi tutto e confermi.'
             $inst.add_Click({ try { Installa-VersioneNvidiaScelta } catch { Blocca-Pulsanti $false; Mostra-Errore $_ } })
             foreach ($x in @($tipo, $vers, $cerca, $inst)) { [void]$azioni.Children.Add($x) }
+            # Pannello di controllo classico mancante (succede dopo installazioni senza NVIDIA App): pulsante per rimetterlo.
+            if ($null -eq $Script:PannelloNvPresente) { $Script:PannelloNvPresente = Pannello-NvidiaPresente $false }
+            # Va su una riga sua, sotto la scheda: accanto agli altri pulsanti la riga diventerebbe troppo larga.
+            if (-not $Script:PannelloNvPresente) {
+                $cpl = Nuovo-Pulsante 'Installa Pannello NVIDIA' 0xE713
+                $cpl.ToolTip = 'Il Pannello di controllo NVIDIA non è installato: lo installa dal driver già scaricato o apre la sua pagina nel Microsoft Store'
+                $cpl.add_Click({ try { Installa-PannelloNvidiaDaPulsante } catch { Blocca-Pulsanti $false; Mostra-Errore $_ } })
+                $rigaCpl = New-Object System.Windows.Controls.DockPanel
+                $rigaCpl.Margin = New-Object System.Windows.Thickness(0, 6, 0, 4)
+                [System.Windows.Controls.DockPanel]::SetDock($cpl, [System.Windows.Controls.Dock]::Right)
+                [void]$rigaCpl.Children.Add($cpl)
+                $avvisoCpl = Nuovo-Testo 'Pannello di controllo NVIDIA non installato (succede dopo installazioni del driver senza NVIDIA App).' 'Arancio' 12
+                $avvisoCpl.VerticalAlignment = 'Center'; $avvisoCpl.TextWrapping = 'Wrap'
+                [void]$rigaCpl.Children.Add($avvisoCpl)
+            }
         } elseif ($g.Marca -eq 'AMD' -and -not $g.Base -and -not $amdFatta -and (Pagina-VersioniAmd $g.Nome $g.IdPci)) {
             # AMD: elenco delle versioni da amd.com, come per NVIDIA
             $amdFatta = $true
@@ -10201,7 +11440,9 @@ function Mostra-SchedeVideo {
         [void]$riga.Children.Add($azioni)
         [void]$riga.Children.Add($testi)
         [void]$Script:ElencoGpu.Children.Add($riga)
+        if ($rigaCpl) { [void]$Script:ElencoGpu.Children.Add($rigaCpl); $rigaCpl = $null }
     }
+    try { Aggiorna-DaFare } catch { }   # driver nuovi e Pannello mancante compaiono anche nella Panoramica
 }
 
 # Sezione "Log": mostra in tempo reale cosa viene fatto.
@@ -10215,23 +11456,62 @@ $Script:CasellaLog.HorizontalScrollBarVisibility = 'Auto'
 # Ordine delle sezioni nella barra laterale (la Panoramica viene creata per ultima perché elenca le altre).
 Aggiungi-TitoloNav 'Generale'
 $Script:Nav.Items.Add((New-Object System.Windows.Controls.ListBoxItem)) | Out-Null   # segnaposto della Panoramica
-Aggiungi-TitoloNav 'Windows'
-foreach ($c in @('Debloat app', 'Avvio', 'Servizi', 'Privacy', 'Prestazioni', 'Latenza', 'Grafica', 'Esplora file')) { Aggiungi-Categoria $c }
-Aggiungi-Pagina 'App' 'App installate' 0xE74C $pannelloApp "Tutti i programmi e le app dello Store installati. 'Disinstalla e pulisci' avvia il programma di disinstallazione dell'app e poi cerca le cartelle e le chiavi di registro rimaste: le vedi una per una e scegli tu cosa togliere. Le cartelle vanno nel Cestino e le chiavi vengono salvate in un file .reg. Driver, runtime e componenti di Windows sono protetti." $false $false
-Aggiungi-TitoloNav 'Scheda video'
+# Gruppi per scopo: cosa rende il PC veloce, la scheda video e i driver, Windows, app e servizi, pulizia.
+Aggiungi-TitoloNav 'Prestazioni e gioco'
+foreach ($c in @('Prestazioni', 'Latenza', 'Grafica')) { Aggiungi-Categoria $c }
+Aggiungi-TitoloNav 'Scheda video e driver'
 Aggiungi-Categoria 'NVIDIA'
 Aggiungi-Categoria 'NVIDIAAvanz'
 Aggiungi-Categoria 'AMD'
 Aggiungi-Pagina 'Video' 'Driver video' 0xE7F4 $pannelloVideo "Driver delle schede video. 'Controlla aggiornamenti' chiede l'ultima versione a nvidia.com e ad amd.com: non installa niente. Puoi scegliere la versione da installare (anche la stessa o una precedente) e fare un'installazione pulita; ogni installazione parte solo dopo la tua conferma, con punto di ripristino." $false $false
-Aggiungi-TitoloNav 'Sistema'
 Aggiungi-Pagina 'Driver' 'Altri driver' 0xE772 $pannelloDriver "Chipset, audio, rete, Bluetooth e driver del produttore del PC. 'Controlla aggiornamenti' cerca nel catalogo driver di Windows Update (driver certificati dai produttori): non installa niente. Accendi i driver che vuoi e premi 'Installa selezionati', oppure 'Installa tutto'." $false $false
-Aggiungi-TitoloNav 'Manutenzione'
+Aggiungi-TitoloNav 'Windows'
+foreach ($c in @('Avvio', 'Servizi', 'Privacy', 'Esplora file')) { Aggiungi-Categoria $c }
+Aggiungi-TitoloNav 'App e servizi'
+Aggiungi-Categoria 'Debloat app'
+Aggiungi-Pagina 'App' 'App installate' 0xE74C $pannelloApp "Tutti i programmi e le app dello Store installati. 'Disinstalla e pulisci' avvia il programma di disinstallazione dell'app e poi cerca le cartelle e le chiavi di registro rimaste: le vedi una per una e scegli tu cosa togliere. Le cartelle vanno nel Cestino e le chiavi vengono salvate in un file .reg. Driver, runtime e componenti di Windows sono protetti." $false $false
+Aggiungi-Pagina 'ServiziEsterni' 'Servizi di altri programmi' 0xE912 $pannelloServizi "Servizi installati da altri programmi (launcher, aggiornatori, utilità). Molti partono con Windows anche se li usi di rado: 'Manuale' li fa partire solo quando il loro programma li chiede. Ogni cambio chiede conferma e si annulla con 'Annulla tutto'. Antivirus, anti-cheat dei giochi, driver e hardware del PC sono protetti; i servizi di Windows stanno nella sezione 'Servizi'." $false $false
+Aggiungi-TitoloNav 'Pulizia e manutenzione'
 Aggiungi-Categoria 'Pulizia'
 Aggiungi-Categoria 'Registro'
 Aggiungi-Categoria 'Manutenzione'
 Aggiungi-TitoloNav 'Altro'
 Aggiungi-Categoria 'Avanzate'
+Aggiungi-Pagina 'Feedback' 'Feedback' 0xED15 $null "Raccontaci come va: voto, problemi e idee. Le risposte finiscono in un file .zip sul desktop che mandi tu a chi ti ha dato Regia (niente viene inviato da solo)." $false $false
 Aggiungi-Pagina 'Log' 'Registro attività' 0xE8A5 (Nuova-Cornice $Script:CasellaLog) 'Tutto quello che il programma legge e fa viene scritto qui e nei file della cartella Dati\Log.' $false $false
+
+# Risultati della ricerca (casella in alto nella barra laterale): una tabella con le voci di tutte le sezioni.
+# Le righe sono le stesse delle sezioni: accenderle qui le accende anche là.
+$Script:CollRicerca = New-Object 'System.Collections.ObjectModel.ObservableCollection[OttWin.RigaVoce]'
+$grigliaRicerca = [Windows.Markup.XamlReader]::Parse($Script:XamlGriglia.Replace('<!--COLONNA_CATEGORIA-->', $Script:XamlColonnaCategoria))
+$grigliaRicerca.EnableRowVirtualization = $false
+$grigliaRicerca.ItemsSource = $Script:CollRicerca
+$grigliaRicerca.add_SelectionChanged({ param($s, $e) try { if ($s.SelectedItem) { Mostra-Descrizione $s.SelectedItem } } catch { } })
+Aggiungi-Pagina 'Ricerca' 'Risultati della ricerca' 0xE721 (Nuova-Cornice $grigliaRicerca) '' $true $false
+$Script:Pagine['Ricerca'].Nascosta = $true
+
+function Mostra-Ricerca([string]$Testo) {
+    $t = $Testo.Trim()
+    if ($t.Length -lt 2) {
+        if ($Script:PaginaAttuale -eq 'Ricerca') { Vai-A 'Panoramica' }
+        return
+    }
+    $parole = @($t -split '\s+' | Where-Object { $_ })
+    $Script:CollRicerca.Clear()
+    foreach ($r in @($Script:TutteLeRighe)) {
+        $testoRiga = "$($r.NomeVis) $($r.Nome) $($r.CategoriaVis) $($r.AttualeVis)"
+        $v = $Script:Voci[$r.Id]
+        if ($v -and $v.Descrizione) { $testoRiga += ' ' + [string]$v.Descrizione + ' ' + (Tr ([string]$v.Descrizione)) }
+        $ok = $true
+        foreach ($p in $parole) { if ($testoRiga.IndexOf($p, [StringComparison]::OrdinalIgnoreCase) -lt 0) { $ok = $false; break } }
+        if ($ok) { $Script:CollRicerca.Add($r) }
+    }
+    $pg = $Script:Pagine['Ricerca']
+    $pg.Titolo = Tr "Risultati per «$t»"
+    $pg.Intro = Tr $(if ($Script:CollRicerca.Count -eq 0) { "Nessuna voce contiene «$t». Prova con un'altra parola (per esempio: avvio, rete, mouse, cache)." } else { "$($Script:CollRicerca.Count) voci trovate in tutte le sezioni. Accendi quelle che vuoi e premi 'Anteprima e applica'." })
+    $Script:Nav.SelectedItem = $null
+    Mostra-Pagina 'Ricerca'
+}
 
 # Panoramica: creata adesso (conosce tutte le sezioni) e messa al posto del segnaposto in alto.
 $segnaposto = $Script:Nav.Items[1]
@@ -10242,7 +11522,8 @@ $Script:Nav.Items.Remove($voceNav)
 $Script:Nav.Items.Remove($segnaposto)
 $Script:Nav.Items.Insert(1, $voceNav)
 $Script:Pagine['Panoramica'].Contenuto = Crea-Panoramica
-foreach ($nomeGruppo in @($Script:NavChiusi)) { if ($Script:GruppiNav.Contains([string]$nomeGruppo) -and $nomeGruppo -ne 'Generale') { Imposta-GruppoNav ([string]$nomeGruppo) $false $false } }
+# All'apertura i gruppi della barra laterale sono chiusi (tranne "Generale"): si aprono con un clic.
+foreach ($nomeGruppo in @($Script:GruppiNav.Keys)) { if ($nomeGruppo -ne 'Generale') { Imposta-GruppoNav ([string]$nomeGruppo) $false $false } }
 Aggiorna-VisibilitaNav
 
 $Script:Nav.add_SelectionChanged({
@@ -10298,21 +11579,30 @@ function Pulisci-DatiPersonali([string]$Testo) {
     return $t
 }
 
-function Crea-FileFeedback {
+#   $Risposte = testo del modulo della sezione Feedback ('' = nessun modulo: si allega il questionario da compilare)
+#   $ConDati  = allega anche informazioni sul PC, report, scansione e registro di oggi
+function Crea-FileFeedback([string]$Risposte = '', [bool]$ConDati = $true) {
     $desktop = [Environment]::GetFolderPath('Desktop')
-    $domanda = "Creo sul desktop un file .zip da mandare a chi ti ha dato Regia.`n`nContiene:`n•  informazioni sul PC (Windows, processore, scheda video, memoria);`n•  il report sullo stato del PC e l'elenco delle voci trovate dalla scansione;`n•  il registro di oggi (cosa ha fatto il programma);`n•  il questionario da compilare.`n`nIl nome utente e il nome del PC vengono sostituiti con 'UTENTE' e 'PC'. Non contiene password, file personali, documenti o foto. Niente viene inviato: il file lo mandi tu.`n`nVuoi crearlo?"
-    if ((Mostra-Messaggio $domanda 'File per il feedback' 'YesNo' 'Information') -ne 'Yes') { return }
+    $elenco = @()
+    if ($Risposte) { $elenco += '•  le tue risposte al modulo;' } else { $elenco += '•  il questionario da compilare;' }
+    if ($ConDati) { $elenco += @("•  informazioni sul PC (Windows, processore, scheda video, memoria);", "•  il report sullo stato del PC e l'elenco delle voci trovate dalla scansione;", "•  il registro di oggi (cosa ha fatto il programma).") }
+    $domanda = "Creo sul desktop un file .zip da mandare a chi ti ha dato Regia.`n`nContiene:`n$($elenco -join "`n")`n`nIl nome utente e il nome del PC vengono sostituiti con 'UTENTE' e 'PC'. Non contiene password, file personali, documenti o foto. Niente viene inviato: il file lo mandi tu.`n`nVuoi crearlo?"
+    if ((Mostra-Messaggio $domanda 'File per il feedback' 'YesNo' 'Information') -ne 'Yes') { return $false }
     $tmp = Join-Path ([IO.Path]::GetTempPath()) ('regia_fb_' + [guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $tmp -Force | Out-Null
+    $utf8 = New-Object Text.UTF8Encoding($true)
     try {
-        $info = "Regia $Script:Versione`r`nData: $((Get-Date).ToString('dd/MM/yyyy HH:mm'))`r`n$(Leggi-InfoSistema)`r`nPowerShell $($PSVersionTable.PSVersion)`r`nModalità prova: $(if ($Script:ChkProva.IsChecked) { 'accesa' } else { 'spenta' })`r`n"
-        [IO.File]::WriteAllText((Join-Path $tmp '01_info_pc.txt'), (Pulisci-DatiPersonali $info), (New-Object Text.UTF8Encoding($true)))
-        $rep = $(if ($Script:UltimoReport) { "Punteggio: $($Script:UltimoReport.Punti)/100  ($($Script:UltimoReport.Ok) a posto, $($Script:UltimoReport.Avvisi) da guardare, $($Script:UltimoReport.Problemi) problemi)`r`n`r`n" + ($Script:UltimoReport.Voci -join "`r`n") } else { 'Report non disponibile (scansione non completata).' })
-        [IO.File]::WriteAllText((Join-Path $tmp '02_report.txt'), (Pulisci-DatiPersonali $rep), (New-Object Text.UTF8Encoding($true)))
-        $scan = Join-Path $Script:CartellaDati 'ultima_scansione.json'
-        if (Test-Path -LiteralPath $scan) { [IO.File]::WriteAllText((Join-Path $tmp '03_scansione.json'), (Pulisci-DatiPersonali ([IO.File]::ReadAllText($scan))), (New-Object Text.UTF8Encoding($true))) }
-        if (Test-Path -LiteralPath $Script:FileLog) { [IO.File]::WriteAllText((Join-Path $tmp '04_registro.txt'), (Pulisci-DatiPersonali ([IO.File]::ReadAllText($Script:FileLog))), (New-Object Text.UTF8Encoding($true))) }
-        [IO.File]::WriteAllText((Join-Path $tmp '05_QUESTIONARIO.txt'), $Script:TestoQuestionario.Replace("`r`n", "`n").Replace("`n", "`r`n"), (New-Object Text.UTF8Encoding($true)))
+        if ($Risposte) { [IO.File]::WriteAllText((Join-Path $tmp '00_RISPOSTE.txt'), (Pulisci-DatiPersonali $Risposte).Replace("`r`n", "`n").Replace("`n", "`r`n"), $utf8) }
+        if ($ConDati) {
+            $info = "Regia $Script:Versione`r`nData: $((Get-Date).ToString('dd/MM/yyyy HH:mm'))`r`n$(Leggi-InfoSistema)`r`nPowerShell $($PSVersionTable.PSVersion)`r`nModalità prova: $(if ($Script:ChkProva.IsChecked) { 'accesa' } else { 'spenta' })`r`n"
+            [IO.File]::WriteAllText((Join-Path $tmp '01_info_pc.txt'), (Pulisci-DatiPersonali $info), $utf8)
+            $rep = $(if ($Script:UltimoReport) { "Punteggio: $($Script:UltimoReport.Punti)/100  ($($Script:UltimoReport.Ok) a posto, $($Script:UltimoReport.Avvisi) da guardare, $($Script:UltimoReport.Problemi) problemi)`r`n`r`n" + ($Script:UltimoReport.Voci -join "`r`n") } else { 'Report non disponibile (scansione non completata).' })
+            [IO.File]::WriteAllText((Join-Path $tmp '02_report.txt'), (Pulisci-DatiPersonali $rep), $utf8)
+            $scan = Join-Path $Script:CartellaDati 'ultima_scansione.json'
+            if (Test-Path -LiteralPath $scan) { [IO.File]::WriteAllText((Join-Path $tmp '03_scansione.json'), (Pulisci-DatiPersonali ([IO.File]::ReadAllText($scan))), $utf8) }
+            if (Test-Path -LiteralPath $Script:FileLog) { [IO.File]::WriteAllText((Join-Path $tmp '04_registro.txt'), (Pulisci-DatiPersonali ([IO.File]::ReadAllText($Script:FileLog))), $utf8) }
+        }
+        if (-not $Risposte) { [IO.File]::WriteAllText((Join-Path $tmp '05_QUESTIONARIO.txt'), $Script:TestoQuestionario.Replace("`r`n", "`n").Replace("`n", "`r`n"), $utf8) }
         $zip = Join-Path $desktop ('Regia_feedback_{0:yyyyMMdd_HHmm}.zip' -f (Get-Date))
         Add-Type -AssemblyName System.IO.Compression
         $fs = [IO.File]::Open($zip, 'Create'); $za = New-Object IO.Compression.ZipArchive($fs, 'Create')
@@ -10322,11 +11612,112 @@ function Crea-FileFeedback {
         $za.Dispose(); $fs.Close()
         Scrivi-Log "File per il feedback creato: $zip" 'OK'
         Imposta-Stato 'File per il feedback creato sul desktop.'
-        [void](Mostra-Messaggio "Creato sul desktop:`n$(Split-Path -Leaf $zip)`n`nApri il file 05_QUESTIONARIO.txt dentro lo .zip, rispondi alle domande che vuoi, poi manda lo .zip a chi ti ha dato Regia.`n`nGrazie!" 'File per il feedback' 'OK' 'Information')
+        $fine = $(if ($Risposte) { "Le tue risposte sono già dentro: manda lo .zip a chi ti ha dato Regia." } else { "Apri il file 05_QUESTIONARIO.txt dentro lo .zip, rispondi alle domande che vuoi, poi manda lo .zip a chi ti ha dato Regia." })
+        [void](Mostra-Messaggio "Creato sul desktop:`n$(Split-Path -Leaf $zip)`n`n$fine`n`nGrazie!" 'File per il feedback' 'OK' 'Information')
         Start-Process explorer.exe -ArgumentList "/select,`"$zip`""
+        return $true
     } finally { Remove-Item -LiteralPath $tmp -Recurse -Force -ErrorAction SilentlyContinue }
 }
-$Script:Finestra.FindName('BtnFeedback').add_Click({ try { Crea-FileFeedback } catch { Mostra-Errore $_ } })
+
+# ---------- Sezione "Feedback": modulo con voto, problemi e commenti ----------
+$Script:XamlFeedback = @'
+<ScrollViewer xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" VerticalScrollBarVisibility="Auto">
+  <StackPanel MaxWidth="860" HorizontalAlignment="Left">
+    <Border CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie}" Padding="22,18" Margin="0,0,0,14">
+      <StackPanel>
+        <TextBlock Text="COME TI TROVI CON REGIA" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource Testo3}"/>
+        <DockPanel Margin="0,12,0,0">
+          <TextBlock DockPanel.Dock="Left" Text="Voto da 1 a 10" Width="250" VerticalAlignment="Center" Foreground="{DynamicResource Testo2}"/>
+          <ComboBox x:Name="FbVoto" Width="120" HorizontalAlignment="Left" SelectedIndex="0">
+            <ComboBoxItem Content="—"/><ComboBoxItem Content="10"/><ComboBoxItem Content="9"/><ComboBoxItem Content="8"/><ComboBoxItem Content="7"/><ComboBoxItem Content="6"/>
+            <ComboBoxItem Content="5"/><ComboBoxItem Content="4"/><ComboBoxItem Content="3"/><ComboBoxItem Content="2"/><ComboBoxItem Content="1"/>
+          </ComboBox>
+        </DockPanel>
+        <DockPanel Margin="0,10,0,0">
+          <TextBlock DockPanel.Dock="Left" Text="Dopo le modifiche il PC è" Width="250" VerticalAlignment="Center" Foreground="{DynamicResource Testo2}"/>
+          <ComboBox x:Name="FbEsito" Width="280" HorizontalAlignment="Left" SelectedIndex="0">
+            <ComboBoxItem Content="—"/>
+            <ComboBoxItem Content="Più veloce o più reattivo"/>
+            <ComboBoxItem Content="Uguale"/>
+            <ComboBoxItem Content="Peggiorato"/>
+            <ComboBoxItem Content="Non ho applicato modifiche"/>
+          </ComboBox>
+        </DockPanel>
+        <DockPanel Margin="0,10,0,0">
+          <TextBlock DockPanel.Dock="Left" Text="Il tuo PC (facoltativo)" Width="250" VerticalAlignment="Center" Foreground="{DynamicResource Testo2}"/>
+          <Border CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie2}">
+            <TextBox x:Name="FbPc" Padding="8,6" Foreground="{DynamicResource Testo}" MaxLength="120"/>
+          </Border>
+        </DockPanel>
+      </StackPanel>
+    </Border>
+    <Border CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie}" Padding="22,18" Margin="0,0,0,14">
+      <StackPanel>
+        <TextBlock Text="HAI NOTATO QUALCOSA?" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource Testo3}"/>
+        <CheckBox x:Name="FbBlocco" Margin="0,12,0,0" Content="Il programma si è bloccato o Windows ha detto che non risponde"/>
+        <CheckBox x:Name="FbErrori" Margin="0,8,0,0" Content="Sono comparsi messaggi di errore"/>
+        <CheckBox x:Name="FbDriver" Margin="0,8,0,0" Content="Un driver non si è installato come previsto"/>
+        <CheckBox x:Name="FbTesti" Margin="0,8,0,0" Content="Alcuni testi non si capivano o erano troppo tecnici"/>
+        <CheckBox x:Name="FbLento" Margin="0,8,0,0" Content="Qualche sezione era lenta"/>
+      </StackPanel>
+    </Border>
+    <Border CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie}" Padding="22,18" Margin="0,0,0,14">
+      <StackPanel>
+        <TextBlock Text="RACCONTACI" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource Testo3}"/>
+        <TextBlock Text="Cosa ti è piaciuto?" Margin="0,12,0,6" Foreground="{DynamicResource Testo2}"/>
+        <Border CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie2}">
+          <TextBox x:Name="FbPiaciuto" Padding="8,6" Height="64" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource Testo}" MaxLength="2000"/>
+        </Border>
+        <TextBlock Text="Cosa non ha funzionato? (quando, in quale sezione)" Margin="0,12,0,6" Foreground="{DynamicResource Testo2}"/>
+        <Border CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie2}">
+          <TextBox x:Name="FbProblemi" Padding="8,6" Height="64" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource Testo}" MaxLength="2000"/>
+        </Border>
+        <TextBlock Text="Cosa manca o cosa aggiungeresti?" Margin="0,12,0,6" Foreground="{DynamicResource Testo2}"/>
+        <Border CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource Bordo}" Background="{DynamicResource Superficie2}">
+          <TextBox x:Name="FbIdee" Padding="8,6" Height="64" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource Testo}" MaxLength="2000"/>
+        </Border>
+      </StackPanel>
+    </Border>
+    <DockPanel Margin="0,0,0,8">
+      <Button x:Name="BtnInviaFeedback" DockPanel.Dock="Right" Style="{DynamicResource Primario}" ToolTip="Crea sul desktop lo .zip con le risposte: lo mandi tu, niente viene inviato da solo">
+        <StackPanel Orientation="Horizontal"><TextBlock Text="&#xE8BD;" Style="{DynamicResource Icona}" FontSize="13" Margin="0,0,8,0"/><TextBlock Text="Crea il file per il feedback"/></StackPanel>
+      </Button>
+      <CheckBox x:Name="FbDati" IsChecked="True" VerticalAlignment="Center" Content="Allega informazioni sul PC, report, scansione e registro di oggi (senza nome utente e nome del PC)"/>
+    </DockPanel>
+  </StackPanel>
+</ScrollViewer>
+'@
+$pannelloFeedback = [Windows.Markup.XamlReader]::Parse($Script:XamlFeedback)
+$Script:PannelloFeedback = $pannelloFeedback
+
+# Testo delle risposte del modulo ('' se è tutto vuoto).
+function Leggi-ModuloFeedback {
+    $p = $Script:PannelloFeedback
+    $t = { param($n) ([string]$p.FindName($n).Text).Trim() }
+    $c = { param($n) [bool]$p.FindName($n).IsChecked }
+    $voto = [string]$p.FindName('FbVoto').SelectedItem.Content
+    $esito = [string]$p.FindName('FbEsito').SelectedItem.Content
+    $problemi = @()
+    foreach ($x in @(@('FbBlocco', 'si è bloccato o non rispondeva'), @('FbErrori', 'messaggi di errore'), @('FbDriver', 'driver non installato come previsto'), @('FbTesti', 'testi poco chiari'), @('FbLento', 'sezioni lente'))) { if (& $c $x[0]) { $problemi += $x[1] } }
+    $vuoto = ($voto -eq '—' -and $esito -eq '—' -and $problemi.Count -eq 0 -and -not (& $t 'FbPc') -and -not (& $t 'FbPiaciuto') -and -not (& $t 'FbProblemi') -and -not (& $t 'FbIdee'))
+    if ($vuoto) { return '' }
+    return "RISPOSTE AL MODULO DI FEEDBACK - REGIA $Script:Versione`n$('=' * 44)`nData: $((Get-Date).ToString('dd/MM/yyyy HH:mm'))`n`n" +
+           "Voto (1-10): $voto`nDopo le modifiche il PC è: $esito`nPC: $(& $t 'FbPc')`n`n" +
+           "Problemi notati: $(if ($problemi.Count -gt 0) { $problemi -join ', ' } else { 'nessuno' })`n`n" +
+           "Cosa è piaciuto:`n$(& $t 'FbPiaciuto')`n`nCosa non ha funzionato:`n$(& $t 'FbProblemi')`n`nCosa manca:`n$(& $t 'FbIdee')`n"
+}
+
+$pannelloFeedback.FindName('BtnInviaFeedback').add_Click({
+    try {
+        $risposte = Leggi-ModuloFeedback
+        if (-not $risposte -and (Mostra-Messaggio "Il modulo è vuoto.`n`nCreo lo stesso il file, con il questionario da compilare a parte?" 'File per il feedback' 'YesNo' 'Information') -ne 'Yes') { return }
+        [void](Crea-FileFeedback $risposte ([bool]$Script:PannelloFeedback.FindName('FbDati').IsChecked))
+    } catch { Mostra-Errore $_ }
+})
+if ($Script:Pagine['Feedback']) { $Script:Pagine['Feedback'].Contenuto = $pannelloFeedback }
+# Il pulsante in basso nella barra laterale apre la sezione Feedback.
+$Script:Finestra.FindName('BtnFeedback').add_Click({ try { Vai-A 'Feedback' } catch { Mostra-Errore $_ } })
 
 # ---------- Aggiornamenti online ----------
 # Il programma controlla all'avvio se esiste una versione più recente e, solo se lo confermi, la scarica,
@@ -10525,6 +11916,26 @@ $Script:Finestra.FindName('BtnTema').add_Click({
 $Script:ChkProva.add_Click({
     if ($Script:ChkProva.IsChecked) { Scrivi-Log 'Modalità prova ATTIVATA: nessuna modifica verrà applicata.' }
     else { Scrivi-Log 'Modalità prova DISATTIVATA: le modifiche confermate verranno applicate davvero.' 'AVVISO' }
+    Aggiorna-TestoProva
+})
+# Testo dell'interruttore: dice in chiaro cosa succede premendo "Applica".
+function Aggiorna-TestoProva {
+    $Script:ChkProva.Content = Tr $(if ($Script:ChkProva.IsChecked) { 'Modalità prova · niente viene modificato' } else { 'Modifiche reali attive' })
+}
+# Applica solo le voci accese della sezione aperta (le altre restano accese per dopo).
+$Script:Finestra.FindName('BtnSoloSezione').add_Click({
+    try {
+        $Script:SoloPagina = [string]$Script:PaginaAttuale
+        try { Applica-Modifiche 'Consigliato' } finally { $Script:SoloPagina = '' }
+    } catch { $Script:SoloPagina = ''; Mostra-Errore $_ }
+})
+# Ricerca nella barra laterale
+$Script:CercaVoci = $Script:Finestra.FindName('CercaVoci')
+$Script:CercaVoci.add_TextChanged({
+    try {
+        $Script:Finestra.FindName('SuggerimentoRicerca').Visibility = $(if ($Script:CercaVoci.Text) { 'Collapsed' } else { 'Visible' })
+        Mostra-Ricerca ([string]$Script:CercaVoci.Text)
+    } catch { }
 })
 
 # Errori imprevisti dell'interfaccia: mostrati e registrati, senza chiudere il programma.
