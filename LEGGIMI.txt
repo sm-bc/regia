@@ -1,5 +1,5 @@
 ﻿=====================================================================
-  REGIA 3.10
+  REGIA 3.12
   Analisi e ottimizzazione di Windows 10 e 11
 =====================================================================
 
@@ -36,13 +36,17 @@ COSA FARE PER PROVARLO IN SICUREZZA
   - Se qualcosa non ti convince: "Annulla tutto" rimette i valori originali.
 
 I TASTI PRINCIPALI
+  Ottimizza ora           (Panoramica) accende le voci del profilo scelto e apre l'anteprima
+  Cerca un'impostazione   (in alto a sinistra) trova le voci in tutte le sezioni
   Anteprima e applica     mostra le modifiche e, dopo la tua conferma, le applica
+  Ferma dopo questa voce  durante l'applicazione: non esegue le voci successive
   Annulla tutto           rimette i valori originali salvati nei backup di questo PC
                           (si apre l'elenco: spegni le voci che vuoi tenere)
   Riporta al predefinito  rimette le voci accese come in un Windows appena installato
   Scansiona               rilegge lo stato del PC (sola lettura)
   Modalita' prova         se accesa, nessuna modifica viene fatta
-  Crea file per il feedback   prepara sul desktop un .zip da mandare a chi ti ha dato Regia
+  Feedback                modulo (voto, problemi, idee): prepara sul desktop un .zip da mandare
+                          a chi ti ha dato Regia
 
 I PROFILI
   Massimo               tutto cio' che serve a migliorare il PC, anche voci a rischio medio
